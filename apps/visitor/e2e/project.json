@@ -1,0 +1,9 @@
+{
+  "name": "visitor-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/visitor/e2e/src",
+  "implicitDependencies": ["visitor"],
+  "// targets": "to see all targets run: nx show project visitor-e2e --web",
+  "targets": {}
+}
