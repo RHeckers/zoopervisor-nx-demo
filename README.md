@@ -178,16 +178,21 @@ each organised as `atoms/ · molecules/ · organisms/`:
   file copy in `desktop/`, with an `isMobile` prop drilled through every level.
 - **desktop** (`platform:desktop`): pointer/keyboard atoms (tooltip, key-hint),
   the `search-bar` molecule and `command-bar` organism — inherently desktop —
-  plus the file-input photo-picker implementation.
+  plus the file-input photo-picker implementation, and `report-workspace`: the
+  common `photo-section` wrapped in desktop chrome.
 - **mobile** (`platform:mobile`): touch atoms (touch-button, bottom-sheet,
   camera-capture), the `sheet-action` molecule and `action-sheet` organism,
-  plus the camera photo-picker implementation.
+  plus the camera photo-picker implementation, and `report-sheet`: the **same**
+  `photo-section` wrapped in mobile chrome.
 
 The app UI panels (`apps/visitor/ui`, `apps/keeper-mobile/ui`, tagged with
-their platform) compose the **same** `zoo-photo-section` organism from common
-plus their own platform's organisms. The dependency graph reads
-`app-ui → common + own platform only`; a desktop lib importing
-`@zoo/shared/ui/mobile` is rejected by the platform rules.
+their platform) consume their platform's report organism, giving a five-level
+chain — picker placeholder → photo-upload-field → photo-section →
+report-workspace / report-sheet → app panel — in which no level passes an
+`isMobile` flag: the photo code exists once in common, only the platform shells
+differ, and the injector supplies the implementation at the innermost level.
+The dependency graph reads `app-ui → common + own platform only`; a desktop
+lib importing `@zoo/shared/ui/mobile` is rejected by the platform rules.
 
 `npm run verify` also asserts no app name is imported anywhere under
 `libs/shared`.

@@ -1,24 +1,31 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
-import { PhotoSectionComponent } from '@zoo/shared/ui/common';
-import { CommandBarComponent } from '@zoo/shared/ui/desktop';
+import { ReportWorkspaceComponent } from '@zoo/shared/ui/desktop';
 
 /*
- * APP UI (visitor, platform:desktop). Composes the platform-NEUTRAL photo
- * organism from common with the desktop-only command bar.
+ * APP UI (visitor, platform:desktop). Consumes the desktop report-workspace
+ * organism, which itself wraps the platform-neutral photo organism from
+ * common. The full chain is now five levels:
  *
- * Notice what is ABSENT:
- *  - no `isMobile` input anywhere in the chain (panel → organism → molecule →
- *    placeholder) — the injector supplies FileInputPhotoPicker because this
- *    app registered it in app.config. No prop drilling.
- *  - no import from @zoo/shared/ui/mobile — and this lib is tagged
- *    platform:desktop, so the boundary rules would reject one outright.
+ *   photo-picker placeholder (common atom)
+ *     → photo-upload-field (common molecule)
+ *       → photo-section (common organism)
+ *         → report-workspace (desktop organism)
+ *           → this panel (app ui)
+ *
+ * Not one of those levels passes an `isMobile` flag or imports anything from
+ * shared/ui/mobile (this lib is platform:desktop, so the boundary rules would
+ * reject it). The picker resolves to FileInputPhotoPicker at the innermost
+ * level purely because this app registered it in app.config.
  */
 @Component({
   selector: 'zoo-visitor-report-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PhotoSectionComponent, CommandBarComponent],
-  template: `<zoo-command-bar (searchChange)="searchChange.emit($event)" />
-    <zoo-photo-section heading="Report a sighting" (photosChanged)="photos.emit($event)" />`,
+  imports: [ReportWorkspaceComponent],
+  template: `<zoo-report-workspace
+    heading="Report a sighting"
+    (searchChange)="searchChange.emit($event)"
+    (photos)="photos.emit($event)"
+  />`,
 })
 export class VisitorReportPanelComponent {
   readonly searchChange = output<string>();

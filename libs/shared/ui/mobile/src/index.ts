@@ -8,3 +8,4 @@ export * from './lib/molecules/sheet-action.component';
 export * from './lib/molecules/camera-photo-picker.component';
 // organisms
 export * from './lib/organisms/action-sheet.component';
+export * from './lib/organisms/report-sheet.component';
