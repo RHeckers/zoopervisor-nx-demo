@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AnimalCardComponent } from '@zoo/animals/ui';
+import {
+  AnimalCardComponent,
+  IncidentReportFormComponent,
+} from '@zoo/animals/ui';
 import { EnclosureBadgeComponent } from '@zoo/enclosures/ui';
 import { StackComponent } from '@zoo/shared/ui';
 import { VisitorSearchSlice } from '@zoo/visitor/slices';
@@ -16,6 +19,7 @@ import { AnimalListFacade } from './animal-list.facade';
   imports: [
     AnimalCardComponent,
     EnclosureBadgeComponent,
+    IncidentReportFormComponent,
     StackComponent,
     VisitorSearchSlice,
   ],
@@ -27,6 +31,9 @@ import { AnimalListFacade } from './animal-list.facade';
     @for (a of facade.vm().animals; track a.id) {
       <zoo-animal-card [animal]="a" />
     }
+    <!-- shared domain component that hosts <zoo-photo-picker> — the app's
+         registered implementation resolves at this depth, no flag threaded. -->
+    <zoo-incident-report-form />
   </zoo-stack>`,
 })
 export class AnimalListComponent {

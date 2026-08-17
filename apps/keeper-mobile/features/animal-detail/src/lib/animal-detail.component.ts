@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AnimalCardComponent } from '@zoo/animals/ui';
+import {
+  AnimalCardComponent,
+  IncidentReportFormComponent,
+} from '@zoo/animals/ui';
 import {
   BottomSheetComponent,
   TouchButtonComponent,
@@ -14,10 +17,17 @@ import { AnimalDetailFacade } from './animal-detail.facade';
   selector: 'zoo-animal-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [AnimalDetailFacade],
-  imports: [AnimalCardComponent, TouchButtonComponent, BottomSheetComponent],
+  imports: [
+    AnimalCardComponent,
+    IncidentReportFormComponent,
+    TouchButtonComponent,
+    BottomSheetComponent,
+  ],
   template: `@for (a of facade.vm().animals; track a.id) {
       <zoo-animal-card [animal]="a" />
     }
+    <!-- same shared domain component; here the camera implementation resolves. -->
+    <zoo-incident-report-form />
     <zoo-bottom-sheet>
       <zoo-touch-button (tapped)="facade.open('a1')">Reload rounds</zoo-touch-button>
       <p>{{ facade.vm().schedules.length }} feeding(s), {{ facade.vm().records.length }} record(s)</p>

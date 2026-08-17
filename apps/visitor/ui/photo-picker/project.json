@@ -1,0 +1,12 @@
+{
+  "name": "visitor-ui-photo-picker",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/visitor/ui/photo-picker/src",
+  "prefix": "zoo",
+  "projectType": "library",
+  "tags": ["app:visitor", "type:ui", "platform:desktop"],
+  "targets": {
+    "test": { "executor": "@nx/vitest:test", "outputs": ["{options.reportsDirectory}"], "options": { "reportsDirectory": "coverage/apps/visitor/ui/photo-picker" } },
+    "lint": { "executor": "@nx/eslint:lint" }
+  }
+}

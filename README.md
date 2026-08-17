@@ -130,3 +130,40 @@ from the barrel, and no `"sideEffects": false` is set anywhere.
 ```bash
 npm run show-retention   # builds visitor twice; watch "reptile-house" appear then vanish
 ```
+
+---
+
+## 6. Two shared-code problems and their fixes
+
+Two cases where shared code decided something it had no business deciding. Each
+keeps a **before** and an **after** in the repo (the diff is a slide).
+
+### A. Wording — `libs/shared/i18n`
+
+Shared code owned its sentences, wrong for the unattended ticket-kiosk terminal.
+
+- before: `libs/shared/ui/src/lib/error-toast/error-toast.component.ts`,
+  `libs/animals/ui/src/lib/release-dialog/release-dialog.component.html`
+- after: shared names a **key**; each app owns the wording via a translation
+  file merged over the shared one. `MergedTranslocoLoader` deep-merges
+  shared + app (arrays replace), app file missing → empty, shared file missing →
+  loud. ticket-kiosk overrides `errors.generic` only, yet still inherits
+  `errors.dismiss` — proof the merge is deep, not a spread.
+
+### B. Behaviour — `libs/shared/ui/photo-picker`
+
+Shared decided at runtime how to take a photo.
+
+- before: `photo-picker.naive.component.ts` branches on `isMobile` and imports
+  the camera directly (both impls ship to both apps).
+- after: a `PHOTO_PICKER` token + a placeholder that renders whichever
+  implementation the app registered (`ViewContainerRef.createComponent` with
+  `reflectComponentType` bindings). `apps/visitor/ui/photo-picker` provides the
+  file input, `apps/keeper-mobile/ui/photo-picker` the camera; ticket-kiosk
+  registers nothing and **fails closed** with a clear `PHOTO_PICKER` DI error.
+  `<zoo-photo-picker>` sits inside a shared domain component
+  (`libs/animals/ui/incident-report-form`) used by a feature in each app — the
+  injector resolves the implementation at that depth, no flag threaded down.
+
+`npm run verify` also asserts no app name is imported anywhere under
+`libs/shared`.

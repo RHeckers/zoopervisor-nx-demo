@@ -113,6 +113,12 @@
       ],
       "@zoo/shared/ui/photo-picker": [
         "./libs/shared/ui/photo-picker/src/index.ts"
+      ],
+      "@zoo/visitor/ui/photo-picker": [
+        "./apps/visitor/ui/photo-picker/src/index.ts"
+      ],
+      "@zoo/keeper-mobile/ui/photo-picker": [
+        "./apps/keeper-mobile/ui/photo-picker/src/index.ts"
       ]
     }
   },
