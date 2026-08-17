@@ -21,7 +21,12 @@
       "@zoo/shared/data-access": ["libs/shared/data-access/src/index.ts"],
       "@zoo/shared/ui": ["libs/shared/ui/src/index.ts"],
       "@zoo/shared/ui/mobile": ["libs/shared/ui/mobile/src/index.ts"],
-      "@zoo/shared/ui/desktop": ["libs/shared/ui/desktop/src/index.ts"]
+      "@zoo/shared/ui/desktop": ["libs/shared/ui/desktop/src/index.ts"],
+      "@zoo/animals/data-access": ["libs/animals/data-access/src/index.ts"],
+      "@zoo/animals/ui": ["libs/animals/ui/src/index.ts"],
+      "@zoo/animals/utils": ["libs/animals/utils/src/index.ts"],
+      "@zoo/animals/types": ["libs/animals/types/src/index.ts"],
+      "@zoo/animals/slices": ["libs/animals/slices/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

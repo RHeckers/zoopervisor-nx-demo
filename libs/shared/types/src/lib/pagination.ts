@@ -1,6 +1,3 @@
-/** Cross-cutting id type. Every domain entity's `id` is one of these. */
-export type Id = string;
-
 /** A single page of results from any list endpoint. */
 export interface Paginated<T> {
   readonly items: readonly T[];
