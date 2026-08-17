@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "show-retention": "node tools/show-bundle-retention.mjs",
-    "affected:e2e": "node tools/affected-e2e.mjs"
+    "affected:e2e": "node tools/affected-e2e.mjs",
+    "verify": "node tools/verify.mjs"
   },
   "private": true,
   "dependencies": {
@@ -26,6 +27,7 @@
     "@angular/cli": "~22.0.4",
     "@angular/compiler-cli": "~22.0.4",
     "@angular/language-service": "~22.0.4",
+    "@capacitor/core": "^8.5.0",
     "@eslint/js": "^9.8.0",
     "@nx/angular": "23.1.1",
     "@nx/devkit": "23.1.1",
