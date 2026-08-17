@@ -32,11 +32,6 @@
       "factory": "./src/generators/feature/generator",
       "schema": "./src/generators/feature/schema.json",
       "description": "Scaffold an app feature with its facade file."
-    },
-    "package": {
-      "factory": "./src/generators/package/generator",
-      "schema": "./src/generators/package/schema.json",
-      "description": "Create a publishable lib under packages/."
     }
   }
 }

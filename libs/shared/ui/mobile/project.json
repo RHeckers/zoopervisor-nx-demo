@@ -1,0 +1,20 @@
+{
+  "name": "shared-ui-mobile",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/shared/ui/mobile/src",
+  "prefix": "zoo",
+  "tags": ["domain:shared", "type:ui", "platform:mobile"],
+  "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "coverage/libs/shared/ui/mobile"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
