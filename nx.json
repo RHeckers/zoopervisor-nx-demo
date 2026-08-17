@@ -37,6 +37,10 @@
     "@nx/vitest:test": {
       "cache": true,
       "inputs": ["default", "^production"]
+    },
+    "e2e": {
+      "cache": true,
+      "inputs": ["default", "^production", { "env": "E2E_GREP" }]
     }
   },
   "plugins": [

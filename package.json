@@ -11,6 +11,7 @@
     "@angular/forms": "~22.0.4",
     "@angular/platform-browser": "~22.0.4",
     "@angular/router": "~22.0.4",
+    "@ngrx/signals": "^22.0.0-rc.0",
     "rxjs": "~7.8.0"
   },
   "devDependencies": {
@@ -29,6 +30,7 @@
     "@nx/eslint-plugin": "23.1.1",
     "@nx/js": "23.1.1",
     "@nx/playwright": "23.1.1",
+    "@nx/plugin": "23.1.1",
     "@nx/vite": "23.1.1",
     "@nx/vitest": "23.1.1",
     "@nx/web": "23.1.1",

@@ -8,20 +8,14 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es2022",
     "module": "esnext",
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "strict": false,
-    "paths": {
-      "@zoopervisor/animals-data-access": [
-        "./libs/animals/data-access/src/index.ts"
-      ],
-      "@zoopervisor/utils": ["./libs/shared/utils/src/index.ts"],
-      "@zoopervisor/utilsb": ["./libs/shared/utils/src/indexx.ts"],
-      "@zoopervisor/ui": ["./libs/shared/ui/src/index.ts"]
-    }
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {}
   },
   "exclude": ["node_modules", "tmp"]
 }
