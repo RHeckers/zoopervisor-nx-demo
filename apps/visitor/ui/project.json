@@ -4,7 +4,7 @@
   "projectType": "library",
   "sourceRoot": "apps/visitor/ui/src",
   "prefix": "zoo",
-  "tags": ["app:visitor", "type:ui"],
+  "tags": ["app:visitor", "type:ui", "platform:desktop"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",

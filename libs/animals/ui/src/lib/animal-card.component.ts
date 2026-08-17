@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Animal } from '@zoo/animals/types';
-import { CardComponent } from '@zoo/shared/ui';
+import { CardComponent } from '@zoo/shared/ui/common';
 import { AnimalAvatarComponent } from './animal-avatar.component';
 
 /** Dumb card. No store, no HTTP — just an @Input animal rendered on a surface. */

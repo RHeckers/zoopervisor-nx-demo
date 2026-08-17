@@ -61,7 +61,7 @@ export default defineConfig({
 
 // Specs tag themselves with the Nx project names they exercise, so an affected
 // run (E2E_GREP) executes only the ones touched by a change.
-test('${app} loads', { tag: ['@${app}', '@shared-ui'] }, async ({ page }) => {
+test('${app} loads', { tag: ['@${app}', '@shared-ui-common'] }, async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('body')).toBeVisible();
 });

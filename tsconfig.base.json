@@ -30,9 +30,6 @@
       "@zoo/shared/data-access": [
         "./libs/shared/data-access/src/index.ts"
       ],
-      "@zoo/shared/ui": [
-        "./libs/shared/ui/src/index.ts"
-      ],
       "@zoo/shared/ui/mobile": [
         "./libs/shared/ui/mobile/src/index.ts"
       ],
@@ -111,14 +108,8 @@
       "@zoo/shared/i18n": [
         "./libs/shared/i18n/src/index.ts"
       ],
-      "@zoo/shared/ui/photo-picker": [
-        "./libs/shared/ui/photo-picker/src/index.ts"
-      ],
-      "@zoo/visitor/ui/photo-picker": [
-        "./apps/visitor/ui/photo-picker/src/index.ts"
-      ],
-      "@zoo/keeper-mobile/ui/photo-picker": [
-        "./apps/keeper-mobile/ui/photo-picker/src/index.ts"
+      "@zoo/shared/ui/common": [
+        "./libs/shared/ui/common/src/index.ts"
       ]
     }
   },

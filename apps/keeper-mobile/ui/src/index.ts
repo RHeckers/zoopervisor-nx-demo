@@ -1,1 +1,1 @@
-export * from './lib/keeper-mobile-ui.component';
+export * from './lib/keeper-report-panel.component';

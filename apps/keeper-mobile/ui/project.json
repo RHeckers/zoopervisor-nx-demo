@@ -4,7 +4,7 @@
   "projectType": "library",
   "sourceRoot": "apps/keeper-mobile/ui/src",
   "prefix": "zoo",
-  "tags": ["app:keeper-mobile", "type:ui"],
+  "tags": ["app:keeper-mobile", "type:ui", "platform:mobile"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",

@@ -55,13 +55,13 @@ const cases = [
   {
     why: 'platform rule (desktop ↛ mobile)',
     project: 'shared-ui-desktop',
-    file: 'libs/shared/ui/desktop/src/lib/key-hint.component.ts',
+    file: 'libs/shared/ui/desktop/src/lib/atoms/key-hint.component.ts',
     imp: "import '@zoo/shared/ui/mobile';",
   },
   {
     why: 'banned external import (desktop ↛ @capacitor/*)',
     project: 'shared-ui-desktop',
-    file: 'libs/shared/ui/desktop/src/lib/key-hint.component.ts',
+    file: 'libs/shared/ui/desktop/src/lib/atoms/key-hint.component.ts',
     imp: "import '@capacitor/core';",
   },
 ];
@@ -113,8 +113,8 @@ for (const file of findHtml(join(process.cwd(), 'libs'))) {
 if (!bareFound) ok('no hard-coded sentences in libs/ templates');
 
 // --- 4. shared libs name no app ---------------------------------------------
-// libs/shared/i18n and libs/shared/ui/photo-picker must not import any app —
-// they decide nothing app-specific (Tasks A & B).
+// Nothing under libs/shared (i18n, the ui tiers, data-access, …) may import an
+// app — shared code decides nothing app-specific (Tasks A & B).
 function findTs(dir, out = []) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     if (['node_modules', 'dist', '.nx'].includes(entry.name)) continue;

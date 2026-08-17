@@ -4,7 +4,8 @@ import {
   IncidentReportFormComponent,
 } from '@zoo/animals/ui';
 import { EnclosureBadgeComponent } from '@zoo/enclosures/ui';
-import { StackComponent } from '@zoo/shared/ui';
+import { StackComponent } from '@zoo/shared/ui/common';
+import { VisitorReportPanelComponent } from '@zoo/visitor/ui';
 import { VisitorSearchSlice } from '@zoo/visitor/slices';
 import { AnimalListFacade } from './animal-list.facade';
 
@@ -21,6 +22,7 @@ import { AnimalListFacade } from './animal-list.facade';
     EnclosureBadgeComponent,
     IncidentReportFormComponent,
     StackComponent,
+    VisitorReportPanelComponent,
     VisitorSearchSlice,
   ],
   template: `<zoo-stack>
@@ -34,6 +36,9 @@ import { AnimalListFacade } from './animal-list.facade';
     <!-- shared domain component that hosts <zoo-photo-picker> — the app's
          registered implementation resolves at this depth, no flag threaded. -->
     <zoo-incident-report-form />
+    <!-- app UI panel: platform-neutral photo organism + desktop command bar;
+         no isMobile prop, no mobile import (banned for platform:desktop). -->
+    <zoo-visitor-report-panel (searchChange)="facade.search($event)" />
   </zoo-stack>`,
 })
 export class AnimalListComponent {

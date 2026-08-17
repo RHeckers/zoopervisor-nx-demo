@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
-import { PhotoPickerComponent } from '@zoo/shared/ui/photo-picker';
+import { PhotoPickerComponent } from '@zoo/shared/ui/common';
 
 /*
  * <zoo-photo-picker> sits inside a SHARED DOMAIN component, not a feature.

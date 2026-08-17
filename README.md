@@ -26,7 +26,7 @@ libs/                    domain code — a domain may depend on itself + shared,
 ├── enclosures/          data-access · ui · types
 ├── feeding/             data-access · types
 ├── tickets/             data-access · ui · types   (PaymentProvider abstract DI token)
-└── shared/              data-access · ui (+ mobile / desktop) · utils · types
+└── shared/              data-access · i18n · ui (common · desktop · mobile) · utils · types
 
 tools/                   workspace tooling
 ├── nx-preset-zoo/       the local generator plugin (@zoo/nx-preset-zoo)
@@ -150,20 +150,44 @@ Shared code owned its sentences, wrong for the unattended ticket-kiosk terminal.
   loud. ticket-kiosk overrides `errors.generic` only, yet still inherits
   `errors.dismiss` — proof the merge is deep, not a spread.
 
-### B. Behaviour — `libs/shared/ui/photo-picker`
+### B. Behaviour — the photo-picker atom in `libs/shared/ui/common`
 
 Shared decided at runtime how to take a photo.
 
-- before: `photo-picker.naive.component.ts` branches on `isMobile` and imports
-  the camera directly (both impls ship to both apps).
-- after: a `PHOTO_PICKER` token + a placeholder that renders whichever
+- before: `atoms/photo-picker/photo-picker.naive.component.ts` branches on
+  `isMobile` and imports the camera directly (both impls ship to both apps).
+- after: a `PHOTO_PICKER` token + a placeholder atom that renders whichever
   implementation the app registered (`ViewContainerRef.createComponent` with
-  `reflectComponentType` bindings). `apps/visitor/ui/photo-picker` provides the
-  file input, `apps/keeper-mobile/ui/photo-picker` the camera; ticket-kiosk
-  registers nothing and **fails closed** with a clear `PHOTO_PICKER` DI error.
+  `reflectComponentType` bindings). `libs/shared/ui/desktop` implements it with
+  the file input, `libs/shared/ui/mobile` with the camera; each app registers
+  its platform's implementation in `app.config`. ticket-kiosk registers nothing
+  and **fails closed** with a clear `PHOTO_PICKER` DI error.
   `<zoo-photo-picker>` sits inside a shared domain component
   (`libs/animals/ui/incident-report-form`) used by a feature in each app — the
   injector resolves the implementation at that depth, no flag threaded down.
+
+### Atomic design across the three ui tiers
+
+`libs/shared/ui` holds exactly three libs — `common`, `desktop`, `mobile` —
+each organised as `atoms/ · molecules/ · organisms/`:
+
+- **common** (no platform tag): the design tokens and dumb atoms, the
+  photo-picker contract/placeholder atom, the `photo-upload-field` molecule and
+  `photo-section` organism. The photo molecule and organism exist **once** —
+  without the DI placeholder each would need a camera copy in `mobile/` and a
+  file copy in `desktop/`, with an `isMobile` prop drilled through every level.
+- **desktop** (`platform:desktop`): pointer/keyboard atoms (tooltip, key-hint),
+  the `search-bar` molecule and `command-bar` organism — inherently desktop —
+  plus the file-input photo-picker implementation.
+- **mobile** (`platform:mobile`): touch atoms (touch-button, bottom-sheet,
+  camera-capture), the `sheet-action` molecule and `action-sheet` organism,
+  plus the camera photo-picker implementation.
+
+The app UI panels (`apps/visitor/ui`, `apps/keeper-mobile/ui`, tagged with
+their platform) compose the **same** `zoo-photo-section` organism from common
+plus their own platform's organisms. The dependency graph reads
+`app-ui → common + own platform only`; a desktop lib importing
+`@zoo/shared/ui/mobile` is rejected by the platform rules.
 
 `npm run verify` also asserts no app name is imported anywhere under
 `libs/shared`.

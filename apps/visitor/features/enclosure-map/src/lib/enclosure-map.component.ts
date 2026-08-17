@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { EnclosureBadgeComponent } from '@zoo/enclosures/ui';
-import { StackComponent } from '@zoo/shared/ui';
+import { StackComponent } from '@zoo/shared/ui/common';
 import { VisitorSearchSlice } from '@zoo/visitor/slices';
 import { EnclosureMapFacade } from './enclosure-map.facade';
 

@@ -16,11 +16,14 @@ export async function sharedLibGenerator(
   }
 
   const seg = segment(kind);
-  const root = platform ? `libs/shared/ui/${platform}` : `libs/shared/${seg}`;
-  const importPath = platform
-    ? `@zoo/shared/ui/${platform}`
+  // `libs/shared/ui` is a grouping folder: the platform-neutral lib lives at
+  // ui/common, the platform ones at ui/<platform>.
+  const uiSub = platform ?? (kind === 'ui' ? 'common' : undefined);
+  const root = uiSub ? `libs/shared/ui/${uiSub}` : `libs/shared/${seg}`;
+  const importPath = uiSub
+    ? `@zoo/shared/ui/${uiSub}`
     : `@zoo/shared/${seg}`;
-  const projectName = platform ? `shared-ui-${platform}` : `shared-${seg}`;
+  const projectName = uiSub ? `shared-ui-${uiSub}` : `shared-${seg}`;
   const tags = platform
     ? ['domain:shared', 'type:ui', `platform:${platform}`]
     : ['domain:shared', typeTag(kind)];

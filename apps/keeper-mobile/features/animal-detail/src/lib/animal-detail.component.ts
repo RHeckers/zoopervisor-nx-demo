@@ -3,6 +3,7 @@ import {
   AnimalCardComponent,
   IncidentReportFormComponent,
 } from '@zoo/animals/ui';
+import { KeeperReportPanelComponent } from '@zoo/keeper-mobile/ui';
 import {
   BottomSheetComponent,
   TouchButtonComponent,
@@ -20,6 +21,7 @@ import { AnimalDetailFacade } from './animal-detail.facade';
   imports: [
     AnimalCardComponent,
     IncidentReportFormComponent,
+    KeeperReportPanelComponent,
     TouchButtonComponent,
     BottomSheetComponent,
   ],
@@ -28,6 +30,9 @@ import { AnimalDetailFacade } from './animal-detail.facade';
     }
     <!-- same shared domain component; here the camera implementation resolves. -->
     <zoo-incident-report-form />
+    <!-- app UI panel: the SAME photo organism visitor uses — zero duplication;
+         the injector supplies the camera here. -->
+    <zoo-keeper-report-panel />
     <zoo-bottom-sheet>
       <zoo-touch-button (tapped)="facade.open('a1')">Reload rounds</zoo-touch-button>
       <p>{{ facade.vm().schedules.length }} feeding(s), {{ facade.vm().records.length }} record(s)</p>

@@ -3,8 +3,8 @@ import {
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { providePhotoPicker } from '@zoo/shared/ui/photo-picker';
-import { FileInputPhotoPicker } from '@zoo/visitor/ui/photo-picker';
+import { providePhotoPicker } from '@zoo/shared/ui/common';
+import { FileInputPhotoPicker } from '@zoo/shared/ui/desktop';
 import { provideZooI18n } from '@zoo/shared/i18n';
 import { PaymentProvider } from '@zoo/tickets/data-access';
 import { appRoutes } from './app.routes';

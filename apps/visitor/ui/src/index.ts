@@ -1,1 +1,1 @@
-export * from './lib/visitor-ui.component';
+export * from './lib/visitor-report-panel.component';
