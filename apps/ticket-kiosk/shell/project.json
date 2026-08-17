@@ -33,6 +33,7 @@
           }
         ],
         "styles": [
+          "libs/shared/styles/index.css",
           "apps/ticket-kiosk/shell/src/styles.scss"
         ]
       },

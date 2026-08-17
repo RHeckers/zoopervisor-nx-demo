@@ -1,0 +1,51 @@
+/*
+ * Global design tokens — the ONLY place style values are defined.
+ *
+ * The rule: no styling in TypeScript and no style values as component inputs.
+ * Every component reads
+ *
+ *     var(--zoo-<component>-<prop>, var(--<token>))
+ *
+ * where the second var is the global default from this file and the first is a
+ * per-component override hook: any consumer (an app stylesheet, a feature, a
+ * wrapping component) can set `--zoo-card-padding: …` on any ancestor and only
+ * that subtree changes — no input threading, no TS.
+ *
+ * Included in every app via the project.json build `styles` array.
+ */
+:root {
+  /* color */
+  --color-savanna: #e8c07d;
+  --color-aquarium: #4a90d9;
+  --color-leaf: #4caf50;
+  --color-ink: #1b1b1b;
+  --color-paper: #fbfbf7;
+
+  /* spacing — 4px base scale */
+  --spacer-xs: 4px;
+  --spacer-sm: 8px;
+  --spacer-base: 16px;
+  --spacer-lg: 24px;
+
+  /* shape */
+  --radius-base: 0.5rem;
+  --radius-sheet: 1rem;
+
+  /* type */
+  --font-body: system-ui, sans-serif;
+  --font-size-caption: 0.75rem;
+
+  /* platform */
+  --tap-target-min: 48px;
+
+  /* stacking */
+  --z-modal: 1000;
+}
+
+/*
+ * Directive styling lives here too — directives have no stylesheet of their
+ * own, and inline [style.*] host bindings in TS are exactly what we banned.
+ */
+.zoo-tooltip {
+  cursor: var(--zoo-tooltip-cursor, help);
+}

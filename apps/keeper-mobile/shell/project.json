@@ -33,6 +33,7 @@
           }
         ],
         "styles": [
+          "libs/shared/styles/index.css",
           "apps/keeper-mobile/shell/src/styles.scss"
         ]
       },

@@ -26,7 +26,7 @@ libs/                    domain code — a domain may depend on itself + shared,
 ├── enclosures/          data-access · ui · types
 ├── feeding/             data-access · types
 ├── tickets/             data-access · ui · types   (PaymentProvider abstract DI token)
-└── shared/              data-access · i18n · ui (common · desktop · mobile) · utils · types
+└── shared/              data-access · i18n · styles · ui (common · desktop · mobile) · utils · types
 
 tools/                   workspace tooling
 ├── nx-preset-zoo/       the local generator plugin (@zoo/nx-preset-zoo)
@@ -171,7 +171,7 @@ Shared decided at runtime how to take a photo.
 `libs/shared/ui` holds exactly three libs — `common`, `desktop`, `mobile` —
 each organised as `atoms/ · molecules/ · organisms/`:
 
-- **common** (no platform tag): the design tokens and dumb atoms, the
+- **common** (no platform tag): the dumb atoms, the
   photo-picker contract/placeholder atom, the `photo-upload-field` molecule and
   `photo-section` organism. The photo molecule and organism exist **once** —
   without the DI placeholder each would need a camera copy in `mobile/` and a
@@ -193,6 +193,14 @@ report-workspace / report-sheet → app panel — in which no level passes an
 differ, and the injector supplies the implementation at the innermost level.
 The dependency graph reads `app-ui → common + own platform only`; a desktop
 lib importing `@zoo/shared/ui/mobile` is rejected by the platform rules.
+
+**Styling policy:** no style values in TypeScript and none as component inputs.
+Global tokens are CSS custom properties in `libs/shared/styles/index.css`
+(included in every app's build `styles` array), and every component reads
+`var(--zoo-<component>-<prop>, var(--<token>))` — the token is the default, the
+`--zoo-*` var is an override hook any consumer can set on an ancestor to
+restyle just that subtree. Semantic variants (`tone`, `direction`) map to data
+attributes and resolve in CSS.
 
 `npm run verify` also asserts no app name is imported anywhere under
 `libs/shared`.

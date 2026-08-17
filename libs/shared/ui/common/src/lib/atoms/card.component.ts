@@ -1,20 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { zooTokens } from './tokens';
 
-/** Dumb surface. Uses design tokens for styling, nothing more. */
+/**
+ * Dumb surface. All values are CSS custom properties: the fallback is the
+ * global token (libs/shared/styles), the `--zoo-card-*` var is an override
+ * hook any consumer can set on an ancestor — no inputs, no TS styling.
+ */
 @Component({
   selector: 'zoo-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[style.display]': '"block"',
-    '[style.padding]': 'padding',
-    '[style.background]': 'background',
-    '[style.borderRadius]': 'radius',
-  },
   template: `<ng-content />`,
+  styles: `
+    :host {
+      display: block;
+      padding: var(--zoo-card-padding, var(--spacer-base));
+      background: var(--zoo-card-background, var(--color-paper));
+      border-radius: var(--zoo-card-radius, var(--radius-base));
+    }
+  `,
 })
-export class CardComponent {
-  protected readonly padding = zooTokens.space(4);
-  protected readonly background = zooTokens.color.paper;
-  protected readonly radius = zooTokens.radius;
-}
+export class CardComponent {}

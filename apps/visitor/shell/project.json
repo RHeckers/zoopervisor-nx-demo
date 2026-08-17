@@ -33,6 +33,7 @@
           }
         ],
         "styles": [
+          "libs/shared/styles/index.css",
           "apps/visitor/shell/src/styles.scss"
         ]
       },

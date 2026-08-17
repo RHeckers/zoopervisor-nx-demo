@@ -1,5 +1,4 @@
 // atoms
-export * from './lib/atoms/tokens';
 export * from './lib/atoms/button.component';
 export * from './lib/atoms/card.component';
 export * from './lib/atoms/empty-state.component';
