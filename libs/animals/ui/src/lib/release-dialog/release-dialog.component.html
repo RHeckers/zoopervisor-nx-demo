@@ -1,2 +1,2 @@
-<p>Are you sure you want to release this animal?</p>
-<button type="button" (click)="confirmed.emit()">Release</button>
+<p>{{ 'animals.releaseConfirm' | transloco }}</p>
+<button type="button" (click)="confirmed.emit()">{{ 'errors.dismiss' | transloco }}</button>

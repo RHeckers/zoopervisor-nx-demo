@@ -4,11 +4,17 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/ticket-kiosk/shell/src",
-  "tags": ["app:ticket-kiosk", "type:app", "platform:desktop"],
+  "tags": [
+    "app:ticket-kiosk",
+    "type:app",
+    "platform:desktop"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/ticket-kiosk/shell",
@@ -19,9 +25,16 @@
           {
             "glob": "**/*",
             "input": "apps/ticket-kiosk/shell/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "assets/i18n",
+            "output": "assets/i18n"
           }
         ],
-        "styles": ["apps/ticket-kiosk/shell/src/styles.scss"]
+        "styles": [
+          "apps/ticket-kiosk/shell/src/styles.scss"
+        ]
       },
       "configurations": {
         "production": {

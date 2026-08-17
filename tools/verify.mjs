@@ -87,6 +87,31 @@ for (const c of cases) {
   }
 }
 
+// --- 3. no hard-coded sentences in libs/ templates --------------------------
+// Shared/domain templates must name i18n keys, not own their wording (Task A).
+function findHtml(dir, out = []) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (['node_modules', 'dist', '.nx'].includes(entry.name)) continue;
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) findHtml(full, out);
+    else if (entry.name.endsWith('.html')) out.push(full);
+  }
+  return out;
+}
+
+console.log('\nNo hard-coded sentences in libs/ templates');
+const sentence = /[A-Z][a-z]+(?:\s+[a-z]+){1,}[.!?]/;
+let bareFound = false;
+for (const file of findHtml(join(process.cwd(), 'libs'))) {
+  // strip interpolations, then look for a capitalised sentence ending in . ! ?
+  const stripped = readFileSync(file, 'utf8').replace(/\{\{[^}]*\}\}/g, '');
+  if (sentence.test(stripped)) {
+    bad(`hard-coded sentence in ${file.replace(/\\/g, '/')}`);
+    bareFound = true;
+  }
+}
+if (!bareFound) ok('no hard-coded sentences in libs/ templates');
+
 console.log(
   failures ? `\n${failures} check(s) FAILED` : '\nAll acceptance checks passed',
 );

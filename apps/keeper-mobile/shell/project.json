@@ -4,11 +4,17 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/keeper-mobile/shell/src",
-  "tags": ["app:keeper-mobile", "type:app", "platform:mobile"],
+  "tags": [
+    "app:keeper-mobile",
+    "type:app",
+    "platform:mobile"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/keeper-mobile/shell",
@@ -19,9 +25,16 @@
           {
             "glob": "**/*",
             "input": "apps/keeper-mobile/shell/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "assets/i18n",
+            "output": "assets/i18n"
           }
         ],
-        "styles": ["apps/keeper-mobile/shell/src/styles.scss"]
+        "styles": [
+          "apps/keeper-mobile/shell/src/styles.scss"
+        ]
       },
       "configurations": {
         "production": {

@@ -4,11 +4,17 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/visitor/shell/src",
-  "tags": ["app:visitor", "type:app", "platform:desktop"],
+  "tags": [
+    "app:visitor",
+    "type:app",
+    "platform:desktop"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/visitor/shell",
@@ -19,9 +25,16 @@
           {
             "glob": "**/*",
             "input": "apps/visitor/shell/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "assets/i18n",
+            "output": "assets/i18n"
           }
         ],
-        "styles": ["apps/visitor/shell/src/styles.scss"]
+        "styles": [
+          "apps/visitor/shell/src/styles.scss"
+        ]
       },
       "configurations": {
         "production": {

@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 /**
- * BEFORE (anti-pattern): the confirmation copy is hard-coded in the template
- * (release-dialog.component.html). Task A replaces it with a translation key.
+ * AFTER: the confirmation copy is a translation key resolved via the transloco
+ * pipe — the wording is owned by whichever app renders it.
  */
 @Component({
   selector: 'zoo-release-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoPipe],
   templateUrl: './release-dialog.component.html',
 })
 export class ReleaseDialogComponent {

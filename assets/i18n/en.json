@@ -1,0 +1,9 @@
+{
+  "errors": {
+    "generic": "Something went wrong.",
+    "dismiss": "Dismiss"
+  },
+  "animals": {
+    "releaseConfirm": "Are you sure you want to release this animal?"
+  }
+}

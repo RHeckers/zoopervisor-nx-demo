@@ -1,0 +1,9 @@
+{
+  "errors": {
+    "generic": "Er is iets misgegaan.",
+    "dismiss": "Sluiten"
+  },
+  "animals": {
+    "releaseConfirm": "Weet je zeker dat je dit dier wilt vrijlaten?"
+  }
+}

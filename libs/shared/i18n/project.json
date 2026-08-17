@@ -1,0 +1,16 @@
+{
+  "name": "shared-i18n",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/i18n/src",
+  "prefix": "zoo",
+  "projectType": "library",
+  "tags": ["domain:shared", "type:data-access"],
+  "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": { "reportsDirectory": "coverage/libs/shared/i18n" }
+    },
+    "lint": { "executor": "@nx/eslint:lint" }
+  }
+}
