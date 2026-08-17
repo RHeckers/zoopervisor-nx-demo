@@ -9,7 +9,12 @@ import {
   withState,
 } from '@ngrx/signals';
 import { Animal } from '@zoo/animals/types';
-import { normalizeError } from '@zoo/shared/data-access';
+import {
+  LoadOptions,
+  normalizeError,
+  overwriteWithResult,
+  runLoad,
+} from '@zoo/shared/data-access';
 import { ANIMAL_API } from './animal.api';
 
 export interface AnimalState {
@@ -27,21 +32,9 @@ const initialState: AnimalState = {
 };
 
 // --- Call-site control (this is a slide) -------------------------------------
-// Every knob of `load` can be overridden per call: where the data comes from,
-// how it merges into state, and what happens on success/failure.
-export type AnimalSource = (query: string) => Promise<Animal[]>;
-export type AnimalUpdater = (
-  animals: Animal[],
-  state: AnimalState,
-) => Partial<AnimalState>;
-
-export interface LoadInput {
-  query: string;
-  source?: AnimalSource;
-  updater?: AnimalUpdater;
-  onSuccess?: (animals: Animal[]) => void;
-  onError?: (error: unknown) => void;
-}
+// `load` takes the generic, shared LoadOptions: a call site overrides the
+// source, the updater (any of the shared defaults or its own), and callbacks.
+export type LoadInput = LoadOptions<Animal, AnimalState>;
 
 /**
  * The reusable feature `AnimalStore` composes. A single-entity store still
@@ -68,22 +61,17 @@ export function animalStoreFeature() {
       }
 
       return {
-        /** List, with fully overridable source/updater/callbacks. */
-        async load(input: LoadInput): Promise<void> {
-          const source = input.source ?? ((query) => api.listAnimals(query));
-          const updater = input.updater ?? ((animals) => ({ animals }));
-          patchState(store, { loading: true, error: null });
-          try {
-            const animals = await source(input.query);
-            patchState(store, {
-              ...updater(animals, getState(store)),
-              loading: false,
-            });
-            input.onSuccess?.(animals);
-          } catch (error) {
-            patchState(store, { loading: false, error: normalizeError(error) });
-            input.onError?.(error);
-          }
+        /** List, with fully overridable source/updater/callbacks (runLoad). */
+        load(input: LoadInput): Promise<void> {
+          return runLoad(
+            (partial) => patchState(store, partial),
+            () => getState(store),
+            input,
+            {
+              source: (query) => api.listAnimals(query),
+              updater: overwriteWithResult('animals'),
+            },
+          );
         },
 
         /** Read one into `selected`. */
