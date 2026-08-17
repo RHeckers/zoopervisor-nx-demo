@@ -15,35 +15,34 @@ export default [
         {
           depConstraints: [
             {
-              sourceTag: 'type:feature',
-              onlyDependOnLibsWithTags: ['*']
+              sourceTag: 'type:shell',
+              onlyDependOnLibsWithTags: ['type:*'],
             },
             {
-              sourceTag: 'type:data-access',
-              onlyDependOnLibsWithTags: ['type:data-access', 'type:util'],
+              sourceTag: 'type:feature',
+              onlyDependOnLibsWithTags: ['type:*'],
+              notDependOnLibsWithTags: ['type:shell', 'type:feature'],
+            },
+            {
+              sourceTag: 'type:slice',
+              onlyDependOnLibsWithTags: [
+                'type:ui',
+                'type:data-access',
+                'type:util',
+              ],
             },
             {
               sourceTag: 'type:ui',
               onlyDependOnLibsWithTags: ['type:ui', 'type:util'],
             },
             {
+              sourceTag: 'type:data-access',
+              onlyDependOnLibsWithTags: ['type:data-access', 'type:util'],
+            },
+            {
               sourceTag: 'type:util',
               onlyDependOnLibsWithTags: ['type:util'],
             },
-            {
-              sourceTag: 'scope:shared',
-              onlyDependOnLibsWithTags: ['scope:shared']
-            },
-            {
-              sourceTag: 'scope:visitor',
-              onlyDependOnLibsWithTags: ['scope:visitor', 'scope:shared']
-            },
-            {
-              sourceTag: 'scope:keeper-mobile',
-              onlyDependOnLibsWithTags: ['scope:keeper-mobile', 'scope:shared']
-            },
-            // Other scopes defined below
-            // ......
           ],
         },
       ],

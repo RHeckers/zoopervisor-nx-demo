@@ -1,15 +1,14 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
+    "isolatedModules": true,
+    "target": "es2022",
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "isolatedModules": true,
-    "target": "es2022",
     "emitDecoratorMetadata": false,
-    "useDefineForClassFields": false,
     "module": "preserve"
   },
   "angularCompilerOptions": {
@@ -22,7 +21,7 @@
   "include": [],
   "references": [
     {
-      "path": "./tsconfig.app.json"
+      "path": "./tsconfig.lib.json"
     },
     {
       "path": "./tsconfig.spec.json"

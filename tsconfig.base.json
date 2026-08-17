@@ -17,7 +17,10 @@
     "paths": {
       "@zoopervisor/animals-data-access": [
         "./libs/animals/data-access/src/index.ts"
-      ]
+      ],
+      "@zoopervisor/utils": ["./libs/shared/utils/src/index.ts"],
+      "@zoopervisor/utilsb": ["./libs/shared/utils/src/indexx.ts"],
+      "@zoopervisor/ui": ["./libs/shared/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,1 +1,1 @@
-export * from './lib/animals-data-access/animals-data-access';
+export * from './lib/animals-data-access/animals.store';
