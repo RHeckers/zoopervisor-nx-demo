@@ -34,6 +34,6 @@ export class AnimalStatusSlice {
   );
 
   constructor() {
-    void this.store.load({ query: '' });
+    void this.store.load('');
   }
 }

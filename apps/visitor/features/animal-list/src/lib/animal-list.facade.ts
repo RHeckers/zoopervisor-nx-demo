@@ -30,7 +30,7 @@ export class AnimalListFacade {
   }));
 
   refresh(): void {
-    void this.animals.load({ query: this.ui.searchTerm() });
+    void this.animals.load(this.ui.searchTerm());
     void this.enclosures.loadEnclosures();
   }
 

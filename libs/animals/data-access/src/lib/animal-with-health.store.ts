@@ -22,7 +22,7 @@ export const AnimalWithHealthStore = signalStore(
   })),
   withMethods((store) => ({
     async loadAll(animalId: string): Promise<void> {
-      await Promise.all([store.load({ query: '' }), store.loadForAnimal(animalId)]);
+      await Promise.all([store.load(''), store.loadForAnimal(animalId)]);
     },
   })),
 );
