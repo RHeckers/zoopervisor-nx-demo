@@ -6,3 +6,5 @@ export * from './lib/badge.component';
 export * from './lib/spinner.component';
 export * from './lib/stack.component';
 export * from './lib/field.component';
+export * from './lib/error-toast/error-toast.component';
+export * from './lib/error-toast/snack-bar.service';
