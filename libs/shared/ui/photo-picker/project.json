@@ -1,0 +1,12 @@
+{
+  "name": "shared-ui-photo-picker",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/ui/photo-picker/src",
+  "prefix": "zoo",
+  "projectType": "library",
+  "tags": ["domain:shared", "type:ui"],
+  "targets": {
+    "test": { "executor": "@nx/vitest:test", "outputs": ["{options.reportsDirectory}"], "options": { "reportsDirectory": "coverage/libs/shared/ui/photo-picker" } },
+    "lint": { "executor": "@nx/eslint:lint" }
+  }
+}

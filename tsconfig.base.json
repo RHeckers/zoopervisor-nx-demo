@@ -110,6 +110,9 @@
       ],
       "@zoo/shared/i18n": [
         "./libs/shared/i18n/src/index.ts"
+      ],
+      "@zoo/shared/ui/photo-picker": [
+        "./libs/shared/ui/photo-picker/src/index.ts"
       ]
     }
   },
