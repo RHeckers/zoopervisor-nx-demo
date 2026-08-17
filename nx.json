@@ -40,7 +40,18 @@
     },
     "e2e": {
       "cache": true,
-      "inputs": ["default", "^production", { "env": "E2E_GREP" }]
+      "inputs": [
+        "default",
+        "^production",
+        {
+          "env": "E2E_GREP"
+        }
+      ]
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "plugins": [

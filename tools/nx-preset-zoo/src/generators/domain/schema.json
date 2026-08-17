@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Domain",
+  "title": "Create a full domain (data-access, ui, utils, types)",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Domain name (e.g. animals).",
+      "$default": { "$source": "argv", "index": 0 },
+      "x-prompt": "Domain name?"
+    },
+    "slices": {
+      "type": "boolean",
+      "description": "Also create a slices library.",
+      "default": false
+    }
+  },
+  "required": ["name"]
+}

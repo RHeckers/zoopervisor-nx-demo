@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Package",
+  "title": "Create a publishable lib under packages/",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Package name (e.g. zoo-design-system).",
+      "$default": { "$source": "argv", "index": 0 },
+      "x-prompt": "Package name?"
+    },
+    "kind": {
+      "type": "string",
+      "description": "Which layer the package represents.",
+      "enum": ["data-access", "ui", "util", "types"],
+      "$default": { "$source": "argv", "index": 1 },
+      "x-prompt": "Which kind of package?"
+    }
+  },
+  "required": ["name", "kind"]
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Feature",
+  "title": "Scaffold an app feature (with facade)",
+  "type": "object",
+  "properties": {
+    "app": {
+      "type": "string",
+      "description": "The existing app that owns the feature (e.g. visitor).",
+      "$default": { "$source": "argv", "index": 0 },
+      "x-prompt": "Which app?"
+    },
+    "name": {
+      "type": "string",
+      "description": "Feature name (e.g. animal-list).",
+      "$default": { "$source": "argv", "index": 1 },
+      "x-prompt": "Feature name?"
+    }
+  },
+  "required": ["app", "name"]
+}

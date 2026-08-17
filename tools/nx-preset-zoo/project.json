@@ -1,0 +1,7 @@
+{
+  "name": "nx-preset-zoo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/nx-preset-zoo/src",
+  "projectType": "library",
+  "tags": ["type:util"]
+}

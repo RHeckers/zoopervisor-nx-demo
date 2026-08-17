@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "App",
+  "title": "Create an Angular app (app + shell + e2e)",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "App name (e.g. visitor).",
+      "$default": { "$source": "argv", "index": 0 },
+      "x-prompt": "App name?"
+    },
+    "platform": {
+      "type": "string",
+      "description": "Platform the app runs on.",
+      "enum": ["mobile", "desktop"]
+    }
+  },
+  "required": ["name"]
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "name": "nx-preset-zoo",
+  "version": "0.0.1",
+  "generators": {
+    "domain": {
+      "factory": "./src/generators/domain/generator",
+      "schema": "./src/generators/domain/schema.json",
+      "description": "Create a full domain: data-access, ui, utils, types (and slices)."
+    },
+    "domain-lib": {
+      "factory": "./src/generators/domain-lib/generator",
+      "schema": "./src/generators/domain-lib/schema.json",
+      "description": "Add one library to an existing domain."
+    },
+    "shared-lib": {
+      "factory": "./src/generators/shared-lib/generator",
+      "schema": "./src/generators/shared-lib/schema.json",
+      "description": "Create a shared library under libs/shared (optional platform)."
+    },
+    "app": {
+      "factory": "./src/generators/app/generator",
+      "schema": "./src/generators/app/schema.json",
+      "description": "Create an Angular app with shell and e2e."
+    },
+    "app-lib": {
+      "factory": "./src/generators/app-lib/generator",
+      "schema": "./src/generators/app-lib/schema.json",
+      "description": "Create a library inside an app (feature, slice, data-access, ui)."
+    },
+    "feature": {
+      "factory": "./src/generators/feature/generator",
+      "schema": "./src/generators/feature/schema.json",
+      "description": "Scaffold an app feature with its facade file."
+    },
+    "package": {
+      "factory": "./src/generators/package/generator",
+      "schema": "./src/generators/package/schema.json",
+      "description": "Create a publishable lib under packages/."
+    }
+  }
+}
