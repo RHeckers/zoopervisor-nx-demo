@@ -1,6 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { AnimalStore } from '@zoo/animals/data-access';
 import { EnclosureStore } from '@zoo/enclosures/data-access';
+import { titleCase } from '@zoo/shared/utils';
 import { VisitorUiStore } from '@zoo/visitor/data-access';
 
 /**
@@ -21,6 +22,9 @@ export class AnimalListFacade {
     animals: this.animals.animals(),
     enclosures: this.enclosures.enclosures(),
     search: this.ui.searchTerm(),
+    // Reaches @zoo/shared/utils — which drags the whole barrel in, including
+    // the deliberately non-tree-shakeable ZONE_LABELS. See §10 / show-retention.
+    heading: titleCase(this.ui.searchTerm() || 'all animals'),
     expandedId: this.expandedId(),
     loading: this.animals.loading() || this.enclosures.enclosuresLoading(),
   }));

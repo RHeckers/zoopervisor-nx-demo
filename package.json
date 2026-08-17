@@ -2,7 +2,9 @@
   "name": "@zoopervisor/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "show-retention": "node tools/show-bundle-retention.mjs"
+  },
   "private": true,
   "dependencies": {
     "@angular/common": "~22.0.4",
