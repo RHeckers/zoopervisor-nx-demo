@@ -1,15 +1,10 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "allowJs": true,
-    "outDir": "../../../dist/out-tsc",
     "sourceMap": false,
-    "module": "commonjs",
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "outDir": "out-tsc/playwright",
+    "allowJs": true,
+    "types": ["node"]
   },
   "include": [
     "**/*.ts",
@@ -17,8 +12,6 @@
     "playwright.config.mts",
     "src/**/*.spec.ts",
     "src/**/*.spec.js",
-    "src/**/*.test.ts",
-    "src/**/*.test.js",
     "src/**/*.d.ts"
   ]
 }

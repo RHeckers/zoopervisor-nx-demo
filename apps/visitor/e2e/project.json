@@ -4,6 +4,6 @@
   "projectType": "application",
   "sourceRoot": "apps/visitor/e2e/src",
   "implicitDependencies": ["visitor"],
-  "// targets": "to see all targets run: nx show project visitor-e2e --web",
+  "tags": ["app:visitor", "type:e2e", "platform:desktop"],
   "targets": {}
 }

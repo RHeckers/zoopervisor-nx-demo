@@ -1,3 +1,17 @@
-import { Route } from '@angular/router';
+import { Routes } from '@angular/router';
 
-export const appRoutes: Route[] = [];
+/** The shell owns routing and lazy-loads the app's features. */
+export const appRoutes: Routes = [
+  {
+    path: '',
+    loadChildren: () =>
+      import('@zoo/visitor/features/animal-list').then((m) => m.animalListRoutes),
+  },
+  {
+    path: 'enclosures',
+    loadChildren: () =>
+      import('@zoo/visitor/features/enclosure-map').then(
+        (m) => m.enclosureMapRoutes,
+      ),
+  },
+];

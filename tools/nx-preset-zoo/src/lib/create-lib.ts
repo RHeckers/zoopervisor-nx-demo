@@ -244,7 +244,9 @@ export default [...baseConfig];
   updateJson(tree, 'tsconfig.base.json', (json) => {
     json.compilerOptions ??= {};
     json.compilerOptions.paths ??= {};
-    json.compilerOptions.paths[importPath] = [`${root}/src/index.ts`];
+    // Leading `./` keeps the value relative so no tsconfig `baseUrl` is needed
+    // (the Angular compiler rejects non-relative path values without one).
+    json.compilerOptions.paths[importPath] = [`./${root}/src/index.ts`];
     return json;
   });
 }

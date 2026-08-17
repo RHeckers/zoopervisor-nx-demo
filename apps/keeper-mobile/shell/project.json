@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/keeper-mobile/shell/src",
-  "tags": ["type:app"],
+  "tags": ["app:keeper-mobile", "type:app", "platform:mobile"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
@@ -73,7 +73,6 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "keeper-mobile:build",
-        "port": 4200,
         "staticFilePath": "dist/apps/keeper-mobile/shell/browser",
         "spa": true
       }

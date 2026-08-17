@@ -1,62 +1,43 @@
 import {
   Tree,
   formatFiles,
-  getProjects,
   names,
   readProjectConfiguration,
   updateProjectConfiguration,
 } from '@nx/devkit';
 import { applicationGenerator, E2eTestRunner } from '@nx/angular/generators';
-import { createLib } from '../../lib/create-lib';
-import { stubFor } from '../../lib/stubs';
+import { addE2e } from '../../lib/add-e2e';
 import { AppGeneratorSchema } from './schema';
 
 /**
- * Create an Angular app plus its shell lib and e2e project, tagged
- * `type:app` / `type:shell` / `type:e2e` and `app:<name>` (and a platform tag
- * when given). The app is a thin bootstrap; the shell owns routing/layout.
+ * Create an Angular app. Everything the app owns — src/, public/, the root
+ * component, app.config, routing — lives under `apps/<name>/shell`, which is
+ * the one buildable project (tagged `type:app` + `app:<name>` + platform). The
+ * app's features/slices/data-access/ui are generated as siblings under
+ * `apps/<name>/`, so the shell's lint/build never reaches into them. The e2e
+ * project is added separately (see tools/affected-e2e + the e2e step).
  */
 export async function appGenerator(tree: Tree, options: AppGeneratorSchema) {
   const app = names(options.name).fileName;
   const platformTags = options.platform ? [`platform:${options.platform}`] : [];
 
   await applicationGenerator(tree, {
-    directory: `apps/${app}`,
+    directory: `apps/${app}/shell`,
     name: app,
     routing: true,
     style: 'scss',
     prefix: 'app',
-    e2eTestRunner: E2eTestRunner.Playwright,
+    e2eTestRunner: E2eTestRunner.None,
     skipFormat: true,
   });
 
-  // Tag the buildable app project.
+  // Tag the buildable app (rooted at apps/<name>/shell).
   const appCfg = readProjectConfiguration(tree, app);
   appCfg.tags = [`app:${app}`, 'type:app', ...platformTags];
   updateProjectConfiguration(tree, app, appCfg);
 
-  // Tag the generated e2e project (its name ends with -e2e and points at us).
-  for (const [name, cfg] of getProjects(tree)) {
-    const isOurE2e =
-      name !== app &&
-      (cfg.implicitDependencies?.includes(app) || name === `${app}-e2e`);
-    if (isOurE2e) {
-      cfg.tags = [`app:${app}`, 'type:e2e', ...platformTags];
-      updateProjectConfiguration(tree, name, cfg);
-    }
-  }
-
-  // Add the shell as its own project (type:shell) — routing/layout live here.
-  const stub = stubFor('shell', app);
-  createLib(tree, {
-    projectName: `${app}-shell`,
-    root: `apps/${app}/shell`,
-    importPath: `@zoo/${app}/shell`,
-    kind: 'shell',
-    tags: [`app:${app}`, 'type:shell', ...platformTags],
-    files: stub.files,
-    indexExports: stub.indexExports,
-  });
+  // e2e sibling at apps/<name>/e2e.
+  addE2e(tree, app, platformTags);
 
   await formatFiles(tree);
 }

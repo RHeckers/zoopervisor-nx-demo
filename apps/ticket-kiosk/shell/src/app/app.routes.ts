@@ -1,3 +1,12 @@
-import { Route } from '@angular/router';
+import { Routes } from '@angular/router';
 
-export const appRoutes: Route[] = [];
+/** The shell owns routing and lazy-loads the app's features. */
+export const appRoutes: Routes = [
+  {
+    path: '',
+    loadChildren: () =>
+      import('@zoo/ticket-kiosk/features/buy-tickets').then(
+        (m) => m.buyTicketsRoutes,
+      ),
+  },
+];

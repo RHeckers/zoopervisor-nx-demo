@@ -4,8 +4,9 @@ import { collectTags } from './tools/collect-tags.mjs';
 // ui and data-access are peers — neither may reach the other. Layers only ever
 // depend downward.
 const typeConstraints = [
+  // The app (its src/ + public/ live under apps/<name>/shell) is the only
+  // buildable project per app and may reach any layer.
   { sourceTag: 'type:app', onlyDependOnLibsWithTags: ['type:*'] },
-  { sourceTag: 'type:shell', onlyDependOnLibsWithTags: ['type:*'] },
   {
     sourceTag: 'type:feature',
     onlyDependOnLibsWithTags: ['type:*'],

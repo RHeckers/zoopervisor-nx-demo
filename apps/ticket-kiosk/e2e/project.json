@@ -4,6 +4,6 @@
   "projectType": "application",
   "sourceRoot": "apps/ticket-kiosk/e2e/src",
   "implicitDependencies": ["ticket-kiosk"],
-  "// targets": "to see all targets run: nx show project ticket-kiosk-e2e --web",
+  "tags": ["app:ticket-kiosk", "type:e2e", "platform:desktop"],
   "targets": {}
 }

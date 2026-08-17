@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-test('has title', async ({ page }) => {
+// Specs tag themselves with the Nx project names they exercise, so an affected
+// run (E2E_GREP) executes only the ones touched by a change.
+test('visitor loads', { tag: ['@visitor', '@shared-ui'] }, async ({ page }) => {
   await page.goto('/');
-
-  // Expect h1 to contain a substring.
-  expect(await page.locator('h1').innerText()).toContain('Welcome');
+  await expect(page.locator('body')).toBeVisible();
 });

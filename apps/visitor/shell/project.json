@@ -4,15 +4,11 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/visitor/shell/src",
-  "tags": [
-    "type:shell"
-  ],
+  "tags": ["app:visitor", "type:app", "platform:desktop"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/visitor/shell",
@@ -25,9 +21,7 @@
             "input": "apps/visitor/shell/public"
           }
         ],
-        "styles": [
-          "apps/visitor/shell/src/styles.scss"
-        ]
+        "styles": ["apps/visitor/shell/src/styles.scss"]
       },
       "configurations": {
         "production": {
@@ -79,7 +73,6 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "visitor:build",
-        "port": 4200,
         "staticFilePath": "dist/apps/visitor/shell/browser",
         "spa": true
       }

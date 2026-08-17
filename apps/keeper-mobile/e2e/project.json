@@ -4,6 +4,6 @@
   "projectType": "application",
   "sourceRoot": "apps/keeper-mobile/e2e/src",
   "implicitDependencies": ["keeper-mobile"],
-  "// targets": "to see all targets run: nx show project keeper-mobile-e2e --web",
+  "tags": ["app:keeper-mobile", "type:e2e", "platform:mobile"],
   "targets": {}
 }

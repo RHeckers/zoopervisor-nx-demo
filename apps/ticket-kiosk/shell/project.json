@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/ticket-kiosk/shell/src",
-  "tags": ["type:app"],
+  "tags": ["app:ticket-kiosk", "type:app", "platform:desktop"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
@@ -73,7 +73,6 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "ticket-kiosk:build",
-        "port": 4200,
         "staticFilePath": "dist/apps/ticket-kiosk/shell/browser",
         "spa": true
       }

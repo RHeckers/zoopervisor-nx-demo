@@ -1,0 +1,20 @@
+{
+  "name": "visitor-enclosure-map",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "apps/visitor/features/enclosure-map/src",
+  "prefix": "zoo",
+  "tags": ["app:visitor", "type:feature"],
+  "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "coverage/apps/visitor/features/enclosure-map"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
