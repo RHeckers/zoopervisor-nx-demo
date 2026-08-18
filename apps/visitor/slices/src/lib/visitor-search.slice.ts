@@ -12,19 +12,27 @@ import { VisitorUiStore } from '@zoo/visitor/data-access';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<input
     type="search"
-    placeholder="Search…"
+    placeholder="Search any animal — try lion, otter, macaw…"
+    aria-label="Search animals"
     [value]="ui.searchTerm()"
     (input)="ui.setSearch($any($event.target).value)"
   />`,
   styles: `
+    :host {
+      display: block;
+    }
     input {
       font: inherit;
       width: 100%;
       box-sizing: border-box;
       padding: var(--zoo-search-padding, var(--spacer-sm) var(--spacer-base));
       border: 1px solid var(--color-muted);
-      border-radius: var(--radius-base);
+      border-radius: var(--zoo-search-radius, var(--radius-base));
       background: var(--color-paper);
+    }
+    input:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 1px;
     }
   `,
 })

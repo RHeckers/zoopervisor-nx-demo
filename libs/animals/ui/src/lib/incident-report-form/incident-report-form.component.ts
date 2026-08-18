@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
-import { PhotoPickerComponent } from '@zoo/shared/ui/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  output,
+  signal,
+} from '@angular/core';
+import {
+  PhotoPickerComponent,
+  PhotoThumbsComponent,
+  StackComponent,
+} from '@zoo/shared/ui/common';
 
 /*
  * <zoo-photo-picker> sits inside a SHARED DOMAIN component, not a feature.
@@ -11,10 +20,23 @@ import { PhotoPickerComponent } from '@zoo/shared/ui/common';
 @Component({
   selector: 'zoo-incident-report-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PhotoPickerComponent],
-  template: `<h3>Incident report</h3>
-    <zoo-photo-picker [multiple]="true" (selected)="photos.emit($event)" />`,
+  imports: [PhotoPickerComponent, PhotoThumbsComponent, StackComponent],
+  template: `<zoo-stack>
+    <h3>Incident report</h3>
+    <zoo-photo-picker [multiple]="true" (selected)="onPicked($event)" />
+    @if (picked().length > 0) {
+      <zoo-photo-thumbs [files]="picked()" />
+      <small>{{ picked().length }} photo(s) attached</small>
+    }
+  </zoo-stack>`,
 })
 export class IncidentReportFormComponent {
   readonly photos = output<File[]>();
+
+  protected readonly picked = signal<File[]>([]);
+
+  protected onPicked(files: File[]): void {
+    this.picked.update((current) => [...current, ...files]);
+    this.photos.emit(this.picked());
+  }
 }

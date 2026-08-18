@@ -4,27 +4,36 @@
 }
 
 .app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   gap: var(--spacer-lg);
   padding: var(--spacer-base) var(--spacer-lg);
   background: var(--color-ink);
   color: var(--color-paper);
+  box-shadow: var(--shadow-raised);
 }
 
 .app-brand {
   font-weight: 700;
+  font-size: 1.125rem;
 }
 
 .app-nav {
   display: flex;
-  gap: var(--spacer-base);
+  gap: var(--spacer-sm);
 
   a {
     color: var(--color-paper);
     text-decoration: none;
-    padding: var(--spacer-xs) var(--spacer-sm);
+    padding: var(--spacer-xs) var(--spacer-base);
     border-radius: var(--radius-base);
+
+    &:hover {
+      background: rgb(255 255 255 / 0.12);
+    }
 
     &.active {
       background: var(--color-accent);
@@ -33,7 +42,7 @@
 }
 
 .app-main {
-  max-width: 960px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: var(--spacer-lg);
+  padding: var(--spacer-xl) var(--spacer-lg);
 }
