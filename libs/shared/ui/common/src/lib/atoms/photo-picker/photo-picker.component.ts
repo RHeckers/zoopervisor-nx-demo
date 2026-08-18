@@ -29,6 +29,13 @@ import { PHOTO_PICKER } from './contract';
   selector: 'zoo-photo-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ``,
+  // The impl is created as a SIBLING of this host, so the host itself stays
+  // empty — hide it or it eats a gap slot in flex/grid parents.
+  styles: `
+    :host {
+      display: none;
+    }
+  `,
 })
 export class PhotoPickerComponent implements OnInit {
   readonly multiple = input(false);

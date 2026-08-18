@@ -13,6 +13,8 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   styles: `
     :host {
       display: inline-block;
+      align-self: start;
+      width: fit-content;
       padding: var(--zoo-badge-padding, var(--spacer-xs) var(--spacer-sm));
       border-radius: var(--zoo-badge-radius, var(--radius-base));
       font-size: var(--zoo-badge-font-size, var(--font-size-caption));

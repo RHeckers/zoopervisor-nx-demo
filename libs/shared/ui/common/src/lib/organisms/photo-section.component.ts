@@ -8,6 +8,7 @@ import {
 import { CardComponent } from '../atoms/card.component';
 import { EmptyStateComponent } from '../atoms/empty-state.component';
 import { StackComponent } from '../atoms/stack.component';
+import { PhotoThumbsComponent } from '../molecules/photo-thumbs.component';
 import { PhotoUploadFieldComponent } from '../molecules/photo-upload-field.component';
 
 /*
@@ -28,6 +29,7 @@ import { PhotoUploadFieldComponent } from '../molecules/photo-upload-field.compo
     CardComponent,
     StackComponent,
     EmptyStateComponent,
+    PhotoThumbsComponent,
     PhotoUploadFieldComponent,
   ],
   template: `<zoo-card>
@@ -37,9 +39,7 @@ import { PhotoUploadFieldComponent } from '../molecules/photo-upload-field.compo
       @if (files().length === 0) {
         <zoo-empty-state />
       } @else {
-        @for (f of files(); track $index) {
-          <small>{{ f.name }}</small>
-        }
+        <zoo-photo-thumbs [files]="files()" />
       }
     </zoo-stack>
   </zoo-card>`,
@@ -51,7 +51,8 @@ export class PhotoSectionComponent {
   protected readonly files = signal<File[]>([]);
 
   protected onFiles(files: File[]): void {
-    this.files.set(files);
-    this.photosChanged.emit(files);
+    // Accumulate: each pick ADDS to the report instead of replacing it.
+    this.files.update((current) => [...current, ...files]);
+    this.photosChanged.emit(this.files());
   }
 }

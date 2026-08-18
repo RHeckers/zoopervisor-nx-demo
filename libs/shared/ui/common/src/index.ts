@@ -14,6 +14,7 @@ export * from './lib/atoms/photo-picker/photo-picker.naive.component';
 // molecules
 export * from './lib/molecules/error-toast/error-toast.component';
 export * from './lib/molecules/error-toast/snack-bar.service';
+export * from './lib/molecules/photo-thumbs.component';
 export * from './lib/molecules/photo-upload-field.component';
 // organisms (platform-neutral thanks to the PHOTO_PICKER placeholder)
 export * from './lib/organisms/photo-section.component';

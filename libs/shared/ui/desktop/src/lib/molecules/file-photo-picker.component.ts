@@ -6,7 +6,7 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { PhotoPickerContract } from '@zoo/shared/ui/common';
+import { ButtonComponent, PhotoPickerContract } from '@zoo/shared/ui/common';
 
 /**
  * The DESKTOP implementation of the photo-picker contract: a hidden file
@@ -16,7 +16,8 @@ import { PhotoPickerContract } from '@zoo/shared/ui/common';
 @Component({
   selector: 'zoo-file-photo-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<button type="button" (click)="pick()">Add photo</button>
+  imports: [ButtonComponent],
+  template: `<zoo-button (pressed)="pick()">Add photo</zoo-button>
     <input
       #fileInput
       hidden
