@@ -3,6 +3,7 @@ import {
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { ANIMAL_API, InatAnimalApi } from '@zoo/animals/data-access';
 import { providePhotoPicker } from '@zoo/shared/ui/common';
 import { FileInputPhotoPicker } from '@zoo/shared/ui/desktop';
 import { provideZooI18n } from '@zoo/shared/i18n';
@@ -18,5 +19,8 @@ export const appConfig: ApplicationConfig = {
     providePhotoPicker(FileInputPhotoPicker),
     // This app binds the abstract PaymentProvider token to its web impl.
     { provide: PaymentProvider, useClass: OnlinePayment },
+    // …and swaps the fake AnimalApi for the live iNaturalist adapter. One
+    // provider line — no store, facade or component knows the transport changed.
+    { provide: ANIMAL_API, useClass: InatAnimalApi },
   ],
 };

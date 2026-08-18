@@ -3,6 +3,8 @@ export interface Animal {
   readonly name: string;
   readonly species: string;
   readonly enclosureId: string;
+  /** Absent for animals without a picture — consumers fall back to initials. */
+  readonly photoUrl?: string;
 }
 
 export type HealthStatus = 'healthy' | 'observation' | 'treatment';
