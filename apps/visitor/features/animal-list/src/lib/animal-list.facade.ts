@@ -1,4 +1,4 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { AnimalStore } from '@zoo/animals/data-access';
 import { EnclosureStore } from '@zoo/enclosures/data-access';
 import { titleCase } from '@zoo/shared/utils';
@@ -17,6 +17,23 @@ export class AnimalListFacade {
   private readonly ui = inject(VisitorUiStore);
 
   private readonly expandedId = signal<string | null>(null);
+  private firstLoad = true;
+
+  constructor() {
+    // The facade REACTS to the cross-feature search term: wherever it is set
+    // (top search slice, command bar), the list reloads. Debounced so typing
+    // doesn't fire a request per keystroke; the first run loads immediately.
+    effect((onCleanup) => {
+      const term = this.ui.searchTerm();
+      if (this.firstLoad) {
+        this.firstLoad = false;
+        void this.animals.load(term);
+        return;
+      }
+      const handle = setTimeout(() => void this.animals.load(term), 300);
+      onCleanup(() => clearTimeout(handle));
+    });
+  }
 
   readonly vm = computed(() => ({
     animals: this.animals.animals(),
@@ -30,13 +47,11 @@ export class AnimalListFacade {
   }));
 
   refresh(): void {
-    void this.animals.load(this.ui.searchTerm());
     void this.enclosures.loadEnclosures();
   }
 
   search(term: string): void {
     this.ui.setSearch(term);
-    this.refresh();
   }
 
   open(animalId: string): void {
