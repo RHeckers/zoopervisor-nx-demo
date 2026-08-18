@@ -20,6 +20,18 @@ import { Haptics } from '../native/haptics';
       min-width: var(--zoo-touch-button-min-size, var(--tap-target-min));
       touch-action: manipulation;
     }
+    button {
+      font: inherit;
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      min-width: inherit;
+      border: none;
+      border-radius: var(--zoo-touch-button-radius, var(--radius-base));
+      background: var(--zoo-touch-button-background, var(--color-accent));
+      color: var(--zoo-touch-button-color, var(--color-paper));
+      cursor: pointer;
+    }
   `,
 })
 export class TouchButtonComponent {

@@ -16,6 +16,30 @@ import { SnackBar } from './snack-bar.service';
       <button type="button" (click)="snackBar.dismiss()">{{ toast.action }}</button>
     </div>
   }`,
+  styles: `
+    .zoo-error-toast {
+      position: fixed;
+      bottom: var(--spacer-lg);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: var(--zoo-error-toast-z-index, var(--z-modal));
+      display: flex;
+      align-items: center;
+      gap: var(--spacer-base);
+      padding: var(--zoo-error-toast-padding, var(--spacer-sm) var(--spacer-base));
+      background: var(--zoo-error-toast-background, var(--color-ink));
+      color: var(--zoo-error-toast-color, var(--color-paper));
+      border-radius: var(--radius-base);
+      box-shadow: var(--shadow-card);
+    }
+    button {
+      font: inherit;
+      border: none;
+      background: none;
+      color: var(--color-savanna);
+      cursor: pointer;
+    }
+  `,
 })
 export class ErrorToastComponent {
   protected readonly snackBar = inject(SnackBar);

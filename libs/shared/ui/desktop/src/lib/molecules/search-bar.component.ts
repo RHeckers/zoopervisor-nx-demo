@@ -26,6 +26,20 @@ import { TooltipDirective } from '../atoms/tooltip.directive';
       />
     </span>
     <zoo-key-hint keys="⌘K" />`,
+  styles: `
+    :host {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacer-sm);
+    }
+    input {
+      font: inherit;
+      padding: var(--zoo-search-bar-padding, var(--spacer-sm));
+      border: 1px solid var(--color-muted);
+      border-radius: var(--radius-base);
+      background: var(--color-paper);
+    }
+  `,
 })
 export class SearchBarComponent {
   readonly placeholder = input('Search');

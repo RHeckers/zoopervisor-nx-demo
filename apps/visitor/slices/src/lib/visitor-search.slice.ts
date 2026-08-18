@@ -16,6 +16,17 @@ import { VisitorUiStore } from '@zoo/visitor/data-access';
     [value]="ui.searchTerm()"
     (input)="ui.setSearch($any($event.target).value)"
   />`,
+  styles: `
+    input {
+      font: inherit;
+      width: 100%;
+      box-sizing: border-box;
+      padding: var(--zoo-search-padding, var(--spacer-sm) var(--spacer-base));
+      border: 1px solid var(--color-muted);
+      border-radius: var(--radius-base);
+      background: var(--color-paper);
+    }
+  `,
 })
 export class VisitorSearchSlice {
   protected readonly ui = inject(VisitorUiStore);

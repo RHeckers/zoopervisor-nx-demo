@@ -24,6 +24,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       );
       border-start-start-radius: var(--zoo-bottom-sheet-radius, var(--radius-sheet));
       border-start-end-radius: var(--zoo-bottom-sheet-radius, var(--radius-sheet));
+      background: var(--zoo-bottom-sheet-background, var(--color-paper));
+      padding-top: var(--spacer-base);
+      padding-inline: var(--spacer-base);
+      box-shadow: var(--shadow-card);
     }
   `,
 })

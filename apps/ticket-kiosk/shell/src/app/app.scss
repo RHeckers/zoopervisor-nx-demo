@@ -1,0 +1,41 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacer-lg);
+  padding: var(--spacer-lg);
+  background: var(--color-savanna);
+  color: var(--color-ink);
+}
+
+.app-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.app-nav {
+  display: flex;
+  gap: var(--spacer-base);
+
+  a {
+    color: var(--color-ink);
+    text-decoration: none;
+    padding: var(--spacer-sm) var(--spacer-base);
+    border-radius: var(--radius-base);
+    font-size: 1.125rem;
+
+    &.active {
+      background: var(--color-paper);
+    }
+  }
+}
+
+.app-main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--spacer-lg);
+}

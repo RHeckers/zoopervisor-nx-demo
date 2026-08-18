@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+/*
+ * Kiosk theme. An unattended terminal wants big, forgiving surfaces — done
+ * entirely through the component override hooks from libs/shared/styles.
+ * No component changed; only this app's subtree resizes.
+ */
+:root {
+  --zoo-card-padding: var(--spacer-lg);
+  --zoo-stack-gap: var(--spacer-base);
+  --zoo-button-padding: var(--spacer-base) var(--spacer-lg);
+  --zoo-button-font-size: 1.25rem;
+}

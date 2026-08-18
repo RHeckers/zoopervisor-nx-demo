@@ -1,2 +1,10 @@
-<app-nx-welcome></app-nx-welcome>
-<router-outlet></router-outlet>
+<header class="app-header">
+  <span class="app-brand">🎟️ Tickets</span>
+  <nav class="app-nav">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Buy tickets</a>
+    <a routerLink="/info" routerLinkActive="active">Park info</a>
+  </nav>
+</header>
+<main class="app-main">
+  <router-outlet />
+</main>

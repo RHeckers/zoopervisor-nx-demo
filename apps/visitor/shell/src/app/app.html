@@ -1,2 +1,11 @@
-<app-nx-welcome></app-nx-welcome>
-<router-outlet></router-outlet>
+<header class="app-header">
+  <span class="app-brand">🦁 Zoopervisor</span>
+  <nav class="app-nav">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Animals</a>
+    <a routerLink="/enclosures" routerLinkActive="active">Enclosures</a>
+    <a routerLink="/tickets" routerLinkActive="active">Tickets</a>
+  </nav>
+</header>
+<main class="app-main">
+  <router-outlet />
+</main>

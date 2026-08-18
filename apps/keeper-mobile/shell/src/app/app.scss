@@ -1,0 +1,40 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacer-base);
+  background: var(--color-accent);
+  color: var(--color-paper);
+}
+
+.app-brand {
+  font-weight: 700;
+}
+
+.app-nav {
+  display: flex;
+  gap: var(--spacer-sm);
+
+  a {
+    color: var(--color-paper);
+    text-decoration: none;
+    padding: var(--spacer-xs) var(--spacer-sm);
+    border-radius: var(--radius-base);
+
+    &.active {
+      background: var(--color-ink);
+    }
+  }
+}
+
+.app-main {
+  /* phone-shaped column; leave room for the fixed bottom sheet */
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--spacer-base) var(--spacer-base) calc(var(--tap-target-min) * 2.5);
+}

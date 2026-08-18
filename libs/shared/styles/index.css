@@ -20,6 +20,9 @@
   --color-leaf: #4caf50;
   --color-ink: #1b1b1b;
   --color-paper: #fbfbf7;
+  --color-canvas: #efeadf;
+  --color-muted: #6b675e;
+  --color-accent: #2f6f43;
 
   /* spacing — 4px base scale */
   --spacer-xs: 4px;
@@ -30,6 +33,7 @@
   /* shape */
   --radius-base: 0.5rem;
   --radius-sheet: 1rem;
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.12);
 
   /* type */
   --font-body: system-ui, sans-serif;
@@ -40,6 +44,25 @@
 
   /* stacking */
   --z-modal: 1000;
+}
+
+/* Base element styles — everything else is component-scoped. */
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+
+small {
+  color: var(--color-muted);
 }
 
 /*

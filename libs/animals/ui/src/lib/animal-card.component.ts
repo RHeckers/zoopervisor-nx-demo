@@ -9,10 +9,25 @@ import { AnimalAvatarComponent } from './animal-avatar.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CardComponent, AnimalAvatarComponent],
   template: `<zoo-card>
-    <zoo-animal-avatar [name]="animal().name" />
-    <strong>{{ animal().name }}</strong>
-    <small>{{ animal().species }}</small>
+    <span class="zoo-animal-card">
+      <zoo-animal-avatar [name]="animal().name" />
+      <span class="zoo-animal-card__text">
+        <strong>{{ animal().name }}</strong>
+        <small>{{ animal().species }}</small>
+      </span>
+    </span>
   </zoo-card>`,
+  styles: `
+    .zoo-animal-card {
+      display: flex;
+      align-items: center;
+      gap: var(--zoo-animal-card-gap, var(--spacer-base));
+    }
+    .zoo-animal-card__text {
+      display: flex;
+      flex-direction: column;
+    }
+  `,
 })
 export class AnimalCardComponent {
   readonly animal = input.required<Animal>();
