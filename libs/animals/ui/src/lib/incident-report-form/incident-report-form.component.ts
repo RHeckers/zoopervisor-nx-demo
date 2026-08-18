@@ -25,7 +25,11 @@ import {
     <h3>Incident report</h3>
     <zoo-photo-picker [multiple]="true" (selected)="onPicked($event)" />
     @if (picked().length > 0) {
-      <zoo-photo-thumbs [files]="picked()" />
+      <zoo-photo-thumbs
+        [files]="picked()"
+        [removable]="true"
+        (removed)="onRemoved($event)"
+      />
       <small>{{ picked().length }} photo(s) attached</small>
     }
   </zoo-stack>`,
@@ -37,6 +41,11 @@ export class IncidentReportFormComponent {
 
   protected onPicked(files: File[]): void {
     this.picked.update((current) => [...current, ...files]);
+    this.photos.emit(this.picked());
+  }
+
+  protected onRemoved(file: File): void {
+    this.picked.update((current) => current.filter((f) => f !== file));
     this.photos.emit(this.picked());
   }
 }
