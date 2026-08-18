@@ -8,7 +8,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { Animal } from '@zoo/animals/types';
+import { Animal, AnimalPage } from '@zoo/animals/types';
 import {
   OperationOptions,
   appendItem,
@@ -21,6 +21,9 @@ import { ANIMAL_API } from './animal.api';
 
 export interface AnimalState {
   animals: Animal[];
+  /** Total matches server-side — `animals` holds the pages loaded so far. */
+  total: number;
+  page: number;
   selected: Animal | null;
   loading: boolean;
   error: string | null;
@@ -28,6 +31,8 @@ export interface AnimalState {
 
 const initialState: AnimalState = {
   animals: [],
+  total: 0,
+  page: 1,
   selected: null,
   loading: false,
   error: null,
@@ -57,14 +62,35 @@ export function animalStoreFeature() {
       const snapshot = () => getState(store);
 
       return {
-        /** List. Default updater: overwrite `animals` with the result. */
-        load(query: string, options?: Options<Animal[]>): Promise<void> {
+        /** List page 1. Default updater: overwrite `animals` with the page. */
+        load(query: string, options?: Options<AnimalPage>): Promise<void> {
           return runOperation(
             patch,
             snapshot,
             {
-              source: () => api.listAnimals(query),
-              updater: setResult('animals'),
+              source: () => api.listAnimals(query, 1),
+              updater: (result) => ({
+                animals: result.items,
+                total: result.total,
+                page: result.page,
+              }),
+            },
+            options,
+          );
+        },
+
+        /** Next page. Default updater: APPEND the page to `animals`. */
+        loadMore(query: string, options?: Options<AnimalPage>): Promise<void> {
+          return runOperation(
+            patch,
+            snapshot,
+            {
+              source: () => api.listAnimals(query, snapshot().page + 1),
+              updater: (result, state) => ({
+                animals: [...state.animals, ...result.items],
+                total: result.total,
+                page: result.page,
+              }),
             },
             options,
           );

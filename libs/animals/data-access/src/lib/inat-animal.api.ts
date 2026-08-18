@@ -1,4 +1,9 @@
-import { Animal, AnimalHealthRecord, HealthStatus } from '@zoo/animals/types';
+import {
+  Animal,
+  AnimalHealthRecord,
+  AnimalPage,
+  HealthStatus,
+} from '@zoo/animals/types';
 import { createZooApiClient } from '@zoo/shared/data-access';
 import { AnimalApi } from './animal.api';
 
@@ -38,29 +43,38 @@ export class InatAnimalApi implements AnimalApi {
   private readonly deleted = new Set<string>();
   private nextId = 1;
 
-  async listAnimals(query: string): Promise<Animal[]> {
+  async listAnimals(query: string, page = 1): Promise<AnimalPage> {
     const q = query.trim();
     // Without a query: most-observed animal species worldwide (taxon 1 = Animalia).
-    const path = q
+    const base = q
       ? `/taxa?q=${encodeURIComponent(q)}&rank=species&per_page=12`
       : '/taxa?taxon_id=1&rank=species&order_by=observations_count&order=desc&per_page=12';
 
-    const { results } = await this.client.get<{ results: InatTaxon[] }>(path);
+    const { results, total_results } = await this.client.get<{
+      results: InatTaxon[];
+      total_results: number;
+    }>(`${base}&page=${page}`);
     const fetched = results
       .filter((t) => t.default_photo?.medium_url)
       .map((t) => this.toAnimal(t));
 
     const lower = q.toLowerCase();
-    const createdMatches = this.created.filter(
-      (a) =>
-        !lower ||
-        a.name.toLowerCase().includes(lower) ||
-        a.species.toLowerCase().includes(lower),
-    );
+    // Locally created animals only join the FIRST page — they aren't on the server.
+    const createdMatches =
+      page === 1
+        ? this.created.filter(
+            (a) =>
+              !lower ||
+              a.name.toLowerCase().includes(lower) ||
+              a.species.toLowerCase().includes(lower),
+          )
+        : [];
 
-    return [...createdMatches, ...fetched]
+    const items = [...createdMatches, ...fetched]
       .filter((a) => !this.deleted.has(a.id))
       .map((a) => ({ ...a, ...this.edits.get(a.id) }));
+
+    return { items, total: total_results + this.created.length, page };
   }
 
   async getAnimal(id: string): Promise<Animal | undefined> {
