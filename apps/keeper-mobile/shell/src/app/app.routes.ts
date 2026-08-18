@@ -9,4 +9,11 @@ export const appRoutes: Routes = [
         (m) => m.animalDetailRoutes,
       ),
   },
+  {
+    path: 'rounds',
+    loadChildren: () =>
+      import('@zoo/keeper-mobile/features/feeding-rounds').then(
+        (m) => m.feedingRoundsRoutes,
+      ),
+  },
 ];

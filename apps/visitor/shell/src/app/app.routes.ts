@@ -14,4 +14,9 @@ export const appRoutes: Routes = [
         (m) => m.enclosureMapRoutes,
       ),
   },
+  {
+    path: 'tickets',
+    loadChildren: () =>
+      import('@zoo/visitor/features/tickets').then((m) => m.ticketsRoutes),
+  },
 ];

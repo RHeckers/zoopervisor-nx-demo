@@ -9,4 +9,11 @@ export const appRoutes: Routes = [
         (m) => m.buyTicketsRoutes,
       ),
   },
+  {
+    path: 'info',
+    loadChildren: () =>
+      import('@zoo/ticket-kiosk/features/park-info').then(
+        (m) => m.parkInfoRoutes,
+      ),
+  },
 ];
