@@ -23,11 +23,9 @@ import { ReportWorkspaceComponent } from '@zoo/shared/ui/desktop';
   imports: [ReportWorkspaceComponent],
   template: `<zoo-report-workspace
     heading="Report a sighting"
-    (searchChange)="searchChange.emit($event)"
     (photos)="photos.emit($event)"
   />`,
 })
 export class VisitorReportPanelComponent {
-  readonly searchChange = output<string>();
   readonly photos = output<File[]>();
 }

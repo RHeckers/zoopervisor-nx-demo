@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   input,
   output,
   signal,
@@ -38,21 +39,41 @@ import { PhotoUploadFieldComponent } from '../molecules/photo-upload-field.compo
       <zoo-photo-upload-field [count]="files().length" (files)="onFiles($event)" />
       @if (files().length === 0) {
         <zoo-empty-state />
+      } @else if (visible().length === 0) {
+        <zoo-empty-state message="No photos match the filter" />
       } @else {
-        <zoo-photo-thumbs [files]="files()" />
+        <zoo-photo-thumbs
+          [files]="visible()"
+          [removable]="true"
+          (removed)="removeFile($event)"
+        />
       }
     </zoo-stack>
   </zoo-card>`,
 })
 export class PhotoSectionComponent {
   readonly heading = input('Photos');
+  /** Optional name filter — hosts (e.g. the desktop workspace) wire it. */
+  readonly nameFilter = input('');
   readonly photosChanged = output<File[]>();
 
   protected readonly files = signal<File[]>([]);
 
+  protected readonly visible = computed(() => {
+    const filter = this.nameFilter().trim().toLowerCase();
+    return filter
+      ? this.files().filter((f) => f.name.toLowerCase().includes(filter))
+      : this.files();
+  });
+
   protected onFiles(files: File[]): void {
     // Accumulate: each pick ADDS to the report instead of replacing it.
     this.files.update((current) => [...current, ...files]);
+    this.photosChanged.emit(this.files());
+  }
+
+  protected removeFile(file: File): void {
+    this.files.update((current) => current.filter((f) => f !== file));
     this.photosChanged.emit(this.files());
   }
 }

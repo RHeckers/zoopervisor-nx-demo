@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   input,
   output,
+  viewChild,
 } from '@angular/core';
 import { KeyHintComponent } from '../atoms/key-hint.component';
 import { TooltipDirective } from '../atoms/tooltip.directive';
@@ -13,16 +15,21 @@ import { TooltipDirective } from '../atoms/tooltip.directive';
  * desktop lib because its affordances have no meaning on a touch screen.
  * Contrast with the photo molecule in common/, which stays platform-neutral
  * only because the PHOTO_PICKER placeholder pushed the platform choice out.
+ * The ⌘K hint is honest: Ctrl/⌘+K really focuses the input.
  */
 @Component({
   selector: 'zoo-search-bar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [KeyHintComponent, TooltipDirective],
+  host: { '(document:keydown)': 'onKeydown($event)' },
   template: `<span [zooTooltip]="hint()">
       <input
+        #searchInput
         type="search"
         [placeholder]="placeholder()"
+        [value]="value()"
         (input)="onInput($event)"
+        (keydown.escape)="queryChange.emit('')"
       />
     </span>
     <zoo-key-hint keys="⌘K" />`,
@@ -44,9 +51,20 @@ import { TooltipDirective } from '../atoms/tooltip.directive';
 export class SearchBarComponent {
   readonly placeholder = input('Search');
   readonly hint = input('Search everywhere');
+  readonly value = input('');
   readonly queryChange = output<string>();
+
+  private readonly searchInput =
+    viewChild.required<ElementRef<HTMLInputElement>>('searchInput');
 
   protected onInput(event: Event): void {
     this.queryChange.emit((event.target as HTMLInputElement).value);
+  }
+
+  protected onKeydown(event: KeyboardEvent): void {
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      this.searchInput().nativeElement.focus();
+    }
   }
 }
