@@ -1,27 +1,68 @@
-import { Injectable, computed, inject } from '@angular/core';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
+import { AnimalStore } from '@zoo/animals/data-access';
 import { EnclosureStore } from '@zoo/enclosures/data-access';
 import { VisitorUiStore } from '@zoo/visitor/data-access';
 
 /**
- * A leaner facade: one domain (enclosures) plus the shared app UI store. It
- * filters enclosures by the same cross-feature search term used by animal-list.
+ * Composes enclosures with the animals domain: every enclosure card lists the
+ * animals that live in it. The shared cross-feature search term drives an
+ * ANIMAL search (same reactive pattern as animal-list) — so typing "otter"
+ * surfaces the enclosure the otters live in, not just enclosures named otter.
  */
 @Injectable()
 export class EnclosureMapFacade {
   private readonly enclosures = inject(EnclosureStore);
+  private readonly animals = inject(AnimalStore);
   private readonly ui = inject(VisitorUiStore);
 
+  private readonly expanded = signal<ReadonlySet<string>>(new Set());
+  private firstLoad = true;
+
+  constructor() {
+    effect((onCleanup) => {
+      const term = this.ui.searchTerm();
+      if (this.firstLoad) {
+        this.firstLoad = false;
+        void this.animals.load(term);
+        return;
+      }
+      const handle = setTimeout(() => void this.animals.load(term), 300);
+      onCleanup(() => clearTimeout(handle));
+    });
+  }
+
   readonly vm = computed(() => {
-    const term = this.ui.searchTerm().toLowerCase();
+    const term = this.ui.searchTerm().trim().toLowerCase();
+    const loaded = this.animals.animals();
     return {
+      search: this.ui.searchTerm(),
       enclosures: this.enclosures
         .enclosures()
-        .filter((e) => !term || e.name.toLowerCase().includes(term)),
-      loading: this.enclosures.enclosuresLoading(),
+        .map((e) => ({
+          ...e,
+          residents: loaded.filter((a) => a.enclosureId === e.id),
+          expanded: this.expanded().has(e.id),
+        }))
+        // With a term: keep enclosures whose NAME matches or that HOUSE a match
+        // (residents already reflect the searched animal store).
+        .filter(
+          (e) =>
+            !term || e.name.toLowerCase().includes(term) || e.residents.length > 0,
+        ),
+      loading: this.enclosures.enclosuresLoading() || this.animals.loading(),
     };
   });
 
   refresh(): void {
     void this.enclosures.loadEnclosures();
+  }
+
+  toggleExpanded(id: string): void {
+    this.expanded.update((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
   }
 }
