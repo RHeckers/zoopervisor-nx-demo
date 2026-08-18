@@ -17,6 +17,7 @@ export class AnimalListFacade {
   private readonly ui = inject(VisitorUiStore);
 
   private readonly expandedId = signal<string | null>(null);
+  private readonly enclosureFilter = signal<string | null>(null);
   private firstLoad = true;
 
   constructor() {
@@ -35,23 +36,39 @@ export class AnimalListFacade {
     });
   }
 
-  readonly vm = computed(() => ({
-    animals: this.animals.animals(),
-    enclosures: this.enclosures.enclosures(),
-    search: this.ui.searchTerm(),
-    // Reaches @zoo/shared/utils — which drags the whole barrel in, including
-    // the deliberately non-tree-shakeable ZONE_LABELS. See §10 / show-retention.
-    heading: titleCase(this.ui.searchTerm() || 'all animals'),
-    expandedId: this.expandedId(),
-    loading: this.animals.loading() || this.enclosures.enclosuresLoading(),
-  }));
+  readonly vm = computed(() => {
+    const loaded = this.animals.animals();
+    const filter = this.enclosureFilter();
+    const shown = filter
+      ? loaded.filter((a) => a.enclosureId === filter)
+      : loaded;
+    return {
+      animals: shown,
+      total: this.animals.total(),
+      enclosures: this.enclosures.enclosures(),
+      enclosureFilter: filter,
+      search: this.ui.searchTerm(),
+      // Reaches @zoo/shared/utils — which drags the whole barrel in, including
+      // the deliberately non-tree-shakeable ZONE_LABELS. See §10 / show-retention.
+      heading: titleCase(this.ui.searchTerm() || 'all animals'),
+      expandedId: this.expandedId(),
+      loading: this.animals.loading() || this.enclosures.enclosuresLoading(),
+      // More pages exist server-side (independent of the local enclosure filter).
+      canLoadMore: loaded.length > 0 && loaded.length < this.animals.total(),
+    };
+  });
 
   refresh(): void {
     void this.enclosures.loadEnclosures();
   }
 
-  search(term: string): void {
-    this.ui.setSearch(term);
+  loadMore(): void {
+    void this.animals.loadMore(this.ui.searchTerm());
+  }
+
+  /** Feature-local filter — clicking the active chip clears it. */
+  toggleEnclosure(id: string): void {
+    this.enclosureFilter.update((current) => (current === id ? null : id));
   }
 
   open(animalId: string): void {

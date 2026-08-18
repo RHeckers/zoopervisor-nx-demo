@@ -5,6 +5,7 @@ import {
 } from '@zoo/animals/ui';
 import { EnclosureBadgeComponent } from '@zoo/enclosures/ui';
 import {
+  ButtonComponent,
   CardComponent,
   EmptyStateComponent,
   SpinnerComponent,
@@ -24,6 +25,7 @@ import { AnimalListFacade } from './animal-list.facade';
   providers: [AnimalListFacade],
   imports: [
     AnimalCardComponent,
+    ButtonComponent,
     CardComponent,
     EmptyStateComponent,
     EnclosureBadgeComponent,
@@ -37,18 +39,37 @@ import { AnimalListFacade } from './animal-list.facade';
     <header class="animal-list__header">
       <div class="animal-list__title">
         <h2>{{ facade.vm().heading }}</h2>
-        <small>{{ facade.vm().animals.length }} species · live from iNaturalist</small>
+        <small>
+          {{ facade.vm().animals.length }} of
+          {{ facade.vm().total }} species · live from iNaturalist
+        </small>
       </div>
       <zoo-visitor-search-slice class="animal-list__search" />
     </header>
 
     <zoo-stack direction="row" class="animal-list__enclosures">
       @for (e of facade.vm().enclosures; track e.id) {
-        <zoo-enclosure-badge [enclosure]="e" />
+        <button
+          type="button"
+          class="animal-list__chip"
+          [class.animal-list__chip--active]="facade.vm().enclosureFilter === e.id"
+          (click)="facade.toggleEnclosure(e.id)"
+        >
+          <zoo-enclosure-badge [enclosure]="e" />
+        </button>
+      }
+      @if (facade.vm().enclosureFilter) {
+        <button
+          type="button"
+          class="animal-list__chip animal-list__chip--clear"
+          (click)="facade.toggleEnclosure(facade.vm().enclosureFilter!)"
+        >
+          clear filter ✕
+        </button>
       }
     </zoo-stack>
 
-    @if (facade.vm().loading) {
+    @if (facade.vm().loading && facade.vm().animals.length === 0) {
       <zoo-spinner />
     } @else {
       <div class="animal-list__grid">
@@ -58,6 +79,15 @@ import { AnimalListFacade } from './animal-list.facade';
           <zoo-empty-state message="No animals match your search" />
         }
       </div>
+      @if (facade.vm().canLoadMore) {
+        <div class="animal-list__more">
+          @if (facade.vm().loading) {
+            <zoo-spinner />
+          } @else {
+            <zoo-button (pressed)="facade.loadMore()">Load more</zoo-button>
+          }
+        </div>
+      }
     }
 
     <div class="animal-list__reports">
@@ -66,7 +96,7 @@ import { AnimalListFacade } from './animal-list.facade';
       <zoo-card><zoo-incident-report-form /></zoo-card>
       <!-- app UI panel: platform-neutral photo organism + desktop command bar;
            no isMobile prop, no mobile import (banned for platform:desktop). -->
-      <zoo-visitor-report-panel (searchChange)="facade.search($event)" />
+      <zoo-visitor-report-panel />
     </div>
   </zoo-stack>`,
   styles: `
@@ -87,6 +117,24 @@ import { AnimalListFacade } from './animal-list.facade';
     .animal-list__search {
       flex: 0 1 320px;
     }
+    .animal-list__enclosures {
+      flex-wrap: wrap;
+    }
+    .animal-list__chip {
+      padding: 0;
+      border: none;
+      background: none;
+      font: inherit;
+      cursor: pointer;
+    }
+    .animal-list__chip--active {
+      --zoo-enclosure-badge-background: var(--color-aquarium);
+      --zoo-enclosure-badge-color: var(--color-paper);
+    }
+    .animal-list__chip--clear {
+      color: var(--color-muted);
+      font-size: var(--font-size-caption);
+    }
     .animal-list__grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -94,6 +142,10 @@ import { AnimalListFacade } from './animal-list.facade';
     }
     .animal-list__grid zoo-empty-state {
       grid-column: 1 / -1;
+    }
+    .animal-list__more {
+      display: flex;
+      justify-content: center;
     }
     .animal-list__reports {
       display: grid;
