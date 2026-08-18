@@ -10,111 +10,65 @@
     "importHelpers": true,
     "target": "es2022",
     "module": "esnext",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "strict": true,
     "paths": {
-      "@zoo/nx-preset-zoo": [
-        "./tools/nx-preset-zoo/src/index.ts"
-      ],
-      "@zoo/shared/types": [
-        "./libs/shared/types/src/index.ts"
-      ],
-      "@zoo/shared/utils": [
-        "./libs/shared/utils/src/index.ts"
-      ],
-      "@zoo/shared/data-access": [
-        "./libs/shared/data-access/src/index.ts"
-      ],
-      "@zoo/shared/ui/mobile": [
-        "./libs/shared/ui/mobile/src/index.ts"
-      ],
-      "@zoo/shared/ui/desktop": [
-        "./libs/shared/ui/desktop/src/index.ts"
-      ],
-      "@zoo/animals/data-access": [
-        "./libs/animals/data-access/src/index.ts"
-      ],
-      "@zoo/animals/ui": [
-        "./libs/animals/ui/src/index.ts"
-      ],
-      "@zoo/animals/utils": [
-        "./libs/animals/utils/src/index.ts"
-      ],
-      "@zoo/animals/types": [
-        "./libs/animals/types/src/index.ts"
-      ],
-      "@zoo/animals/slices": [
-        "./libs/animals/slices/src/index.ts"
-      ],
+      "@zoo/nx-preset-zoo": ["./tools/nx-preset-zoo/src/index.ts"],
+      "@zoo/shared/types": ["./libs/shared/types/src/index.ts"],
+      "@zoo/shared/utils": ["./libs/shared/utils/src/index.ts"],
+      "@zoo/shared/data-access": ["./libs/shared/data-access/src/index.ts"],
+      "@zoo/shared/ui/mobile": ["./libs/shared/ui/mobile/src/index.ts"],
+      "@zoo/shared/ui/desktop": ["./libs/shared/ui/desktop/src/index.ts"],
+      "@zoo/animals/data-access": ["./libs/animals/data-access/src/index.ts"],
+      "@zoo/animals/ui": ["./libs/animals/ui/src/index.ts"],
+      "@zoo/animals/utils": ["./libs/animals/utils/src/index.ts"],
+      "@zoo/animals/types": ["./libs/animals/types/src/index.ts"],
+      "@zoo/animals/slices": ["./libs/animals/slices/src/index.ts"],
       "@zoo/enclosures/data-access": [
         "./libs/enclosures/data-access/src/index.ts"
       ],
-      "@zoo/enclosures/ui": [
-        "./libs/enclosures/ui/src/index.ts"
-      ],
-      "@zoo/enclosures/types": [
-        "./libs/enclosures/types/src/index.ts"
-      ],
-      "@zoo/feeding/data-access": [
-        "./libs/feeding/data-access/src/index.ts"
-      ],
-      "@zoo/feeding/types": [
-        "./libs/feeding/types/src/index.ts"
-      ],
-      "@zoo/tickets/data-access": [
-        "./libs/tickets/data-access/src/index.ts"
-      ],
-      "@zoo/tickets/ui": [
-        "./libs/tickets/ui/src/index.ts"
-      ],
-      "@zoo/tickets/types": [
-        "./libs/tickets/types/src/index.ts"
-      ],
+      "@zoo/enclosures/ui": ["./libs/enclosures/ui/src/index.ts"],
+      "@zoo/enclosures/types": ["./libs/enclosures/types/src/index.ts"],
+      "@zoo/feeding/data-access": ["./libs/feeding/data-access/src/index.ts"],
+      "@zoo/feeding/types": ["./libs/feeding/types/src/index.ts"],
+      "@zoo/tickets/data-access": ["./libs/tickets/data-access/src/index.ts"],
+      "@zoo/tickets/ui": ["./libs/tickets/ui/src/index.ts"],
+      "@zoo/tickets/types": ["./libs/tickets/types/src/index.ts"],
       "@zoo/visitor/features/animal-list": [
         "./apps/visitor/features/animal-list/src/index.ts"
       ],
       "@zoo/visitor/features/enclosure-map": [
         "./apps/visitor/features/enclosure-map/src/index.ts"
       ],
-      "@zoo/visitor/slices": [
-        "./apps/visitor/slices/src/index.ts"
-      ],
-      "@zoo/visitor/data-access": [
-        "./apps/visitor/data-access/src/index.ts"
-      ],
-      "@zoo/visitor/ui": [
-        "./apps/visitor/ui/src/index.ts"
-      ],
+      "@zoo/visitor/slices": ["./apps/visitor/slices/src/index.ts"],
+      "@zoo/visitor/data-access": ["./apps/visitor/data-access/src/index.ts"],
+      "@zoo/visitor/ui": ["./apps/visitor/ui/src/index.ts"],
       "@zoo/keeper-mobile/features/animal-detail": [
         "./apps/keeper-mobile/features/animal-detail/src/index.ts"
       ],
       "@zoo/keeper-mobile/data-access": [
         "./apps/keeper-mobile/data-access/src/index.ts"
       ],
-      "@zoo/keeper-mobile/ui": [
-        "./apps/keeper-mobile/ui/src/index.ts"
-      ],
+      "@zoo/keeper-mobile/ui": ["./apps/keeper-mobile/ui/src/index.ts"],
       "@zoo/ticket-kiosk/features/buy-tickets": [
         "./apps/ticket-kiosk/features/buy-tickets/src/index.ts"
       ],
-      "@zoo/ticket-kiosk/ui": [
-        "./apps/ticket-kiosk/ui/src/index.ts"
+      "@zoo/ticket-kiosk/ui": ["./apps/ticket-kiosk/ui/src/index.ts"],
+      "@zoo/shared/i18n": ["./libs/shared/i18n/src/index.ts"],
+      "@zoo/shared/ui/common": ["./libs/shared/ui/common/src/index.ts"],
+      "@zoo/enclosures/slices": ["./libs/enclosures/slices/src/index.ts"],
+      "@zoo/visitor/features/tickets": [
+        "./apps/visitor/features/tickets/src/index.ts"
       ],
-      "@zoo/shared/i18n": [
-        "./libs/shared/i18n/src/index.ts"
+      "@zoo/keeper-mobile/features/feeding-rounds": [
+        "./apps/keeper-mobile/features/feeding-rounds/src/index.ts"
       ],
-      "@zoo/shared/ui/common": [
-        "./libs/shared/ui/common/src/index.ts"
+      "@zoo/ticket-kiosk/features/park-info": [
+        "./apps/ticket-kiosk/features/park-info/src/index.ts"
       ]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }
