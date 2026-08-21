@@ -36,5 +36,11 @@
   /* phone-shaped column; leave room for the fixed bottom sheet */
   max-width: 480px;
   margin: 0 auto;
-  padding: var(--spacer-base) var(--spacer-base) calc(var(--tap-target-min) * 2.5);
+  padding: var(--spacer-base) var(--spacer-base)
+    calc(var(--tap-target-min) * 2.5);
+
+  /* on a desk the pages lay themselves out in columns — give them room */
+  @media (min-width: 64rem) {
+    max-width: 72rem;
+  }
 }

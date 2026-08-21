@@ -3,10 +3,11 @@
   inset-inline: 0;
   bottom: 0;
   z-index: var(--zoo-bottom-sheet-z-index, var(--z-modal));
-  /* env() is a mobile-only capability; the spacer token is the fallback. */
+  /* At least a spacer of breathing room; more when the device's safe-area
+     inset is larger (env() resolves to 0 on desktop, so max() is the floor). */
   padding-bottom: var(
     --zoo-bottom-sheet-safe-area,
-    env(safe-area-inset-bottom, var(--spacer-sm))
+    max(var(--spacer-base), env(safe-area-inset-bottom, 0px))
   );
   border-start-start-radius: var(
     --zoo-bottom-sheet-radius,

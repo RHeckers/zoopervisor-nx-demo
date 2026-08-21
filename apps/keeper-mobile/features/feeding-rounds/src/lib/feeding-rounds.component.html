@@ -1,16 +1,42 @@
-<zoo-stack>
-  <zoo-card><zoo-health-due-slice /></zoo-card>
-  <!-- The animal being fed, at a glance — the same self-wiring domain slice
-       animal-detail uses; nothing was wired here. -->
-  <zoo-card><zoo-animal-status-slice [animalId]="animalId()" /></zoo-card>
-  <zoo-card>
-    <zoo-stack>
-      <h4>Feedings for {{ animalId() }}</h4>
-      @for (s of feeding.schedules(); track s.id) {
-        <small>{{ s.at }} — {{ s.food }}</small>
-      }
-    </zoo-stack>
-  </zoo-card>
+<zoo-stack class="feeding-rounds">
+  <header class="feeding-rounds__header">
+    <h2>Feeding rounds</h2>
+    <small>Pick an animal to see and log its feedings</small>
+  </header>
+
+  <div class="feeding-rounds__animals" role="group" aria-label="Select animal">
+    @for (a of animals.animals(); track a.id) {
+      <button
+        type="button"
+        class="feeding-rounds__chip"
+        [attr.aria-pressed]="a.id === animalId()"
+        (click)="open(a.id)"
+      >
+        {{ a.name }}
+      </button>
+    }
+  </div>
+
+  <div class="feeding-rounds__layout">
+    <zoo-card>
+      <!-- Same self-wiring domain slice as animal-detail — zero wiring. -->
+      <zoo-animal-status-slice [animalId]="animalId()" />
+    </zoo-card>
+
+    <zoo-card>
+      <zoo-stack>
+        <h4>Feedings for {{ animalName() }}</h4>
+        @for (s of feeding.schedules(); track s.id) {
+          <small>{{ s.at }} — {{ s.food }}</small>
+        } @empty {
+          <small>No feedings logged yet</small>
+        }
+      </zoo-stack>
+    </zoo-card>
+
+    <zoo-card><zoo-health-due-slice /></zoo-card>
+  </div>
+
   <zoo-action-sheet>
     <zoo-sheet-action label="Log feeding" (activated)="logFeeding()" />
   </zoo-action-sheet>

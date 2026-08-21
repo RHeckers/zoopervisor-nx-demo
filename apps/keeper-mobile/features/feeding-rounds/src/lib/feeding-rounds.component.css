@@ -1,0 +1,38 @@
+.feeding-rounds__header h2 {
+  margin: 0;
+}
+.feeding-rounds__header small {
+  color: var(--color-muted);
+}
+.feeding-rounds__animals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacer-sm);
+}
+/* Thumb-sized chips — same tap-target floor as the touch-button atom. */
+.feeding-rounds__chip {
+  min-height: var(--tap-target-min, 48px);
+  padding: var(--spacer-sm) var(--spacer-base);
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius-base);
+  background: var(--color-paper);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.feeding-rounds__chip[aria-pressed='true'] {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: white;
+}
+.feeding-rounds__layout {
+  display: grid;
+  gap: var(--spacer-base);
+}
+/* Desktop: the three blocks sit side by side. */
+@media (min-width: 64rem) {
+  .feeding-rounds__layout {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+  }
+}
