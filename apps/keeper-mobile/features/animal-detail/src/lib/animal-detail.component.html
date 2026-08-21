@@ -11,7 +11,7 @@
           type="button"
           class="animal-detail__pick"
           [attr.aria-pressed]="a.id === facade.vm().selectedId"
-          (click)="facade.open(a.id)"
+          (click)="pick(a.id)"
         >
           <zoo-animal-card [animal]="a" [health]="healthFor(a.id)" />
         </button>
@@ -51,6 +51,11 @@
               @if (r.dueToday) {
                 <small class="animal-detail__check-due">due today</small>
               }
+              @if (r.tags?.length) {
+                <small class="animal-detail__check-tags">
+                  {{ r.tags!.join(' · ') }}
+                </small>
+              }
             </div>
           } @empty {
             <small>No checks recorded yet</small>
@@ -58,26 +63,56 @@
         </zoo-stack>
       </zoo-card>
 
+      <!-- The 'fed' tag opens the feeding side of the check: pick which
+           pending moment this check closes; the write actions below close it. -->
+      @if (activeTags().includes('fed')) {
+        <zoo-card>
+          <zoo-stack>
+            <h4>Pending feedings</h4>
+            @for (f of facade.vm().pendingFeedings; track f.id) {
+              <button
+                type="button"
+                class="animal-detail__feeding"
+                [attr.aria-pressed]="selectedFeedingId() === f.id"
+                (click)="toggleFeeding(f.id)"
+              >
+                {{ f.at }} — {{ f.food }}
+                @if (selectedFeedingId() === f.id) {
+                  <span class="animal-detail__feeding-note">
+                    closes with this check
+                  </span>
+                }
+              </button>
+            } @empty {
+              <small>No pending feedings — all closed for today</small>
+            }
+          </zoo-stack>
+        </zoo-card>
+      }
+
       <zoo-card><zoo-health-due-slice /></zoo-card>
 
       <!-- Shared domain form; the camera picker resolves from THIS app's injector. -->
       <zoo-card><zoo-incident-report-form /></zoo-card>
 
       <!-- App UI panel: the SAME photo organism visitor uses — zero duplication.
-           Submitting WRITES to the record: urgency becomes the check status. -->
+           Submitting WRITES to the record: urgency becomes the check status,
+           the tags land on the record, a picked feeding is closed. -->
       <zoo-card>
         <zoo-keeper-report-panel
           [animalName]="facade.vm().selected?.name ?? ''"
+          (tagsChanged)="activeTags.set($event)"
           (submitted)="onReport($event)"
         />
       </zoo-card>
     </section>
   </div>
 
-  <!-- One-tap write for the routine case: files a healthy check right now —
-       the record count and the status dot above update in place. -->
+  <!-- One-tap write for the routine case: files a healthy check with the
+       active tags and closes the picked feeding — record, status dot and
+       pending list all update in place. -->
   <zoo-bottom-sheet>
-    <zoo-touch-button (tapped)="facade.logCheck('healthy')">
+    <zoo-touch-button (tapped)="completeCheck()">
       ✓ Mark check done
     </zoo-touch-button>
   </zoo-bottom-sheet>

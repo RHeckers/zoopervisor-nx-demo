@@ -55,6 +55,34 @@
   color: var(--color-accent);
   font-weight: 600;
 }
+.animal-detail__check-tags {
+  color: var(--color-muted);
+  font-style: italic;
+}
+/* Pending feeding moments — thumb-sized pick-one chips. */
+.animal-detail__feeding {
+  display: flex;
+  align-items: center;
+  gap: var(--spacer-sm);
+  min-height: var(--tap-target-min, 48px);
+  padding: var(--spacer-sm) var(--spacer-base);
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius-base);
+  background: var(--color-paper);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.animal-detail__feeding[aria-pressed='true'] {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: white;
+}
+.animal-detail__feeding-note {
+  margin-left: auto;
+  font-size: var(--font-size-caption);
+  font-weight: 600;
+}
 /* Desktop: picker on the left, record on the right. */
 @media (min-width: 64rem) {
   .animal-detail__layout {

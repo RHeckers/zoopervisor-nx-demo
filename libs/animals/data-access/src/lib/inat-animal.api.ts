@@ -124,6 +124,7 @@ export class InatAnimalApi implements AnimalApi {
   async addHealthRecord(
     animalId: string,
     status: HealthStatus,
+    tags: readonly string[] = [],
   ): Promise<AnimalHealthRecord> {
     // Writes are an in-memory overlay, like the animal CRUD above.
     const record: AnimalHealthRecord = {
@@ -132,6 +133,7 @@ export class InatAnimalApi implements AnimalApi {
       checkedOn: new Date().toISOString().slice(0, 10),
       status,
       dueToday: false,
+      tags,
     };
     this.healthAdded = [...this.healthAdded, record];
     return record;

@@ -20,10 +20,11 @@ export interface AnimalApi {
   deleteAnimal(id: string): Promise<void>;
   healthForAnimal(animalId: string): Promise<AnimalHealthRecord[]>;
   healthDueToday(): Promise<AnimalHealthRecord[]>;
-  /** A keeper files a check — today's date, the given outcome. */
+  /** A keeper files a check — today's date, the given outcome and coverage. */
   addHealthRecord(
     animalId: string,
     status: HealthStatus,
+    tags?: readonly string[],
   ): Promise<AnimalHealthRecord>;
 }
 
@@ -110,6 +111,7 @@ class FakeAnimalApi implements AnimalApi {
   async addHealthRecord(
     animalId: string,
     status: HealthStatus,
+    tags: readonly string[] = [],
   ): Promise<AnimalHealthRecord> {
     const record: AnimalHealthRecord = {
       id: `h${this.nextHealthId++}`,
@@ -118,6 +120,7 @@ class FakeAnimalApi implements AnimalApi {
       status,
       // A fresh check settles today's due flag for this animal.
       dueToday: false,
+      tags,
     };
     this.health = [
       ...this.health.map((r) =>

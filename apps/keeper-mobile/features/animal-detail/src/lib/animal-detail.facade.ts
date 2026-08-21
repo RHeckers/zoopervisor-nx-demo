@@ -27,6 +27,8 @@ export class AnimalDetailFacade {
       b.checkedOn.localeCompare(a.checkedOn),
     ),
     schedules: this.feeding.schedules(),
+    // Feeding moments no keeper has closed yet — the 'fed' tag flow's list.
+    pendingFeedings: this.feeding.schedules().filter((s) => !s.done),
     busy: this.animalHealth.busy() || this.feeding.feedingLoading(),
     selectedId: this.selectedId(),
     selected:
@@ -41,12 +43,20 @@ export class AnimalDetailFacade {
   }
 
   /** WRITE intent: file a check for the selected animal — the record grows. */
-  async logCheck(status: HealthStatus): Promise<void> {
+  async logCheck(
+    status: HealthStatus,
+    tags: readonly string[] = [],
+  ): Promise<void> {
     const id = this.selectedId();
     if (!id) return;
     // Leaf write updates the slices (status dot, due checklist) in place…
-    await this.healthLeaf.logCheck(id, status);
+    await this.healthLeaf.logCheck(id, status, tags);
     // …then the composed store re-reads so this page's own vm converges.
     await this.animalHealth.loadAll(id);
+  }
+
+  /** WRITE intent: a picked feeding moment is confirmed done. */
+  closeFeeding(scheduleId: string): void {
+    this.feeding.markDone(scheduleId);
   }
 }

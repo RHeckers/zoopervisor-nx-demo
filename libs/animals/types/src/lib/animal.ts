@@ -24,4 +24,6 @@ export interface AnimalHealthRecord {
   readonly checkedOn: string;
   readonly status: HealthStatus;
   readonly dueToday: boolean;
+  /** What the check covered — keeper shorthand like "fed" or "medicated". */
+  readonly tags?: readonly string[];
 }

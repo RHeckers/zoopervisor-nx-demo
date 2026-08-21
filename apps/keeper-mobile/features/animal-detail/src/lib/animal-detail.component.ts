@@ -3,6 +3,7 @@ import {
   Component,
   OnInit,
   inject,
+  signal,
 } from '@angular/core';
 import {
   AnimalCardComponent,
@@ -54,14 +55,32 @@ import { AnimalDetailFacade } from './animal-detail.facade';
 export class AnimalDetailComponent implements OnInit {
   protected readonly facade = inject(AnimalDetailFacade);
 
+  /** Mirrors the report panel's tag selection ('fed' reveals feedings). */
+  protected readonly activeTags = signal<readonly string[]>([]);
+  /** The one pending feeding moment the keeper is about to close. */
+  protected readonly selectedFeedingId = signal<string | null>(null);
+
   ngOnInit(): void {
     this.facade.open('a1');
+  }
+
+  /** Picker tap: a fresh animal starts with a clean check in progress. */
+  protected pick(animalId: string): void {
+    this.activeTags.set([]);
+    this.selectedFeedingId.set(null);
+    this.facade.open(animalId);
   }
 
   /** Status for a picker card — known once its records have been loaded. */
   protected healthFor(animalId: string): HealthStatus | undefined {
     return this.facade.vm().records.find((r) => r.animalId === animalId)
       ?.status;
+  }
+
+  protected toggleFeeding(scheduleId: string): void {
+    this.selectedFeedingId.update((current) =>
+      current === scheduleId ? null : scheduleId,
+    );
   }
 
   /** A field report IS a health entry — urgency maps onto the record status. */
@@ -71,6 +90,21 @@ export class AnimalDetailComponent implements OnInit {
       concern: 'observation',
       urgent: 'treatment',
     };
-    void this.facade.logCheck(status[report.urgency]);
+    this.closePickedFeeding(report.tags);
+    void this.facade.logCheck(status[report.urgency], report.tags);
+  }
+
+  /** Bottom-sheet quick path: routine check with whatever tags are active. */
+  protected completeCheck(): void {
+    this.closePickedFeeding(this.activeTags());
+    void this.facade.logCheck('healthy', this.activeTags());
+  }
+
+  private closePickedFeeding(tags: readonly string[]): void {
+    const feedingId = this.selectedFeedingId();
+    if (feedingId && tags.includes('fed')) {
+      this.facade.closeFeeding(feedingId);
+      this.selectedFeedingId.set(null);
+    }
   }
 }

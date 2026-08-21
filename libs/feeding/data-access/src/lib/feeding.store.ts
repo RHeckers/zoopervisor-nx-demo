@@ -46,6 +46,16 @@ export function feedingStoreFeature() {
         SCHEDULES.push(created);
         patchState(store, { schedules: [...store.schedules(), created] });
       },
+      /** Close a feeding moment — a keeper confirmed this one happened. */
+      markDone(scheduleId: string): void {
+        const index = SCHEDULES.findIndex((s) => s.id === scheduleId);
+        if (index >= 0) SCHEDULES[index] = { ...SCHEDULES[index], done: true };
+        patchState(store, {
+          schedules: store
+            .schedules()
+            .map((s) => (s.id === scheduleId ? { ...s, done: true } : s)),
+        });
+      },
     })),
   );
 }

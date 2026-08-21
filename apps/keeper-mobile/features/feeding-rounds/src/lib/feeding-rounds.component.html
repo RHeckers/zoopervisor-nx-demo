@@ -27,7 +27,12 @@
       <zoo-stack>
         <h4>Feedings for {{ animalName() }}</h4>
         @for (s of feeding.schedules(); track s.id) {
-          <small>{{ s.at }} — {{ s.food }}</small>
+          <small [class.feeding-rounds__done]="s.done">
+            {{ s.at }} — {{ s.food }}
+            @if (s.done) {
+              <span class="feeding-rounds__done-mark">✓ done</span>
+            }
+          </small>
         } @empty {
           <small>No feedings logged yet</small>
         }

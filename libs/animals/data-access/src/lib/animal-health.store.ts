@@ -62,10 +62,14 @@ export function animalHealthStoreFeature() {
           return run('dueRecords', () => api.healthDueToday());
         },
         /** The write path: file a check, append it, and settle the due list. */
-        async logCheck(animalId: string, status: HealthStatus): Promise<void> {
+        async logCheck(
+          animalId: string,
+          status: HealthStatus,
+          tags: readonly string[] = [],
+        ): Promise<void> {
           patchState(store, { healthLoading: true, healthError: null });
           try {
-            const record = await api.addHealthRecord(animalId, status);
+            const record = await api.addHealthRecord(animalId, status, tags);
             patchState(store, (state) => ({
               records: [...state.records, record],
               dueRecords: state.dueRecords.filter(

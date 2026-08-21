@@ -42,6 +42,8 @@ export class KeeperReportPanelComponent {
 
   readonly photos = output<File[]>();
   readonly submitted = output<KeeperFieldReport>();
+  /** Live tag selection — lets the page react (e.g. 'fed' reveals feedings). */
+  readonly tagsChanged = output<readonly string[]>();
 
   protected readonly urgencies: readonly ReportUrgency[] = [
     'routine',
@@ -68,6 +70,7 @@ export class KeeperReportPanelComponent {
     this.urgency.set('routine');
     this.tags.set(new Set());
     this.sent.set(false);
+    this.tagsChanged.emit([]);
   });
 
   protected onPhotos(files: File[]): void {
@@ -82,6 +85,7 @@ export class KeeperReportPanelComponent {
       else next.add(tag);
       return next;
     });
+    this.tagsChanged.emit([...this.tags()]);
   }
 
   protected submit(): void {

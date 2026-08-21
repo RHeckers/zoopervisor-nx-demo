@@ -25,6 +25,16 @@
   background: var(--color-accent);
   color: white;
 }
+.feeding-rounds__done {
+  color: var(--color-muted);
+  text-decoration: line-through;
+}
+.feeding-rounds__done-mark {
+  /* inline-block escapes the parent's line-through paint */
+  display: inline-block;
+  color: var(--color-leaf);
+  font-weight: 600;
+}
 .feeding-rounds__layout {
   display: grid;
   gap: var(--spacer-base);
