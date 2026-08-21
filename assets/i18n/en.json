@@ -5,5 +5,12 @@
   },
   "animals": {
     "releaseConfirm": "Are you sure you want to release this animal?"
+  },
+  "tickets": {
+    "kind": {
+      "adult": "Adult",
+      "child": "Child",
+      "family": "Family"
+    }
   }
 }

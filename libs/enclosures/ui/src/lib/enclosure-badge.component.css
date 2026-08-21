@@ -10,3 +10,16 @@
   background: var(--zoo-enclosure-badge-background, transparent);
   font-size: var(--font-size-caption);
 }
+/* Zone palettes — the domain decides what each zone looks like. */
+:host([data-zone='savanna']) .zoo-enclosure-badge {
+  border-color: var(--zoo-enclosure-badge-border, var(--color-savanna));
+  color: var(--zoo-enclosure-badge-color, var(--color-savanna));
+}
+:host([data-zone='aviary']) .zoo-enclosure-badge {
+  border-color: var(--zoo-enclosure-badge-border, var(--color-leaf));
+  color: var(--zoo-enclosure-badge-color, var(--color-leaf));
+}
+:host([data-zone='reptile-house']) .zoo-enclosure-badge {
+  border-color: var(--zoo-enclosure-badge-border, var(--color-ink));
+  color: var(--zoo-enclosure-badge-color, var(--color-ink));
+}

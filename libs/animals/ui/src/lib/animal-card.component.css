@@ -19,3 +19,27 @@
   display: flex;
   flex-direction: column;
 }
+/* Health palette — the animals domain decides what each status looks like. */
+.zoo-animal-card__health {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacer-xs);
+  margin-left: auto;
+  color: var(--color-muted);
+}
+.zoo-animal-card__health::before {
+  content: '';
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  background: var(--color-muted);
+}
+.zoo-animal-card__health[data-status='healthy']::before {
+  background: var(--color-leaf);
+}
+.zoo-animal-card__health[data-status='observation']::before {
+  background: var(--color-savanna);
+}
+.zoo-animal-card__health[data-status='treatment']::before {
+  background: var(--color-accent);
+}

@@ -1,8 +1,19 @@
-@for (t of tickets(); track t.id) {
-  <button type="button" (click)="pick.emit(t.id)">
-    <span class="zoo-ticket-picker__kind">{{ t.kind }}</span>
-    <span class="zoo-ticket-picker__price"
-      >€ {{ (t.priceCents / 100).toFixed(2) }}</span
+<ng-container *transloco="let t">
+  @for (ticket of tickets(); track ticket.id) {
+    <button
+      type="button"
+      [attr.aria-label]="t('tickets.kind.' + ticket.kind)"
+      (click)="pick.emit(ticket.id)"
     >
-  </button>
-}
+      <span class="zoo-ticket-picker__glyph" aria-hidden="true">
+        {{ glyphs[ticket.kind] }}
+      </span>
+      <span class="zoo-ticket-picker__kind">
+        {{ t('tickets.kind.' + ticket.kind) }}
+      </span>
+      <span class="zoo-ticket-picker__price"
+        >€ {{ (ticket.priceCents / 100).toFixed(2) }}</span
+      >
+    </button>
+  }
+</ng-container>

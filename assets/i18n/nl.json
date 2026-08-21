@@ -5,5 +5,12 @@
   },
   "animals": {
     "releaseConfirm": "Weet je zeker dat je dit dier wilt vrijlaten?"
+  },
+  "tickets": {
+    "kind": {
+      "adult": "Volwassene",
+      "child": "Kind",
+      "family": "Gezin"
+    }
   }
 }

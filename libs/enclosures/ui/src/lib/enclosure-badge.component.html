@@ -1,3 +1,4 @@
-<span class="zoo-enclosure-badge"
-  >{{ enclosure().name }} · {{ enclosure().zone }}</span
->
+<span class="zoo-enclosure-badge">
+  <span aria-hidden="true">{{ glyph() }}</span>
+  {{ enclosure().name }} · {{ enclosure().zone }}
+</span>

@@ -10,5 +10,10 @@
       <strong>{{ animal().name }}</strong>
       <small>{{ animal().species }}</small>
     </span>
+    @if (health(); as status) {
+      <small class="zoo-animal-card__health" [attr.data-status]="status">
+        {{ status }}
+      </small>
+    }
   </span>
 </zoo-card>
