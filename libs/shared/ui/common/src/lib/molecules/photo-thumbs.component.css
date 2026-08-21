@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zoo-photo-thumbs-gap, var(--spacer-sm));
+}
+.zoo-photo-thumb__frame {
+  position: relative;
+  display: inline-flex;
+}
+.zoo-photo-thumb {
+  width: var(--zoo-photo-thumb-size, 72px);
+  height: var(--zoo-photo-thumb-size, 72px);
+  object-fit: cover;
+  border-radius: var(--zoo-photo-thumb-radius, var(--radius-base));
+  box-shadow: var(--zoo-photo-thumb-shadow, var(--shadow-card));
+}
+.zoo-photo-thumb__remove {
+  position: absolute;
+  top: calc(-1 * var(--spacer-xs));
+  right: calc(-1 * var(--spacer-xs));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-size: var(--font-size-caption);
+  cursor: pointer;
+}
+.zoo-photo-thumb__remove:hover {
+  background: var(--color-accent);
+}

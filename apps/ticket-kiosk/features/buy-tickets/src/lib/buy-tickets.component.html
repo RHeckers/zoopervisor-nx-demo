@@ -1,0 +1,11 @@
+<zoo-stack>
+  <zoo-ticket-picker
+    [tickets]="facade.vm().catalog"
+    (pick)="facade.add($event)"
+  />
+  <p>Total: {{ (facade.vm().totalCents / 100).toFixed(2) }}</p>
+  <zoo-button (pressed)="facade.checkout()">Pay</zoo-button>
+  @if (facade.vm().reference; as ref) {
+    <p>Paid — reference {{ ref }}</p>
+  }
+</zoo-stack>

@@ -1,0 +1,9 @@
+<zoo-button (pressed)="pick()">Add photo</zoo-button>
+<input
+  #fileInput
+  hidden
+  type="file"
+  accept="image/*"
+  [multiple]="multiple()"
+  (change)="onSelect($event)"
+/>

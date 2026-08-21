@@ -1,0 +1,12 @@
+:host {
+  color: var(--zoo-spinner-color, var(--color-muted));
+}
+.zoo-spinner {
+  display: inline-block;
+  animation: zoo-spin 1s linear infinite;
+}
+@keyframes zoo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

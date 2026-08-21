@@ -1,0 +1,53 @@
+.animal-list {
+  --zoo-stack-gap: var(--spacer-lg);
+}
+.animal-list__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--spacer-base);
+}
+.animal-list__title small {
+  display: block;
+  margin-top: var(--spacer-xs);
+}
+.animal-list__search {
+  flex: 0 1 320px;
+}
+.animal-list__enclosures {
+  flex-wrap: wrap;
+}
+.animal-list__chip {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+.animal-list__chip--active {
+  --zoo-enclosure-badge-background: var(--color-aquarium);
+  --zoo-enclosure-badge-color: var(--color-paper);
+}
+.animal-list__chip--clear {
+  color: var(--color-muted);
+  font-size: var(--font-size-caption);
+}
+.animal-list__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--spacer-base);
+}
+.animal-list__grid zoo-empty-state {
+  grid-column: 1 / -1;
+}
+.animal-list__more {
+  display: flex;
+  justify-content: center;
+}
+.animal-list__reports {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--spacer-base);
+  align-items: start;
+}

@@ -9,17 +9,8 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   selector: 'zoo-stack',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[attr.data-direction]': 'direction()' },
-  template: `<ng-content />`,
-  styles: `
-    :host {
-      display: flex;
-      flex-direction: column;
-      gap: var(--zoo-stack-gap, var(--spacer-sm));
-    }
-    :host([data-direction='row']) {
-      flex-direction: row;
-    }
-  `,
+  templateUrl: './stack.component.html',
+  styleUrl: './stack.component.css',
 })
 export class StackComponent {
   readonly direction = input<'row' | 'column'>('column');

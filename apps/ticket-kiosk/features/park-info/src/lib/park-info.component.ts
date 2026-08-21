@@ -12,12 +12,6 @@ import { CardComponent, StackComponent } from '@zoo/shared/ui/common';
   selector: 'zoo-park-info',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [EnclosureOccupancySlice, CardComponent, StackComponent],
-  template: `<zoo-card>
-    <zoo-stack>
-      <h3>Today in the park</h3>
-      <zoo-enclosure-occupancy-slice />
-      <small>Open 09:00 – 18:00 · last entry 17:00</small>
-    </zoo-stack>
-  </zoo-card>`,
+  templateUrl: './park-info.component.html',
 })
 export class ParkInfoComponent {}

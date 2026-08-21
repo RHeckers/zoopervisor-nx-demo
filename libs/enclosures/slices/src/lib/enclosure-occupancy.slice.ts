@@ -12,14 +12,7 @@ import { BadgeComponent, StackComponent } from '@zoo/shared/ui/common';
   selector: 'zoo-enclosure-occupancy-slice',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [EnclosureBadgeComponent, BadgeComponent, StackComponent],
-  template: `<zoo-stack>
-    @for (e of store.enclosures(); track e.id) {
-      <zoo-stack direction="row">
-        <zoo-enclosure-badge [enclosure]="e" />
-        <zoo-badge tone="aquarium">capacity {{ e.capacity }}</zoo-badge>
-      </zoo-stack>
-    }
-  </zoo-stack>`,
+  templateUrl: './enclosure-occupancy.slice.html',
 })
 export class EnclosureOccupancySlice {
   protected readonly store = inject(EnclosureStore);

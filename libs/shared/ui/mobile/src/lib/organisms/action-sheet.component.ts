@@ -10,6 +10,6 @@ import { BottomSheetComponent } from '../atoms/bottom-sheet.component';
   selector: 'zoo-action-sheet',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BottomSheetComponent],
-  template: `<zoo-bottom-sheet><ng-content /></zoo-bottom-sheet>`,
+  templateUrl: './action-sheet.component.html',
 })
 export class ActionSheetComponent {}

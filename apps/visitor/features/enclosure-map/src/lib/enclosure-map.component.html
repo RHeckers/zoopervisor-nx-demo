@@ -1,0 +1,69 @@
+<zoo-stack class="enclosure-map">
+  <header class="enclosure-map__header">
+    <h2>Enclosures</h2>
+    <zoo-visitor-search-slice class="enclosure-map__search" />
+  </header>
+
+  @if (facade.vm().loading) {
+    <zoo-spinner />
+  } @else {
+    <div class="enclosure-map__grid">
+      @for (e of facade.vm().enclosures; track e.id) {
+        <zoo-card>
+          <zoo-stack>
+            <div class="enclosure-map__card-header">
+              <h3>{{ e.name }}</h3>
+              <zoo-enclosure-badge [enclosure]="e" />
+            </div>
+
+            <label class="enclosure-map__meter">
+              <small
+                >{{ e.residents.length }} / {{ e.capacity }} occupied</small
+              >
+              <progress
+                [value]="e.residents.length"
+                [max]="e.capacity"
+              ></progress>
+            </label>
+
+            @if (e.residents.length > 0) {
+              <div class="enclosure-map__residents">
+                @for (
+                  a of e.expanded ? e.residents : e.residents.slice(0, 6);
+                  track a.id
+                ) {
+                  <span class="enclosure-map__resident">
+                    <zoo-animal-avatar
+                      [name]="a.name"
+                      [photoUrl]="a.photoUrl"
+                    />
+                    @if (e.expanded) {
+                      <small>{{ a.name }}</small>
+                    }
+                  </span>
+                }
+                @if (e.residents.length > 6) {
+                  <button
+                    type="button"
+                    class="enclosure-map__toggle"
+                    (click)="facade.toggleExpanded(e.id)"
+                  >
+                    {{
+                      e.expanded
+                        ? 'show less'
+                        : '+' + (e.residents.length - 6) + ' more'
+                    }}
+                  </button>
+                }
+              </div>
+            } @else {
+              <zoo-empty-state message="No residents found" />
+            }
+          </zoo-stack>
+        </zoo-card>
+      } @empty {
+        <zoo-empty-state message="No enclosure houses a match" />
+      }
+    </div>
+  }
+</zoo-stack>

@@ -1,0 +1,8 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--zoo-stack-gap, var(--spacer-sm));
+}
+:host([data-direction='row']) {
+  flex-direction: row;
+}

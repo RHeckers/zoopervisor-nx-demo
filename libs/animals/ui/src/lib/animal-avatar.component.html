@@ -1,0 +1,7 @@
+@if (photoUrl(); as photo) {
+  <img class="zoo-animal-avatar" [src]="photo" [alt]="name()" />
+} @else {
+  <span class="zoo-animal-avatar" [attr.aria-label]="name()">{{
+    badge()
+  }}</span>
+}

@@ -22,15 +22,7 @@ import { CameraCaptureComponent } from './camera-capture.component';
   selector: 'zoo-photo-picker-naive',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CameraCaptureComponent],
-  template: `<button type="button" (click)="open()">Add photo</button>
-
-    @if (isMobile() && showCamera()) {
-      <zoo-camera-capture (captured)="onCaptured($event)" />
-    }
-
-    @if (!isMobile()) {
-      <input hidden type="file" (change)="onSelect($event)" />
-    }`,
+  templateUrl: './photo-picker.naive.component.html',
 })
 export class PhotoPickerNaiveComponent {
   readonly isMobile = input.required<boolean>();

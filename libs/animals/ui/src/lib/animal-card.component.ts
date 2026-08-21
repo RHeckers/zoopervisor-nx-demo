@@ -14,43 +14,8 @@ import { AnimalAvatarComponent } from './animal-avatar.component';
   selector: 'zoo-animal-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CardComponent, AnimalAvatarComponent],
-  template: `<zoo-card>
-    @if (animal().photoUrl; as photo) {
-      <img class="zoo-animal-card__photo" [src]="photo" [alt]="animal().name" />
-    }
-    <span class="zoo-animal-card__body">
-      @if (!animal().photoUrl) {
-        <zoo-animal-avatar [name]="animal().name" />
-      }
-      <span class="zoo-animal-card__text">
-        <strong>{{ animal().name }}</strong>
-        <small>{{ animal().species }}</small>
-      </span>
-    </span>
-  </zoo-card>`,
-  styles: `
-    :host {
-      display: block;
-      --zoo-card-padding: 0;
-    }
-    .zoo-animal-card__photo {
-      display: block;
-      width: 100%;
-      aspect-ratio: var(--zoo-animal-card-photo-ratio, 4 / 3);
-      object-fit: cover;
-      border-radius: var(--radius-base) var(--radius-base) 0 0;
-    }
-    .zoo-animal-card__body {
-      display: flex;
-      align-items: center;
-      gap: var(--zoo-animal-card-gap, var(--spacer-base));
-      padding: var(--spacer-base);
-    }
-    .zoo-animal-card__text {
-      display: flex;
-      flex-direction: column;
-    }
-  `,
+  templateUrl: './animal-card.component.html',
+  styleUrl: './animal-card.component.css',
 })
 export class AnimalCardComponent {
   readonly animal = input.required<Animal>();

@@ -22,31 +22,8 @@ import { TooltipDirective } from '../atoms/tooltip.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [KeyHintComponent, TooltipDirective],
   host: { '(document:keydown)': 'onKeydown($event)' },
-  template: `<span [zooTooltip]="hint()">
-      <input
-        #searchInput
-        type="search"
-        [placeholder]="placeholder()"
-        [value]="value()"
-        (input)="onInput($event)"
-        (keydown.escape)="queryChange.emit('')"
-      />
-    </span>
-    <zoo-key-hint keys="⌘K" />`,
-  styles: `
-    :host {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--spacer-sm);
-    }
-    input {
-      font: inherit;
-      padding: var(--zoo-search-bar-padding, var(--spacer-sm));
-      border: 1px solid var(--color-muted);
-      border-radius: var(--radius-base);
-      background: var(--color-paper);
-    }
-  `,
+  templateUrl: './search-bar.component.html',
+  styleUrl: './search-bar.component.css',
 })
 export class SearchBarComponent {
   readonly placeholder = input('Search');

@@ -1,0 +1,11 @@
+<zoo-stack direction="row">
+  <zoo-search-bar
+    [placeholder]="searchPlaceholder()"
+    [hint]="searchHint()"
+    [value]="searchValue()"
+    (queryChange)="searchChange.emit($event)"
+  />
+  <zoo-button (pressed)="action.emit()">
+    {{ actionLabel() }} <zoo-key-hint [keys]="actionKeys()" />
+  </zoo-button>
+</zoo-stack>

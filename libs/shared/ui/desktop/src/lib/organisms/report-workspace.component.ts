@@ -29,20 +29,7 @@ import { CommandBarComponent } from './command-bar.component';
   selector: 'zoo-report-workspace',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommandBarComponent, PhotoSectionComponent],
-  template: `<zoo-command-bar
-      searchPlaceholder="Filter photos"
-      searchHint="Filter attached photos by name"
-      actionLabel="Clear"
-      actionKeys="Esc"
-      [searchValue]="photoFilter()"
-      (searchChange)="photoFilter.set($event)"
-      (action)="photoFilter.set('')"
-    />
-    <zoo-photo-section
-      [heading]="heading()"
-      [nameFilter]="photoFilter()"
-      (photosChanged)="photos.emit($event)"
-    />`,
+  templateUrl: './report-workspace.component.html',
 })
 export class ReportWorkspaceComponent {
   readonly heading = input('Report');

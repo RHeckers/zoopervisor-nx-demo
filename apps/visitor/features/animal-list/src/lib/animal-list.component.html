@@ -1,0 +1,64 @@
+<zoo-stack class="animal-list">
+  <header class="animal-list__header">
+    <div class="animal-list__title">
+      <h2>{{ facade.vm().heading }}</h2>
+      <small>
+        {{ facade.vm().animals.length }} of {{ facade.vm().total }} species ·
+        live from iNaturalist
+      </small>
+    </div>
+    <zoo-visitor-search-slice class="animal-list__search" />
+  </header>
+
+  <zoo-stack direction="row" class="animal-list__enclosures">
+    @for (e of facade.vm().enclosures; track e.id) {
+      <button
+        type="button"
+        class="animal-list__chip"
+        [class.animal-list__chip--active]="facade.vm().enclosureFilter === e.id"
+        (click)="facade.toggleEnclosure(e.id)"
+      >
+        <zoo-enclosure-badge [enclosure]="e" />
+      </button>
+    }
+    @if (facade.vm().enclosureFilter) {
+      <button
+        type="button"
+        class="animal-list__chip animal-list__chip--clear"
+        (click)="facade.toggleEnclosure(facade.vm().enclosureFilter!)"
+      >
+        clear filter ✕
+      </button>
+    }
+  </zoo-stack>
+
+  @if (facade.vm().loading && facade.vm().animals.length === 0) {
+    <zoo-spinner />
+  } @else {
+    <div class="animal-list__grid">
+      @for (a of facade.vm().animals; track a.id) {
+        <zoo-animal-card [animal]="a" />
+      } @empty {
+        <zoo-empty-state message="No animals match your search" />
+      }
+    </div>
+    @if (facade.vm().canLoadMore) {
+      <div class="animal-list__more">
+        @if (facade.vm().loading) {
+          <zoo-spinner />
+        } @else {
+          <zoo-button (pressed)="facade.loadMore()">Load more</zoo-button>
+        }
+      </div>
+    }
+  }
+
+  <div class="animal-list__reports">
+    <!-- shared domain component that hosts <zoo-photo-picker> — the app's
+         registered implementation resolves at this depth, no flag threaded. -->
+    <zoo-card><zoo-incident-report-form /></zoo-card>
+    <!-- app UI panel: platform-neutral photo organism + desktop command bar;
+         no isMobile prop, no mobile import (banned for platform:desktop). -->
+    <zoo-visitor-report-panel />
+  </div>
+</zoo-stack>

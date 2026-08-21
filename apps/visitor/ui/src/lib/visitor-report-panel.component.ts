@@ -21,10 +21,7 @@ import { ReportWorkspaceComponent } from '@zoo/shared/ui/desktop';
   selector: 'zoo-visitor-report-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReportWorkspaceComponent],
-  template: `<zoo-report-workspace
-    heading="Report a sighting"
-    (photos)="photos.emit($event)"
-  />`,
+  templateUrl: './visitor-report-panel.component.html',
 })
 export class VisitorReportPanelComponent {
   readonly photos = output<File[]>();

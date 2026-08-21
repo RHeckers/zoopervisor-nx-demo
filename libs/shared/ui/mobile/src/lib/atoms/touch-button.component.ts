@@ -12,27 +12,8 @@ import { Haptics } from '../native/haptics';
 @Component({
   selector: 'zoo-touch-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<button type="button" (click)="onTap()"><ng-content /></button>`,
-  styles: `
-    :host {
-      display: inline-block;
-      min-height: var(--zoo-touch-button-min-size, var(--tap-target-min));
-      min-width: var(--zoo-touch-button-min-size, var(--tap-target-min));
-      touch-action: manipulation;
-    }
-    button {
-      font: inherit;
-      width: 100%;
-      height: 100%;
-      min-height: inherit;
-      min-width: inherit;
-      border: none;
-      border-radius: var(--zoo-touch-button-radius, var(--radius-base));
-      background: var(--zoo-touch-button-background, var(--color-accent));
-      color: var(--zoo-touch-button-color, var(--color-paper));
-      cursor: pointer;
-    }
-  `,
+  templateUrl: './touch-button.component.html',
+  styleUrl: './touch-button.component.css',
 })
 export class TouchButtonComponent {
   readonly tapped = output<void>();

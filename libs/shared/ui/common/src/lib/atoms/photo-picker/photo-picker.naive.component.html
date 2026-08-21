@@ -1,0 +1,9 @@
+<button type="button" (click)="open()">Add photo</button>
+
+@if (isMobile() && showCamera()) {
+  <zoo-camera-capture (captured)="onCaptured($event)" />
+}
+
+@if (!isMobile()) {
+  <input hidden type="file" (change)="onSelect($event)" />
+}

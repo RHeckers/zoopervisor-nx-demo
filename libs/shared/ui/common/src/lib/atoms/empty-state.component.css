@@ -1,0 +1,7 @@
+.zoo-empty-state {
+  margin: 0;
+  padding: var(--zoo-empty-state-padding, var(--spacer-base));
+  color: var(--zoo-empty-state-color, var(--color-muted));
+  font-style: italic;
+  text-align: center;
+}

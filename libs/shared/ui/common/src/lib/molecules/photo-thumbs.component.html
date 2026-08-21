@@ -1,0 +1,15 @@
+@for (photo of previews(); track photo.url) {
+  <span class="zoo-photo-thumb__frame">
+    <img class="zoo-photo-thumb" [src]="photo.url" [alt]="photo.name" />
+    @if (removable()) {
+      <button
+        type="button"
+        class="zoo-photo-thumb__remove"
+        [attr.aria-label]="'Remove ' + photo.name"
+        (click)="removed.emit(photo.file)"
+      >
+        ✕
+      </button>
+    }
+  </span>
+}

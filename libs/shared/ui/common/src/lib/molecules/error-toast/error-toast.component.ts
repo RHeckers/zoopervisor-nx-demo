@@ -10,41 +10,16 @@ import { SnackBar } from './snack-bar.service';
 @Component({
   selector: 'zoo-error-toast',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `@if (snackBar.current(); as toast) {
-    <div class="zoo-error-toast">
-      {{ toast.message }}
-      <button type="button" (click)="snackBar.dismiss()">{{ toast.action }}</button>
-    </div>
-  }`,
-  styles: `
-    .zoo-error-toast {
-      position: fixed;
-      bottom: var(--spacer-lg);
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: var(--zoo-error-toast-z-index, var(--z-modal));
-      display: flex;
-      align-items: center;
-      gap: var(--spacer-base);
-      padding: var(--zoo-error-toast-padding, var(--spacer-sm) var(--spacer-base));
-      background: var(--zoo-error-toast-background, var(--color-ink));
-      color: var(--zoo-error-toast-color, var(--color-paper));
-      border-radius: var(--radius-base);
-      box-shadow: var(--shadow-card);
-    }
-    button {
-      font: inherit;
-      border: none;
-      background: none;
-      color: var(--color-savanna);
-      cursor: pointer;
-    }
-  `,
+  templateUrl: './error-toast.component.html',
+  styleUrl: './error-toast.component.css',
 })
 export class ErrorToastComponent {
   protected readonly snackBar = inject(SnackBar);
 
   reportError(): void {
-    this.snackBar.open(translate('errors.generic'), translate('errors.dismiss'));
+    this.snackBar.open(
+      translate('errors.generic'),
+      translate('errors.dismiss'),
+    );
   }
 }

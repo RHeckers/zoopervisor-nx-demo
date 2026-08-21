@@ -1,0 +1,2 @@
+<button type="button" (click)="open()">Add photo</button>
+<zoo-camera-capture #capture (captured)="selected.emit([$event])" />

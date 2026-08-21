@@ -1,0 +1,12 @@
+<zoo-stack>
+  <h4>Health checks due today</h4>
+  @if (store.healthLoading()) {
+  <zoo-spinner />
+  } @else { @for (r of store.records(); track r.id) {
+  <zoo-badge [tone]="r.status === 'treatment' ? 'savanna' : 'leaf'">
+    {{ r.animalId }} · {{ r.status }}
+  </zoo-badge>
+  } @empty {
+  <zoo-empty-state />
+  } }
+</zoo-stack>

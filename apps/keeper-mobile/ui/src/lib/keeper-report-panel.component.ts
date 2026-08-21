@@ -12,12 +12,7 @@ import { ReportSheetComponent } from '@zoo/shared/ui/mobile';
   selector: 'zoo-keeper-report-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReportSheetComponent],
-  template: `<zoo-report-sheet
-    heading="Field report"
-    submitLabel="Send report"
-    (photos)="photos.emit($event)"
-    (submitted)="submitted.emit()"
-  />`,
+  templateUrl: './keeper-report-panel.component.html',
 })
 export class KeeperReportPanelComponent {
   readonly photos = output<File[]>();

@@ -17,8 +17,7 @@ import { CameraCaptureComponent } from '../atoms/camera-capture.component';
   selector: 'zoo-camera-photo-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CameraCaptureComponent],
-  template: `<button type="button" (click)="open()">Add photo</button>
-    <zoo-camera-capture #capture (captured)="selected.emit([$event])" />`,
+  templateUrl: './camera-photo-picker.component.html',
 })
 export class CameraPhotoPicker implements PhotoPickerContract {
   readonly multiple = input(false);

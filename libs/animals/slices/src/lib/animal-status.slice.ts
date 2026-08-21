@@ -19,11 +19,7 @@ import { AnimalCardComponent } from '@zoo/animals/ui';
   selector: 'zoo-animal-status-slice',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AnimalCardComponent],
-  template: `@if (animal(); as a) {
-      <zoo-animal-card [animal]="a" />
-    } @else {
-      <span>Loading…</span>
-    }`,
+  templateUrl: './animal-status.slice.html',
 })
 export class AnimalStatusSlice {
   readonly animalId = input.required<string>();

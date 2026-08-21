@@ -1,0 +1,8 @@
+<zoo-stack>
+  @for (e of store.enclosures(); track e.id) {
+  <zoo-stack direction="row">
+    <zoo-enclosure-badge [enclosure]="e" />
+    <zoo-badge tone="aquarium">capacity {{ e.capacity }}</zoo-badge>
+  </zoo-stack>
+  }
+</zoo-stack>

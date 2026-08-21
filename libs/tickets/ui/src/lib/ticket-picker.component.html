@@ -1,0 +1,8 @@
+@for (t of tickets(); track t.id) {
+  <button type="button" (click)="pick.emit(t.id)">
+    <span class="zoo-ticket-picker__kind">{{ t.kind }}</span>
+    <span class="zoo-ticket-picker__price"
+      >€ {{ (t.priceCents / 100).toFixed(2) }}</span
+    >
+  </button>
+}

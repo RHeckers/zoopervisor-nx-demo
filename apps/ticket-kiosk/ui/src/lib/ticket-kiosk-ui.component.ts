@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 @Component({
   selector: 'zoo-ticket-kiosk-ui',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<span class="zoo-ticket-kiosk-ui">{{ label() }}</span>`,
+  templateUrl: './ticket-kiosk-ui.component.html',
 })
 export class TicketKioskUiComponent {
   readonly label = input('');

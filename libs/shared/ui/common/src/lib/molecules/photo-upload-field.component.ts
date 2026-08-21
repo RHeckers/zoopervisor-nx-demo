@@ -23,12 +23,7 @@ import { FieldComponent } from '../atoms/field.component';
   selector: 'zoo-photo-upload-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FieldComponent, BadgeComponent, PhotoPickerComponent],
-  template: `<zoo-field [label]="label()">
-    <zoo-photo-picker [multiple]="true" (selected)="files.emit($event)" />
-    @if (count() > 0) {
-      <zoo-badge tone="leaf">{{ count() }}</zoo-badge>
-    }
-  </zoo-field>`,
+  templateUrl: './photo-upload-field.component.html',
 })
 export class PhotoUploadFieldComponent {
   readonly label = input('Photos');

@@ -17,15 +17,7 @@ import { ButtonComponent, PhotoPickerContract } from '@zoo/shared/ui/common';
   selector: 'zoo-file-photo-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ButtonComponent],
-  template: `<zoo-button (pressed)="pick()">Add photo</zoo-button>
-    <input
-      #fileInput
-      hidden
-      type="file"
-      accept="image/*"
-      [multiple]="multiple()"
-      (change)="onSelect($event)"
-    />`,
+  templateUrl: './file-photo-picker.component.html',
 })
 export class FileInputPhotoPicker implements PhotoPickerContract {
   readonly multiple = input(false);

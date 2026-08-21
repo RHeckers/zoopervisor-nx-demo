@@ -1,0 +1,14 @@
+<zoo-command-bar
+  searchPlaceholder="Filter photos"
+  searchHint="Filter attached photos by name"
+  actionLabel="Clear"
+  actionKeys="Esc"
+  [searchValue]="photoFilter()"
+  (searchChange)="photoFilter.set($event)"
+  (action)="photoFilter.set('')"
+/>
+<zoo-photo-section
+  [heading]="heading()"
+  [nameFilter]="photoFilter()"
+  (photosChanged)="photos.emit($event)"
+/>

@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 @Component({
   selector: 'zoo-camera-capture',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<button type="button" (click)="open()">Capture</button>`,
+  templateUrl: './camera-capture.component.html',
 })
 export class CameraCaptureComponent {
   readonly captured = output<File>();

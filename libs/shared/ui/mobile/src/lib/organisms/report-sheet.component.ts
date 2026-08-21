@@ -23,13 +23,7 @@ import { ActionSheetComponent } from './action-sheet.component';
   selector: 'zoo-report-sheet',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PhotoSectionComponent, ActionSheetComponent, SheetActionComponent],
-  template: `<zoo-photo-section
-      [heading]="heading()"
-      (photosChanged)="photos.emit($event)"
-    />
-    <zoo-action-sheet>
-      <zoo-sheet-action [label]="submitLabel()" (activated)="submitted.emit()" />
-    </zoo-action-sheet>`,
+  templateUrl: './report-sheet.component.html',
 })
 export class ReportSheetComponent {
   readonly heading = input('Report');

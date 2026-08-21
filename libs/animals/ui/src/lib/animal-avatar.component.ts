@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { initials } from '@zoo/animals/utils';
 
 /**
@@ -8,26 +13,8 @@ import { initials } from '@zoo/animals/utils';
 @Component({
   selector: 'zoo-animal-avatar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `@if (photoUrl(); as photo) {
-      <img class="zoo-animal-avatar" [src]="photo" [alt]="name()" />
-    } @else {
-      <span class="zoo-animal-avatar" [attr.aria-label]="name()">{{ badge() }}</span>
-    }`,
-  styles: `
-    .zoo-animal-avatar {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: var(--zoo-animal-avatar-size, 2.5rem);
-      height: var(--zoo-animal-avatar-size, 2.5rem);
-      border-radius: 50%;
-      object-fit: cover;
-      background: var(--zoo-animal-avatar-background, var(--color-savanna));
-      color: var(--zoo-animal-avatar-color, var(--color-ink));
-      font-weight: 700;
-      font-size: var(--font-size-caption);
-    }
-  `,
+  templateUrl: './animal-avatar.component.html',
+  styleUrl: './animal-avatar.component.css',
 })
 export class AnimalAvatarComponent {
   readonly name = input.required<string>();

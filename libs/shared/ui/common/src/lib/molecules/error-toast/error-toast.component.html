@@ -1,0 +1,8 @@
+@if (snackBar.current(); as toast) {
+  <div class="zoo-error-toast">
+    {{ toast.message }}
+    <button type="button" (click)="snackBar.dismiss()">
+      {{ toast.action }}
+    </button>
+  </div>
+}

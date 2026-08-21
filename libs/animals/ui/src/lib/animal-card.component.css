@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  --zoo-card-padding: 0;
+}
+.zoo-animal-card__photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--zoo-animal-card-photo-ratio, 4 / 3);
+  object-fit: cover;
+  border-radius: var(--radius-base) var(--radius-base) 0 0;
+}
+.zoo-animal-card__body {
+  display: flex;
+  align-items: center;
+  gap: var(--zoo-animal-card-gap, var(--spacer-base));
+  padding: var(--spacer-base);
+}
+.zoo-animal-card__text {
+  display: flex;
+  flex-direction: column;
+}

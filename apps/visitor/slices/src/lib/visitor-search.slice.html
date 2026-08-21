@@ -1,0 +1,7 @@
+<input
+  type="search"
+  placeholder="Search any animal — try lion, otter, macaw…"
+  aria-label="Search animals"
+  [value]="ui.searchTerm()"
+  (input)="ui.setSearch($any($event.target).value)"
+/>

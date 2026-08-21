@@ -10,25 +10,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'zoo-bottom-sheet',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content />`,
-  styles: `
-    :host {
-      position: fixed;
-      inset-inline: 0;
-      bottom: 0;
-      z-index: var(--zoo-bottom-sheet-z-index, var(--z-modal));
-      /* env() is a mobile-only capability; the spacer token is the fallback. */
-      padding-bottom: var(
-        --zoo-bottom-sheet-safe-area,
-        env(safe-area-inset-bottom, var(--spacer-sm))
-      );
-      border-start-start-radius: var(--zoo-bottom-sheet-radius, var(--radius-sheet));
-      border-start-end-radius: var(--zoo-bottom-sheet-radius, var(--radius-sheet));
-      background: var(--zoo-bottom-sheet-background, var(--color-paper));
-      padding-top: var(--spacer-base);
-      padding-inline: var(--spacer-base);
-      box-shadow: var(--shadow-card);
-    }
-  `,
+  templateUrl: './bottom-sheet.component.html',
+  styleUrl: './bottom-sheet.component.css',
 })
 export class BottomSheetComponent {}

@@ -1,0 +1,58 @@
+.enclosure-map {
+  --zoo-stack-gap: var(--spacer-lg);
+}
+.enclosure-map__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacer-base);
+}
+.enclosure-map__search {
+  flex: 0 1 320px;
+}
+.enclosure-map__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacer-base);
+  align-items: start;
+}
+.enclosure-map__card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacer-sm);
+}
+.enclosure-map__meter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacer-xs);
+}
+.enclosure-map__meter progress {
+  width: 100%;
+  accent-color: var(--color-accent);
+}
+.enclosure-map__residents {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacer-sm);
+  --zoo-animal-avatar-size: 3rem;
+}
+.enclosure-map__resident {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacer-xs);
+  max-width: 5rem;
+  text-align: center;
+}
+.enclosure-map__toggle {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: var(--font-size-caption);
+  color: var(--color-accent);
+  cursor: pointer;
+}

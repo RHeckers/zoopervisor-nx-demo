@@ -8,15 +8,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'zoo-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content />`,
-  styles: `
-    :host {
-      display: block;
-      padding: var(--zoo-card-padding, var(--spacer-base));
-      background: var(--zoo-card-background, var(--color-paper));
-      border-radius: var(--zoo-card-radius, var(--radius-base));
-      box-shadow: var(--zoo-card-shadow, var(--shadow-card));
-    }
-  `,
+  templateUrl: './card.component.html',
+  styleUrl: './card.component.css',
 })
 export class CardComponent {}

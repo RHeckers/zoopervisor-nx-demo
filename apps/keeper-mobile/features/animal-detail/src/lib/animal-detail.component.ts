@@ -25,18 +25,7 @@ import { AnimalDetailFacade } from './animal-detail.facade';
     TouchButtonComponent,
     BottomSheetComponent,
   ],
-  template: `@for (a of facade.vm().animals; track a.id) {
-      <zoo-animal-card [animal]="a" />
-    }
-    <!-- same shared domain component; here the camera implementation resolves. -->
-    <zoo-incident-report-form />
-    <!-- app UI panel: the SAME photo organism visitor uses — zero duplication;
-         the injector supplies the camera here. -->
-    <zoo-keeper-report-panel />
-    <zoo-bottom-sheet>
-      <zoo-touch-button (tapped)="facade.open('a1')">Reload rounds</zoo-touch-button>
-      <p>{{ facade.vm().schedules.length }} feeding(s), {{ facade.vm().records.length }} record(s)</p>
-    </zoo-bottom-sheet>`,
+  templateUrl: './animal-detail.component.html',
 })
 export class AnimalDetailComponent {
   protected readonly facade = inject(AnimalDetailFacade);

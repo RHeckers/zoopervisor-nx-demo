@@ -1,0 +1,14 @@
+<zoo-card>
+  @if (animal().photoUrl; as photo) {
+    <img class="zoo-animal-card__photo" [src]="photo" [alt]="animal().name" />
+  }
+  <span class="zoo-animal-card__body">
+    @if (!animal().photoUrl) {
+      <zoo-animal-avatar [name]="animal().name" />
+    }
+    <span class="zoo-animal-card__text">
+      <strong>{{ animal().name }}</strong>
+      <small>{{ animal().species }}</small>
+    </span>
+  </span>
+</zoo-card>

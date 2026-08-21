@@ -21,18 +21,7 @@ import {
   selector: 'zoo-incident-report-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PhotoPickerComponent, PhotoThumbsComponent, StackComponent],
-  template: `<zoo-stack>
-    <h3>Incident report</h3>
-    <zoo-photo-picker [multiple]="true" (selected)="onPicked($event)" />
-    @if (picked().length > 0) {
-      <zoo-photo-thumbs
-        [files]="picked()"
-        [removable]="true"
-        (removed)="onRemoved($event)"
-      />
-      <small>{{ picked().length }} photo(s) attached</small>
-    }
-  </zoo-stack>`,
+  templateUrl: './incident-report-form.component.html',
 })
 export class IncidentReportFormComponent {
   readonly photos = output<File[]>();

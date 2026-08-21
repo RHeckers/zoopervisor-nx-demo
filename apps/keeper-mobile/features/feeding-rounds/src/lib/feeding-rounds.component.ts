@@ -22,20 +22,7 @@ import { FeedingRoundsFacade } from './feeding-rounds.facade';
     ActionSheetComponent,
     SheetActionComponent,
   ],
-  template: `<zoo-stack>
-    <zoo-card><zoo-health-due-slice /></zoo-card>
-    <zoo-card>
-      <zoo-stack>
-        <h4>Feedings for {{ facade.vm().animalId }}</h4>
-        @for (s of facade.vm().schedules; track s.id) {
-          <small>{{ s.at }} — {{ s.food }}</small>
-        }
-      </zoo-stack>
-    </zoo-card>
-    <zoo-action-sheet>
-      <zoo-sheet-action label="Log feeding" (activated)="facade.logFeeding()" />
-    </zoo-action-sheet>
-  </zoo-stack>`,
+  templateUrl: './feeding-rounds.component.html',
 })
 export class FeedingRoundsComponent {
   protected readonly facade = inject(FeedingRoundsFacade);

@@ -1,0 +1,7 @@
+<zoo-photo-section
+  [heading]="heading()"
+  (photosChanged)="photos.emit($event)"
+/>
+<zoo-action-sheet>
+  <zoo-sheet-action [label]="submitLabel()" (activated)="submitted.emit()" />
+</zoo-action-sheet>

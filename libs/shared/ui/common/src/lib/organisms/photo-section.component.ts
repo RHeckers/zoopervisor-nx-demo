@@ -33,23 +33,7 @@ import { PhotoUploadFieldComponent } from '../molecules/photo-upload-field.compo
     PhotoThumbsComponent,
     PhotoUploadFieldComponent,
   ],
-  template: `<zoo-card>
-    <zoo-stack>
-      <h4>{{ heading() }}</h4>
-      <zoo-photo-upload-field [count]="files().length" (files)="onFiles($event)" />
-      @if (files().length === 0) {
-        <zoo-empty-state />
-      } @else if (visible().length === 0) {
-        <zoo-empty-state message="No photos match the filter" />
-      } @else {
-        <zoo-photo-thumbs
-          [files]="visible()"
-          [removable]="true"
-          (removed)="removeFile($event)"
-        />
-      }
-    </zoo-stack>
-  </zoo-card>`,
+  templateUrl: './photo-section.component.html',
 })
 export class PhotoSectionComponent {
   readonly heading = input('Photos');

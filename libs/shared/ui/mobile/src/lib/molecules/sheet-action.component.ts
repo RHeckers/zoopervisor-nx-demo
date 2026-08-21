@@ -16,9 +16,7 @@ import { TouchButtonComponent } from '../atoms/touch-button.component';
   selector: 'zoo-sheet-action',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TouchButtonComponent],
-  template: `<zoo-touch-button (tapped)="activated.emit()">
-    {{ label() }}
-  </zoo-touch-button>`,
+  templateUrl: './sheet-action.component.html',
 })
 export class SheetActionComponent {
   readonly label = input.required<string>();

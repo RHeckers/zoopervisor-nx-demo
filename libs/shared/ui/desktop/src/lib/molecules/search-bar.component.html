@@ -1,0 +1,11 @@
+<span [zooTooltip]="hint()">
+  <input
+    #searchInput
+    type="search"
+    [placeholder]="placeholder()"
+    [value]="value()"
+    (input)="onInput($event)"
+    (keydown.escape)="queryChange.emit('')"
+  />
+</span>
+<zoo-key-hint keys="⌘K" />

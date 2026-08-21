@@ -18,18 +18,13 @@ import { SearchBarComponent } from '../molecules/search-bar.component';
 @Component({
   selector: 'zoo-command-bar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [StackComponent, ButtonComponent, KeyHintComponent, SearchBarComponent],
-  template: `<zoo-stack direction="row">
-    <zoo-search-bar
-      [placeholder]="searchPlaceholder()"
-      [hint]="searchHint()"
-      [value]="searchValue()"
-      (queryChange)="searchChange.emit($event)"
-    />
-    <zoo-button (pressed)="action.emit()">
-      {{ actionLabel() }} <zoo-key-hint [keys]="actionKeys()" />
-    </zoo-button>
-  </zoo-stack>`,
+  imports: [
+    StackComponent,
+    ButtonComponent,
+    KeyHintComponent,
+    SearchBarComponent,
+  ],
+  templateUrl: './command-bar.component.html',
 })
 export class CommandBarComponent {
   readonly searchPlaceholder = input('Search');

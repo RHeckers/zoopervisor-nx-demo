@@ -1,0 +1,6 @@
+<zoo-field [label]="label()">
+  <zoo-photo-picker [multiple]="true" (selected)="files.emit($event)" />
+  @if (count() > 0) {
+    <zoo-badge tone="leaf">{{ count() }}</zoo-badge>
+  }
+</zoo-field>
