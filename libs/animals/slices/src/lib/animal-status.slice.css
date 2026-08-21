@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+.zoo-animal-status-slice__meta {
+  display: block;
+  margin-top: var(--spacer-xs);
+  color: var(--color-muted);
+}
+.zoo-animal-status-slice__due {
+  color: var(--color-accent);
+}

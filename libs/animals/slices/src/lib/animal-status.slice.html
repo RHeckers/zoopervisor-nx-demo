@@ -1,5 +1,11 @@
 @if (animal(); as a) {
-<zoo-animal-card [animal]="a" />
+<zoo-animal-card [animal]="a" [health]="latestCheck()?.status" />
+<small class="zoo-animal-status-slice__meta">
+  {{ a.species }} · {{ a.enclosureId }} @if (latestCheck(); as check) { · last
+  check {{ check.checkedOn }} @if (check.dueToday) {
+  <strong class="zoo-animal-status-slice__due">check due today</strong>
+  } }
+</small>
 } @else {
 <span>Loading…</span>
 }
