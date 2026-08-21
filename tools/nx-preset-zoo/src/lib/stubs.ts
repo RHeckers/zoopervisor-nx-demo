@@ -67,11 +67,13 @@ export const ${Class}Store = signalStore(
 @Component({
   selector: 'zoo-${kebab}',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: \`<span class="zoo-${kebab}">{{ label() }}</span>\`,
+  templateUrl: './${kebab}.component.html',
 })
 export class ${Class}Component {
   readonly label = input('');
 }
+`,
+          [`src/lib/${kebab}.component.html`]: `<span class="zoo-${kebab}">{{ label() }}</span>
 `,
         },
         indexExports: [`export * from './lib/${kebab}.component';`],
@@ -90,9 +92,11 @@ export class ${Class}Component {
 @Component({
   selector: 'zoo-${kebab}-slice',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: \`<section class="zoo-${kebab}-slice"><!-- self-wiring block --></section>\`,
+  templateUrl: './${kebab}.slice.html',
 })
 export class ${Class}Slice {}
+`,
+          [`src/lib/${kebab}.slice.html`]: `<section class="zoo-${kebab}-slice"><!-- self-wiring block --></section>
 `,
         },
         indexExports: [`export * from './lib/${kebab}.slice';`],
@@ -152,23 +156,18 @@ import { ${Class}Facade } from './${kebab}.facade';
   selector: 'zoo-${kebab}',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [${Class}Facade],
-  template: \`<section class="zoo-${kebab}"><!-- feature view --></section>\`,
+  templateUrl: './${kebab}.component.html',
 })
 export class ${Class}Component {
   protected readonly facade = inject(${Class}Facade);
 }
 `,
-      [`src/lib/${kebab}.routes.ts`]: `import { Routes } from '@angular/router';
-import { ${Class}Component } from './${kebab}.component';
-
-export const ${n.propertyName}Routes: Routes = [
-  { path: '', component: ${Class}Component },
-];
+      [`src/lib/${kebab}.component.html`]: `<section class="zoo-${kebab}"><!-- feature view --></section>
 `,
     },
-    indexExports: [
-      `export * from './lib/${kebab}.component';`,
-      `export * from './lib/${kebab}.routes';`,
-    ],
+    // No routes file: the shell mounts a single-view feature straight with
+    // `loadComponent`. A feature only grows a routes file (and switches the
+    // shell to `loadChildren`) once it owns two or more routed views.
+    indexExports: [`export * from './lib/${kebab}.component';`],
   };
 }

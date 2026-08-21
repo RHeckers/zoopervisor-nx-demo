@@ -1,11 +1,17 @@
 import { Routes } from '@angular/router';
 
-/** The shell owns routing and lazy-loads the app's features. */
+/**
+ * The shell owns routing and lazy-loads the app's features. A feature with a
+ * single view is loaded straight by component; only a feature with internal
+ * routing (enclosure-map: map + detail) exposes a routes file.
+ */
 export const appRoutes: Routes = [
   {
     path: '',
-    loadChildren: () =>
-      import('@zoo/visitor/features/animal-list').then((m) => m.animalListRoutes),
+    loadComponent: () =>
+      import('@zoo/visitor/features/animal-list').then(
+        (m) => m.AnimalListComponent,
+      ),
   },
   {
     path: 'enclosures',
@@ -16,7 +22,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'tickets',
-    loadChildren: () =>
-      import('@zoo/visitor/features/tickets').then((m) => m.ticketsRoutes),
+    loadComponent: () =>
+      import('@zoo/visitor/features/tickets').then((m) => m.TicketsComponent),
   },
 ];

@@ -1,19 +1,23 @@
 import { Routes } from '@angular/router';
 
-/** The shell owns routing and lazy-loads the app's features. */
+/**
+ * The shell owns routing and lazy-loads the app's features. Both features are
+ * single-view, so they are loaded straight by component — no per-feature
+ * routes file needed.
+ */
 export const appRoutes: Routes = [
   {
     path: '',
-    loadChildren: () =>
+    loadComponent: () =>
       import('@zoo/keeper-mobile/features/animal-detail').then(
-        (m) => m.animalDetailRoutes,
+        (m) => m.AnimalDetailComponent,
       ),
   },
   {
     path: 'rounds',
-    loadChildren: () =>
+    loadComponent: () =>
       import('@zoo/keeper-mobile/features/feeding-rounds').then(
-        (m) => m.feedingRoundsRoutes,
+        (m) => m.FeedingRoundsComponent,
       ),
   },
 ];

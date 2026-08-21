@@ -2,7 +2,7 @@ import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { ANIMAL_API, InatAnimalApi } from '@zoo/animals/data-access';
 import { providePhotoPicker } from '@zoo/shared/ui/common';
 import { FileInputPhotoPicker } from '@zoo/shared/ui/desktop';
@@ -14,7 +14,8 @@ import { OnlinePayment } from './online-payment';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(appRoutes),
+    // Input binding lets enclosure-detail take `:enclosureId` as a signal input.
+    provideRouter(appRoutes, withComponentInputBinding()),
     provideZooI18n(),
     providePhotoPicker(FileInputPhotoPicker),
     // This app binds the abstract PaymentProvider token to its web impl.

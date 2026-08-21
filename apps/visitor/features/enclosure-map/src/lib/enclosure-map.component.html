@@ -12,7 +12,9 @@
         <zoo-card>
           <zoo-stack>
             <div class="enclosure-map__card-header">
-              <h3>{{ e.name }}</h3>
+              <h3>
+                <a [routerLink]="[e.id]">{{ e.name }}</a>
+              </h3>
               <zoo-enclosure-badge [enclosure]="e" />
             </div>
 

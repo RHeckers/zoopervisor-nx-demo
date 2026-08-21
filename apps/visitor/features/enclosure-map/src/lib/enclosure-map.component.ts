@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AnimalAvatarComponent } from '@zoo/animals/ui';
 import { EnclosureBadgeComponent } from '@zoo/enclosures/ui';
 import {
@@ -24,6 +25,7 @@ import { EnclosureMapFacade } from './enclosure-map.facade';
     CardComponent,
     EmptyStateComponent,
     EnclosureBadgeComponent,
+    RouterLink,
     SpinnerComponent,
     StackComponent,
     VisitorSearchSlice,

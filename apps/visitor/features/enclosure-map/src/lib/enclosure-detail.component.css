@@ -1,0 +1,29 @@
+.enclosure-detail__back {
+  align-self: start;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+.enclosure-detail__back:hover {
+  text-decoration: underline;
+}
+.enclosure-detail__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacer-base);
+}
+.enclosure-detail__header h2 {
+  margin: 0;
+}
+.enclosure-detail__meter {
+  display: grid;
+  gap: var(--spacer-xs);
+  max-width: 20rem;
+}
+.enclosure-detail__meter progress {
+  width: 100%;
+}
+.enclosure-detail__residents {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: var(--spacer-base);
+}

@@ -1,0 +1,34 @@
+<zoo-stack class="enclosure-detail">
+  <a class="enclosure-detail__back" routerLink="..">← All enclosures</a>
+
+  @if (facade.vm().enclosure; as enclosure) {
+    <header class="enclosure-detail__header">
+      <h2>{{ enclosure.name }}</h2>
+      <zoo-enclosure-badge [enclosure]="enclosure" />
+    </header>
+
+    <label class="enclosure-detail__meter">
+      <small>
+        {{ facade.vm().residents.length }} / {{ enclosure.capacity }} occupied
+      </small>
+      <progress
+        [value]="facade.vm().residents.length"
+        [max]="enclosure.capacity"
+      ></progress>
+    </label>
+
+    @if (facade.vm().loading) {
+      <zoo-spinner />
+    } @else {
+      <div class="enclosure-detail__residents">
+        @for (a of facade.vm().residents; track a.id) {
+          <zoo-animal-card [animal]="a" />
+        } @empty {
+          <zoo-empty-state message="No residents recorded" />
+        }
+      </div>
+    }
+  } @else {
+    <zoo-empty-state message="Unknown enclosure" />
+  }
+</zoo-stack>
