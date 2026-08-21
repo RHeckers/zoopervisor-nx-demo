@@ -1,25 +1,84 @@
-<!-- Both blocks below are self-wiring DOMAIN slices (libs/animals/slices):
-     the selected animal at a glance and today's due health checks. They also
-     appear on the feeding-rounds page — written once, zero wiring anywhere. -->
-@if (facade.vm().selectedId; as id) {
-  <zoo-animal-status-slice [animalId]="id" />
-}
-<zoo-health-due-slice />
+<zoo-stack class="animal-detail">
+  <header class="animal-detail__header">
+    <h2>Animals</h2>
+    <small>Tap an animal to open its record</small>
+  </header>
 
-@for (a of facade.vm().animals; track a.id) {
-  <zoo-animal-card [animal]="a" />
-}
-<!-- same shared domain component; here the camera implementation resolves. -->
-<zoo-incident-report-form />
-<!-- app UI panel: the SAME photo organism visitor uses — zero duplication;
-     the injector supplies the camera here. -->
-<zoo-keeper-report-panel [animalName]="facade.vm().selected?.name ?? ''" />
-<zoo-bottom-sheet>
-  <zoo-touch-button (tapped)="facade.open('a1')"
-    >Reload rounds</zoo-touch-button
-  >
-  <p>
-    {{ facade.vm().schedules.length }} feeding(s),
-    {{ facade.vm().records.length }} record(s)
-  </p>
-</zoo-bottom-sheet>
+  <div class="animal-detail__layout">
+    <nav class="animal-detail__picker" aria-label="Select an animal">
+      @for (a of facade.vm().animals; track a.id) {
+        <button
+          type="button"
+          class="animal-detail__pick"
+          [attr.aria-pressed]="a.id === facade.vm().selectedId"
+          (click)="facade.open(a.id)"
+        >
+          <zoo-animal-card [animal]="a" [health]="healthFor(a.id)" />
+        </button>
+      }
+    </nav>
+
+    <section class="animal-detail__record">
+      @if (facade.vm().selected; as animal) {
+        <h3>Record for {{ animal.name }}</h3>
+      }
+      @if (facade.vm().selectedId; as id) {
+        <!-- Self-wiring animals-domain slice — also on feeding-rounds. -->
+        <zoo-animal-status-slice [animalId]="id" />
+      }
+      <p class="animal-detail__counts">
+        {{ facade.vm().schedules.length }} feeding(s) ·
+        {{ facade.vm().records.length }} health record(s)
+      </p>
+
+      <zoo-card>
+        <zoo-stack>
+          <h4>Health record</h4>
+          @for (r of facade.vm().records; track r.id) {
+            <div class="animal-detail__check">
+              <span class="animal-detail__check-date">{{ r.checkedOn }}</span>
+              <zoo-badge
+                [tone]="
+                  r.status === 'healthy'
+                    ? 'leaf'
+                    : r.status === 'observation'
+                      ? 'aquarium'
+                      : 'savanna'
+                "
+              >
+                {{ r.status }}
+              </zoo-badge>
+              @if (r.dueToday) {
+                <small class="animal-detail__check-due">due today</small>
+              }
+            </div>
+          } @empty {
+            <small>No checks recorded yet</small>
+          }
+        </zoo-stack>
+      </zoo-card>
+
+      <zoo-card><zoo-health-due-slice /></zoo-card>
+
+      <!-- Shared domain form; the camera picker resolves from THIS app's injector. -->
+      <zoo-card><zoo-incident-report-form /></zoo-card>
+
+      <!-- App UI panel: the SAME photo organism visitor uses — zero duplication.
+           Submitting WRITES to the record: urgency becomes the check status. -->
+      <zoo-card>
+        <zoo-keeper-report-panel
+          [animalName]="facade.vm().selected?.name ?? ''"
+          (submitted)="onReport($event)"
+        />
+      </zoo-card>
+    </section>
+  </div>
+
+  <!-- One-tap write for the routine case: files a healthy check right now —
+       the record count and the status dot above update in place. -->
+  <zoo-bottom-sheet>
+    <zoo-touch-button (tapped)="facade.logCheck('healthy')">
+      ✓ Mark check done
+    </zoo-touch-button>
+  </zoo-bottom-sheet>
+</zoo-stack>

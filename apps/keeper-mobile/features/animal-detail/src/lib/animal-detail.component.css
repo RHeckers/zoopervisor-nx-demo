@@ -1,0 +1,68 @@
+.animal-detail__header h2 {
+  margin: 0;
+}
+.animal-detail__header small {
+  color: var(--color-muted);
+}
+.animal-detail__layout {
+  display: grid;
+  gap: var(--spacer-lg);
+}
+.animal-detail__picker {
+  display: grid;
+  gap: var(--spacer-sm);
+  align-content: start;
+}
+/* The whole card is the tap target; selection reads as a ring. */
+.animal-detail__pick {
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--radius-base);
+  background: none;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  min-height: var(--tap-target-min, 48px);
+}
+.animal-detail__pick:hover {
+  border-color: var(--color-muted);
+}
+.animal-detail__pick[aria-pressed='true'] {
+  border-color: var(--color-accent);
+}
+.animal-detail__record {
+  display: grid;
+  gap: var(--spacer-base);
+  align-content: start;
+}
+.animal-detail__record h3 {
+  margin: 0;
+}
+.animal-detail__counts {
+  margin: 0;
+  color: var(--color-muted);
+}
+.animal-detail__check {
+  display: flex;
+  align-items: center;
+  gap: var(--spacer-sm);
+}
+.animal-detail__check-date {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+}
+.animal-detail__check-due {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+/* Desktop: picker on the left, record on the right. */
+@media (min-width: 64rem) {
+  .animal-detail__layout {
+    grid-template-columns: minmax(16rem, 22rem) 1fr;
+    align-items: start;
+  }
+  .animal-detail__picker {
+    position: sticky;
+    top: var(--spacer-base);
+  }
+}
