@@ -131,8 +131,9 @@ export function featureStub(name: string): StubResult {
 
 /*
  * The facade composes domain stores and holds feature-local UI state, exposing
- * a single view model plus intent methods. The feature component injects ONLY
- * this — never a domain store directly.
+ * a single view model plus intent methods — and it must EARN its place. If the
+ * page ends up reading one store with no composition or page logic, delete
+ * this file and let the smart component inject the store directly.
  */
 @Injectable()
 export class ${Class}Facade {

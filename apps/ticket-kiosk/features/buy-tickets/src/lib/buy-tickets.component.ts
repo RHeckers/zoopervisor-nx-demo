@@ -1,16 +1,24 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { TicketPickerComponent } from '@zoo/tickets/ui';
 import { ButtonComponent, StackComponent } from '@zoo/shared/ui/common';
-import { BuyTicketsFacade } from './buy-tickets.facade';
+import { TicketStore } from '@zoo/tickets/data-access';
+import { TicketPickerComponent } from '@zoo/tickets/ui';
 
-/** Thin smart component: injects only the facade. */
+/*
+ * Smart routed page WITHOUT a facade — one domain store, no composition, no
+ * page logic, so the component talks to the store directly. Payment still
+ * goes through the injected PaymentProvider, which THIS app binds to
+ * TerminalPayment (see app.config); nothing here names a concrete provider.
+ */
 @Component({
   selector: 'zoo-buy-tickets',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [BuyTicketsFacade],
   imports: [TicketPickerComponent, ButtonComponent, StackComponent],
   templateUrl: './buy-tickets.component.html',
 })
 export class BuyTicketsComponent {
-  protected readonly facade = inject(BuyTicketsFacade);
+  protected readonly tickets = inject(TicketStore);
+
+  protected checkout(): void {
+    void this.tickets.checkout();
+  }
 }
