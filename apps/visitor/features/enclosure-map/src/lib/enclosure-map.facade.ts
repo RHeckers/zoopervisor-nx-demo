@@ -1,4 +1,6 @@
-import { Injectable, computed, effect, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { map, of, switchMap, timer } from 'rxjs';
 import { AnimalStore } from '@zoo/animals/data-access';
 import { EnclosureStore } from '@zoo/enclosures/data-access';
 import { VisitorUiStore } from '@zoo/visitor/data-access';
@@ -16,20 +18,20 @@ export class EnclosureMapFacade {
   private readonly ui = inject(VisitorUiStore);
 
   private readonly expanded = signal<ReadonlySet<string>>(new Set());
-  private firstLoad = true;
 
-  constructor() {
-    effect((onCleanup) => {
-      const term = this.ui.searchTerm();
-      if (this.firstLoad) {
-        this.firstLoad = false;
-        void this.animals.load(term);
-        return;
-      }
-      const handle = setTimeout(() => void this.animals.load(term), 300);
-      onCleanup(() => clearTimeout(handle));
-    });
-  }
+  /*
+   * Same declarative debounce as animal-list: the search signal becomes a
+   * stream, the first value loads immediately, later keystrokes restart a
+   * 300ms timer, and the subscription dies with the facade.
+   */
+  private readonly reloadOnSearch = toObservable(this.ui.searchTerm)
+    .pipe(
+      switchMap((term, index) =>
+        index === 0 ? of(term) : timer(300).pipe(map(() => term)),
+      ),
+      takeUntilDestroyed(),
+    )
+    .subscribe((term) => void this.animals.load(term));
 
   readonly vm = computed(() => {
     const term = this.ui.searchTerm().trim().toLowerCase();

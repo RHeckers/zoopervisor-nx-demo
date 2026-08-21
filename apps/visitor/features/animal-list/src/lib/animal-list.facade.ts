@@ -1,4 +1,6 @@
-import { Injectable, computed, effect, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { map, of, switchMap, timer } from 'rxjs';
 import { AnimalStore } from '@zoo/animals/data-access';
 import { EnclosureStore } from '@zoo/enclosures/data-access';
 import { titleCase } from '@zoo/shared/utils';
@@ -18,23 +20,22 @@ export class AnimalListFacade {
 
   private readonly expandedId = signal<string | null>(null);
   private readonly enclosureFilter = signal<string | null>(null);
-  private firstLoad = true;
 
-  constructor() {
-    // The facade REACTS to the cross-feature search term: wherever it is set
-    // (top search slice, command bar), the list reloads. Debounced so typing
-    // doesn't fire a request per keystroke; the first run loads immediately.
-    effect((onCleanup) => {
-      const term = this.ui.searchTerm();
-      if (this.firstLoad) {
-        this.firstLoad = false;
-        void this.animals.load(term);
-        return;
-      }
-      const handle = setTimeout(() => void this.animals.load(term), 300);
-      onCleanup(() => clearTimeout(handle));
-    });
-  }
+  /*
+   * The facade REACTS to the cross-feature search term: wherever it is set
+   * (top search slice, command bar), the list reloads. The signal is bridged
+   * to a stream so the debounce is declarative — the first value loads
+   * immediately, every later keystroke restarts a 300ms timer (switchMap
+   * cancels the pending one), and takeUntilDestroyed ends it with the facade.
+   */
+  private readonly reloadOnSearch = toObservable(this.ui.searchTerm)
+    .pipe(
+      switchMap((term, index) =>
+        index === 0 ? of(term) : timer(300).pipe(map(() => term)),
+      ),
+      takeUntilDestroyed(),
+    )
+    .subscribe((term) => void this.animals.load(term));
 
   readonly vm = computed(() => {
     const loaded = this.animals.animals();
