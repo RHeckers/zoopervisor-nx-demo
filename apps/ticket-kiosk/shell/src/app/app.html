@@ -1,10 +1,19 @@
 <header class="app-header">
   <span class="app-brand">🎟️ Tickets</span>
   <nav class="app-nav">
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Buy tickets</a>
+    <a
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Buy tickets</a
+    >
     <a routerLink="/info" routerLinkActive="active">Park info</a>
   </nav>
 </header>
 <main class="app-main">
   <router-outlet />
 </main>
+<zoo-kiosk-assist-strip
+  [activeLanguage]="lang()"
+  (languageChanged)="setLang($event)"
+/>

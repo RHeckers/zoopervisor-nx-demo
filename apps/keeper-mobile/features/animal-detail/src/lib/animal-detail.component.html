@@ -5,7 +5,7 @@
 <zoo-incident-report-form />
 <!-- app UI panel: the SAME photo organism visitor uses — zero duplication;
      the injector supplies the camera here. -->
-<zoo-keeper-report-panel />
+<zoo-keeper-report-panel [animalName]="facade.vm().selected?.name ?? ''" />
 <zoo-bottom-sheet>
   <zoo-touch-button (tapped)="facade.open('a1')"
     >Reload rounds</zoo-touch-button

@@ -1,12 +1,14 @@
 import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
+import { provideZooI18n } from '@zoo/shared/i18n';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideRouter([])],
+      // The shell injects TranslocoService for the assist strip's language switch.
+      providers: [provideRouter([]), provideZooI18n()],
     }).compileComponents();
   });
 

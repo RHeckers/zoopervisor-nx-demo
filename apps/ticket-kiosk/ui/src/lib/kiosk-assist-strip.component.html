@@ -1,0 +1,41 @@
+<div class="kiosk-strip">
+  <span class="kiosk-strip__hours">Open today {{ hoursToday() }}</span>
+
+  <div class="kiosk-strip__languages" aria-label="Language">
+    @for (lang of languages(); track lang) {
+      <button
+        type="button"
+        class="kiosk-strip__chip"
+        [attr.aria-pressed]="activeLanguage() === lang"
+        (click)="languageChanged.emit(lang)"
+      >
+        {{ lang.toUpperCase() }}
+      </button>
+    }
+  </div>
+
+  @if (helpRequested()) {
+    <span class="kiosk-strip__help-note" role="status">
+      A staff member is on the way.
+      <button
+        type="button"
+        class="kiosk-strip__chip"
+        (click)="helpRequested.set(false)"
+      >
+        Dismiss
+      </button>
+    </span>
+  } @else {
+    <button
+      type="button"
+      class="kiosk-strip__chip kiosk-strip__help"
+      (click)="helpRequested.set(true)"
+    >
+      🛎️ Call a staff member
+    </button>
+  }
+
+  <small class="kiosk-strip__idle">
+    This screen restarts after 2 minutes of inactivity
+  </small>
+</div>

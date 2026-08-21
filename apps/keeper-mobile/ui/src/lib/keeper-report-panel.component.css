@@ -1,0 +1,35 @@
+:host {
+  display: grid;
+  gap: var(--spacer-base);
+}
+.keeper-report__context,
+.keeper-report__sent {
+  margin: 0;
+  font-weight: 600;
+}
+.keeper-report__urgency,
+.keeper-report__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacer-sm);
+}
+/* Thumb-sized chips — same tap-target guarantee as the touch-button atom. */
+.keeper-report__chip {
+  min-height: var(--tap-target-min, 48px);
+  padding: var(--spacer-sm) var(--spacer-base);
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius-base);
+  background: var(--color-paper);
+  font: inherit;
+  cursor: pointer;
+}
+.keeper-report__chip[aria-checked='true'],
+.keeper-report__chip[aria-pressed='true'] {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: white;
+}
+.keeper-report__chip[data-urgency='urgent'][aria-checked='true'] {
+  border-color: var(--color-savanna);
+  background: var(--color-savanna);
+}

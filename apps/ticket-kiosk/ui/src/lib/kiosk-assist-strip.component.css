@@ -1,0 +1,41 @@
+.kiosk-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacer-base);
+  padding: var(--spacer-sm) var(--spacer-base);
+  border-top: 1px solid var(--color-muted);
+  background: var(--color-paper);
+}
+.kiosk-strip__hours {
+  font-weight: 600;
+}
+.kiosk-strip__languages {
+  display: flex;
+  gap: var(--spacer-xs);
+}
+/* Kiosk screens are touched standing up — same tap-target floor as mobile. */
+.kiosk-strip__chip {
+  min-height: var(--tap-target-min, 48px);
+  padding: var(--spacer-xs) var(--spacer-base);
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius-base);
+  background: var(--color-paper);
+  font: inherit;
+  cursor: pointer;
+}
+.kiosk-strip__chip[aria-pressed='true'] {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: white;
+}
+.kiosk-strip__help-note {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacer-sm);
+  font-weight: 600;
+}
+.kiosk-strip__idle {
+  margin-left: auto;
+  color: var(--color-muted);
+}

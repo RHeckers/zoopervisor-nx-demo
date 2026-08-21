@@ -1,1 +1,1 @@
-export * from './lib/ticket-kiosk-ui.component';
+export * from './lib/kiosk-assist-strip.component';

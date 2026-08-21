@@ -1,4 +1,58 @@
-<zoo-report-workspace
-  heading="Report a sighting"
-  (photos)="photos.emit($event)"
-/>
+<zoo-stack class="visitor-report">
+  @if (sent()) {
+    <div class="visitor-report__thanks">
+      <h3>Thank you for your sighting! 🦜</h3>
+      <p>
+        Our rangers review every report.
+        @if (share()) {
+          Look for it on the community board near the main entrance.
+        }
+      </p>
+      <zoo-button (pressed)="reset()">Report another sighting</zoo-button>
+    </div>
+  } @else {
+    <p class="visitor-report__intro">
+      Spotted something wonderful? Attach your photos and tell us where —
+      sightings from visitors help our rangers keep track of the park.
+    </p>
+
+    <zoo-report-workspace
+      heading="Report a sighting"
+      (photos)="onPhotos($event)"
+    />
+
+    <div class="visitor-report__details">
+      <zoo-field label="Spotted near">
+        <select
+          [value]="enclosureId() ?? ''"
+          (change)="enclosureId.set($any($event.target).value || null)"
+        >
+          <option value="">Somewhere else in the park</option>
+          @for (e of enclosures(); track e.id) {
+            <option [value]="e.id">{{ e.name }}</option>
+          }
+        </select>
+      </zoo-field>
+
+      <zoo-field label="What did you see?">
+        <textarea
+          rows="3"
+          placeholder="The otters were juggling pebbles again…"
+          [value]="notes()"
+          (input)="notes.set($any($event.target).value)"
+        ></textarea>
+      </zoo-field>
+
+      <label class="visitor-report__consent">
+        <input
+          type="checkbox"
+          [checked]="share()"
+          (change)="share.set($any($event.target).checked)"
+        />
+        Share my sighting on the community board
+      </label>
+
+      <zoo-button (pressed)="submit()">Send sighting</zoo-button>
+    </div>
+  }
+</zoo-stack>

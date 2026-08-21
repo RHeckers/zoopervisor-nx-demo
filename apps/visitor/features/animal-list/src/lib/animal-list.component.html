@@ -59,6 +59,6 @@
     <zoo-card><zoo-incident-report-form /></zoo-card>
     <!-- app UI panel: platform-neutral photo organism + desktop command bar;
          no isMobile prop, no mobile import (banned for platform:desktop). -->
-    <zoo-visitor-report-panel />
+    <zoo-visitor-report-panel [enclosures]="facade.vm().enclosures" />
   </div>
 </zoo-stack>

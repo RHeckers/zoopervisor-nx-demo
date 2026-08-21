@@ -19,6 +19,9 @@ export class AnimalDetailFacade {
     schedules: this.feeding.schedules(),
     busy: this.animalHealth.busy() || this.feeding.feedingLoading(),
     selectedId: this.selectedId(),
+    selected:
+      this.animalHealth.animals().find((a) => a.id === this.selectedId()) ??
+      null,
   }));
 
   open(animalId: string): void {

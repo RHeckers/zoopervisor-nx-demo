@@ -1,6 +1,45 @@
-<zoo-report-sheet
-  heading="Field report"
-  submitLabel="Send report"
-  (photos)="photos.emit($event)"
-  (submitted)="submitted.emit()"
-/>
+@if (sent()) {
+  <p class="keeper-report__sent">
+    Report filed{{ animalName() ? ' for ' + animalName() : '' }} —
+    {{ urgency() }}.
+  </p>
+} @else {
+  @if (animalName()) {
+    <p class="keeper-report__context">About: {{ animalName() }}</p>
+  }
+
+  <div class="keeper-report__urgency" role="radiogroup" aria-label="Urgency">
+    @for (u of urgencies; track u) {
+      <button
+        type="button"
+        role="radio"
+        class="keeper-report__chip"
+        [attr.data-urgency]="u"
+        [attr.aria-checked]="urgency() === u"
+        (click)="urgency.set(u)"
+      >
+        {{ u }}
+      </button>
+    }
+  </div>
+
+  <div class="keeper-report__tags" aria-label="Quick tags">
+    @for (tag of quickTags; track tag) {
+      <button
+        type="button"
+        class="keeper-report__chip"
+        [attr.aria-pressed]="tags().has(tag)"
+        (click)="toggleTag(tag)"
+      >
+        {{ tag }}
+      </button>
+    }
+  </div>
+
+  <zoo-report-sheet
+    heading="Field report"
+    submitLabel="Send report"
+    (photos)="onPhotos($event)"
+    (submitted)="submit()"
+  />
+}
