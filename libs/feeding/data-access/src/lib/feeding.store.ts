@@ -7,11 +7,17 @@ import {
 } from '@ngrx/signals';
 import { FeedingSchedule } from '@zoo/feeding/types';
 
-const SCHEDULES: readonly FeedingSchedule[] = [
+/*
+ * The module-level list IS the fake backend: `schedule` writes into it and
+ * `loadForAnimal` reads from it, so logged feedings survive navigation and
+ * are shared by every store instance (leaf and composed alike).
+ */
+const SCHEDULES: FeedingSchedule[] = [
   { id: 'f1', animalId: 'a1', at: '09:30', food: 'Meat' },
   { id: 'f2', animalId: 'a2', at: '11:00', food: 'Fish' },
   { id: 'f3', animalId: 'a3', at: '14:00', food: 'Seeds' },
 ];
+let nextScheduleId = SCHEDULES.length + 1;
 
 /** The reusable feature. Domain-prefixed keys keep composition collision-free. */
 export function feedingStoreFeature() {
@@ -29,14 +35,15 @@ export function feedingStoreFeature() {
           feedingLoading: false,
         });
       },
-      /** Add a schedule (create). */
+      /** Add a schedule (create) — written to the backend, then shown. */
       schedule(animalId: string, at: string, food: string): void {
         const created: FeedingSchedule = {
-          id: `f${store.schedules().length + 1}`,
+          id: `f${nextScheduleId++}`,
           animalId,
           at,
           food,
         };
+        SCHEDULES.push(created);
         patchState(store, { schedules: [...store.schedules(), created] });
       },
     })),
