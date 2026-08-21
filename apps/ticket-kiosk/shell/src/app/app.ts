@@ -1,4 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 import { KioskAssistStripComponent } from '@zoo/ticket-kiosk/ui';
@@ -17,10 +18,12 @@ import { KioskAssistStripComponent } from '@zoo/ticket-kiosk/ui';
 export class App {
   private readonly transloco = inject(TranslocoService);
 
-  protected readonly lang = signal(this.transloco.getActiveLang());
+  /** Follows transloco wherever the language is changed, not just here. */
+  protected readonly lang = toSignal(this.transloco.langChanges$, {
+    initialValue: this.transloco.getActiveLang(),
+  });
 
   protected setLang(lang: string): void {
     this.transloco.setActiveLang(lang);
-    this.lang.set(lang);
   }
 }

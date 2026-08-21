@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   input,
   output,
   signal,
@@ -60,6 +61,14 @@ export class KeeperReportPanelComponent {
   protected readonly sent = signal(false);
 
   private attached: File[] = [];
+
+  /** A new animal means a new report — the draft must not carry over. */
+  private readonly resetOnAnimalChange = effect(() => {
+    this.animalName();
+    this.urgency.set('routine');
+    this.tags.set(new Set());
+    this.sent.set(false);
+  });
 
   protected onPhotos(files: File[]): void {
     this.attached = files;
