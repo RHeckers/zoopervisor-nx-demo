@@ -40,7 +40,8 @@ export class EnclosureDetailComponent {
 
   readonly enclosureId = input.required<string>();
 
-  constructor() {
-    effect(() => this.facade.select(this.enclosureId()));
-  }
+  /** Re-selects whenever the router rebinds the `:enclosureId` param. */
+  private readonly syncSelection = effect(() =>
+    this.facade.select(this.enclosureId()),
+  );
 }

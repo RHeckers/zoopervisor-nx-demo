@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   AnimalCardComponent,
   IncidentReportFormComponent,
@@ -38,10 +43,10 @@ import { AnimalListFacade } from './animal-list.facade';
   templateUrl: './animal-list.component.html',
   styleUrl: './animal-list.component.css',
 })
-export class AnimalListComponent {
+export class AnimalListComponent implements OnInit {
   protected readonly facade = inject(AnimalListFacade);
 
-  constructor() {
+  ngOnInit(): void {
     this.facade.refresh();
   }
 }

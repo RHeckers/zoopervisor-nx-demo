@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { AnimalHealthStore } from '@zoo/animals/data-access';
 import {
   BadgeComponent,
@@ -24,10 +29,10 @@ import {
   ],
   templateUrl: './health-due.slice.html',
 })
-export class HealthDueSlice {
+export class HealthDueSlice implements OnInit {
   protected readonly store = inject(AnimalHealthStore);
 
-  constructor() {
+  ngOnInit(): void {
     void this.store.loadDueToday();
   }
 }

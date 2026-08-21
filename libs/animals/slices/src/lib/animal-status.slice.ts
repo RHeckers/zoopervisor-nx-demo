@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
   computed,
   inject,
   input,
@@ -21,7 +22,7 @@ import { AnimalCardComponent } from '@zoo/animals/ui';
   imports: [AnimalCardComponent],
   templateUrl: './animal-status.slice.html',
 })
-export class AnimalStatusSlice {
+export class AnimalStatusSlice implements OnInit {
   readonly animalId = input.required<string>();
 
   private readonly store = inject(AnimalStore);
@@ -29,7 +30,7 @@ export class AnimalStatusSlice {
     this.store.animals().find((a) => a.id === this.animalId()),
   );
 
-  constructor() {
+  ngOnInit(): void {
     void this.store.load('');
   }
 }

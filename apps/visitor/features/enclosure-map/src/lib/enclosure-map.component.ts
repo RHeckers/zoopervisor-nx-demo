@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AnimalAvatarComponent } from '@zoo/animals/ui';
 import { EnclosureBadgeComponent } from '@zoo/enclosures/ui';
@@ -33,10 +38,10 @@ import { EnclosureMapFacade } from './enclosure-map.facade';
   templateUrl: './enclosure-map.component.html',
   styleUrl: './enclosure-map.component.css',
 })
-export class EnclosureMapComponent {
+export class EnclosureMapComponent implements OnInit {
   protected readonly facade = inject(EnclosureMapFacade);
 
-  constructor() {
+  ngOnInit(): void {
     this.facade.refresh();
   }
 }

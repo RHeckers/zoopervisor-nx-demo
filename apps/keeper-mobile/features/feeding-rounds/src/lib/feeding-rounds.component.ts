@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { HealthDueSlice } from '@zoo/animals/slices';
 import { CardComponent, StackComponent } from '@zoo/shared/ui/common';
 import {
@@ -24,10 +29,10 @@ import { FeedingRoundsFacade } from './feeding-rounds.facade';
   ],
   templateUrl: './feeding-rounds.component.html',
 })
-export class FeedingRoundsComponent {
+export class FeedingRoundsComponent implements OnInit {
   protected readonly facade = inject(FeedingRoundsFacade);
 
-  constructor() {
+  ngOnInit(): void {
     this.facade.open('a1');
   }
 }
