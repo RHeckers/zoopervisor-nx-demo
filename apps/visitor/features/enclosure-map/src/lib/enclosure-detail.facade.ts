@@ -1,35 +1,30 @@
 import { Injectable, computed, inject } from '@angular/core';
-import { AnimalStore } from '@zoo/animals/data-access';
-import { EnclosureStore } from '@zoo/enclosures/data-access';
+import { VisitorParkStore } from '@zoo/visitor/data-access';
 
 /**
- * Facade for the feature's SECOND route: one enclosure in full. Same
- * composition story as the map — enclosures domain for the enclosure itself,
- * animals domain for its residents.
+ * Facade for the feature's SECOND route: one enclosure in full. It injects the
+ * app's COMPOSED park store — one store, both domains — and drives it with the
+ * page-shaped `openEnclosure` call. Because the map page shares the same store
+ * instance, animals loaded there are already cached here.
  */
 @Injectable()
 export class EnclosureDetailFacade {
-  private readonly enclosures = inject(EnclosureStore);
-  private readonly animals = inject(AnimalStore);
+  private readonly park = inject(VisitorParkStore);
 
   readonly vm = computed(() => {
-    const enclosure = this.enclosures.selectedEnclosure();
+    const enclosure = this.park.selectedEnclosure();
     const residents = enclosure
-      ? this.animals.animals().filter((a) => a.enclosureId === enclosure.id)
+      ? this.park.animals().filter((a) => a.enclosureId === enclosure.id)
       : [];
     return {
       enclosure,
       residents,
-      loading: this.animals.loading(),
+      loading: this.park.loading(),
     };
   });
 
   /** Re-runs whenever the `:enclosureId` route param changes. */
   select(id: string): void {
-    void this.enclosures.loadOne(id);
-    // Deep link straight onto this route: the animal store is still empty.
-    if (this.animals.animals().length === 0) {
-      void this.animals.load('');
-    }
+    void this.park.openEnclosure(id);
   }
 }

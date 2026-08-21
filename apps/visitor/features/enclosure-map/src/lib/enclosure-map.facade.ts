@@ -1,20 +1,19 @@
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { AnimalStore } from '@zoo/animals/data-access';
-import { EnclosureStore } from '@zoo/enclosures/data-access';
-import { VisitorUiStore } from '@zoo/visitor/data-access';
+import { VisitorParkStore, VisitorUiStore } from '@zoo/visitor/data-access';
 
 /**
- * Composes enclosures with the animals domain: every enclosure card lists the
- * animals that live in it. The shared cross-feature search term drives an
- * ANIMAL search (same reactive pattern as animal-list) — so typing "otter"
- * surfaces the enclosure the otters live in, not just enclosures named otter.
+ * Composes enclosures with the animals domain — via the app's COMPOSED
+ * VisitorParkStore, which holds both domain features in one store. Every
+ * enclosure card lists the animals that live in it. The shared cross-feature
+ * search term drives an ANIMAL search (same reactive pattern as animal-list) —
+ * so typing "otter" surfaces the enclosure the otters live in, not just
+ * enclosures named otter.
  */
 @Injectable()
 export class EnclosureMapFacade {
-  private readonly enclosures = inject(EnclosureStore);
-  private readonly animals = inject(AnimalStore);
+  private readonly park = inject(VisitorParkStore);
   private readonly ui = inject(VisitorUiStore);
 
   private readonly expanded = signal<ReadonlySet<string>>(new Set());
@@ -33,15 +32,15 @@ export class EnclosureMapFacade {
   );
 
   constructor() {
-    effect(() => void this.animals.load(this.debouncedTerm()));
+    effect(() => void this.park.load(this.debouncedTerm()));
   }
 
   readonly vm = computed(() => {
     const term = this.ui.searchTerm().trim().toLowerCase();
-    const loaded = this.animals.animals();
+    const loaded = this.park.animals();
     return {
       search: this.ui.searchTerm(),
-      enclosures: this.enclosures
+      enclosures: this.park
         .enclosures()
         .map((e) => ({
           ...e,
@@ -52,14 +51,16 @@ export class EnclosureMapFacade {
         // (residents already reflect the searched animal store).
         .filter(
           (e) =>
-            !term || e.name.toLowerCase().includes(term) || e.residents.length > 0,
+            !term ||
+            e.name.toLowerCase().includes(term) ||
+            e.residents.length > 0,
         ),
-      loading: this.enclosures.enclosuresLoading() || this.animals.loading(),
+      loading: this.park.parkLoading(),
     };
   });
 
   refresh(): void {
-    void this.enclosures.loadEnclosures();
+    void this.park.loadEnclosures();
   }
 
   toggleExpanded(id: string): void {

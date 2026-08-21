@@ -32,8 +32,10 @@ export function enclosureStoreFeature() {
         patchState(store, { enclosuresLoading: true });
         patchState(store, { enclosures: [...DATA], enclosuresLoading: false });
       },
-      /** Read one by id into `selectedEnclosure`. */
-      async loadOne(id: string): Promise<void> {
+      /** Read one by id into `selectedEnclosure`. Domain-prefixed like the
+       *  state keys, so composing next to another feature's `loadOne` (the
+       *  animals feature has one) never collides. */
+      async loadOneEnclosure(id: string): Promise<void> {
         patchState(store, {
           selectedEnclosure: DATA.find((e) => e.id === id) ?? null,
         });
