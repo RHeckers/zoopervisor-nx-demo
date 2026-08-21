@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 /**
  * AFTER: the confirmation copy is a translation key resolved via the transloco
- * pipe — the wording is owned by whichever app renders it.
+ * structural directive (one subscription for the whole template, and `t(...)`
+ * works in bindings too) — the wording is owned by whichever app renders it.
  */
 @Component({
   selector: 'zoo-release-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe],
+  imports: [TranslocoDirective],
   templateUrl: './release-dialog.component.html',
 })
 export class ReleaseDialogComponent {

@@ -1,2 +1,6 @@
-<p>{{ 'animals.releaseConfirm' | transloco }}</p>
-<button type="button" (click)="confirmed.emit()">{{ 'errors.dismiss' | transloco }}</button>
+<ng-container *transloco="let t">
+  <p>{{ t('animals.releaseConfirm') }}</p>
+  <button type="button" (click)="confirmed.emit()">
+    {{ t('errors.dismiss') }}
+  </button>
+</ng-container>
