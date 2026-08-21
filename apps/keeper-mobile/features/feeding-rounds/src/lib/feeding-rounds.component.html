@@ -1,5 +1,8 @@
 <zoo-stack>
   <zoo-card><zoo-health-due-slice /></zoo-card>
+  <!-- The animal being fed, at a glance — the same self-wiring domain slice
+       animal-detail uses; nothing was wired here. -->
+  <zoo-card><zoo-animal-status-slice [animalId]="animalId()" /></zoo-card>
   <zoo-card>
     <zoo-stack>
       <h4>Feedings for {{ animalId() }}</h4>

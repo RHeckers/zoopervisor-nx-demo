@@ -1,3 +1,11 @@
+<!-- Both blocks below are self-wiring DOMAIN slices (libs/animals/slices):
+     the selected animal at a glance and today's due health checks. They also
+     appear on the feeding-rounds page — written once, zero wiring anywhere. -->
+@if (facade.vm().selectedId; as id) {
+  <zoo-animal-status-slice [animalId]="id" />
+}
+<zoo-health-due-slice />
+
 @for (a of facade.vm().animals; track a.id) {
   <zoo-animal-card [animal]="a" />
 }

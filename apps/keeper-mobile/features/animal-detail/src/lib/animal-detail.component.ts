@@ -8,6 +8,7 @@ import {
   AnimalCardComponent,
   IncidentReportFormComponent,
 } from '@zoo/animals/ui';
+import { AnimalStatusSlice, HealthDueSlice } from '@zoo/animals/slices';
 import { KeeperReportPanelComponent } from '@zoo/keeper-mobile/ui';
 import {
   BottomSheetComponent,
@@ -25,6 +26,8 @@ import { AnimalDetailFacade } from './animal-detail.facade';
   providers: [AnimalDetailFacade],
   imports: [
     AnimalCardComponent,
+    AnimalStatusSlice,
+    HealthDueSlice,
     IncidentReportFormComponent,
     KeeperReportPanelComponent,
     TouchButtonComponent,

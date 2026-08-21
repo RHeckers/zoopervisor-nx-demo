@@ -8,4 +8,8 @@
   @if (tickets.lastReference(); as ref) {
     <p>Paid — reference {{ ref }}</p>
   }
+
+  <h4>How busy is it right now?</h4>
+  <!-- Self-wiring enclosures-domain slice — the same one park-info shows. -->
+  <zoo-enclosure-occupancy-slice />
 </zoo-stack>

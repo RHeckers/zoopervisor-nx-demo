@@ -5,7 +5,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { HealthDueSlice } from '@zoo/animals/slices';
+import { AnimalStatusSlice, HealthDueSlice } from '@zoo/animals/slices';
 import { FeedingStore } from '@zoo/feeding/data-access';
 import { CardComponent, StackComponent } from '@zoo/shared/ui/common';
 import {
@@ -23,6 +23,7 @@ import {
   selector: 'zoo-feeding-rounds',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    AnimalStatusSlice,
     HealthDueSlice,
     CardComponent,
     StackComponent,

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { EnclosureOccupancySlice } from '@zoo/enclosures/slices';
 import { ButtonComponent, StackComponent } from '@zoo/shared/ui/common';
 import { TicketStore } from '@zoo/tickets/data-access';
 import { TicketPickerComponent } from '@zoo/tickets/ui';
@@ -12,7 +13,12 @@ import { TicketPickerComponent } from '@zoo/tickets/ui';
 @Component({
   selector: 'zoo-buy-tickets',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TicketPickerComponent, ButtonComponent, StackComponent],
+  imports: [
+    EnclosureOccupancySlice,
+    TicketPickerComponent,
+    ButtonComponent,
+    StackComponent,
+  ],
   templateUrl: './buy-tickets.component.html',
 })
 export class BuyTicketsComponent {
