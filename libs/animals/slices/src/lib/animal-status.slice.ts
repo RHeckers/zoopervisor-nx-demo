@@ -3,6 +3,7 @@ import {
   Component,
   OnInit,
   computed,
+  effect,
   inject,
   input,
 } from '@angular/core';
@@ -42,8 +43,12 @@ export class AnimalStatusSlice implements OnInit {
     return [...mine].sort((a, b) => b.checkedOn.localeCompare(a.checkedOn))[0];
   });
 
+  /** Health follows the input: re-fetches whenever the target animal changes. */
+  private readonly loadHealth = effect(() => {
+    void this.health.loadForAnimal(this.animalId());
+  });
+
   ngOnInit(): void {
     void this.store.load('');
-    void this.health.loadForAnimal(this.animalId());
   }
 }

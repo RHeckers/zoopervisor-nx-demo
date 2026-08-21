@@ -1,5 +1,10 @@
 import { InjectionToken } from '@angular/core';
-import { Animal, AnimalHealthRecord, AnimalPage } from '@zoo/animals/types';
+import {
+  Animal,
+  AnimalHealthRecord,
+  AnimalPage,
+  HealthStatus,
+} from '@zoo/animals/types';
 
 /**
  * The port the animal stores talk to. A single-entity store still fronts many
@@ -15,12 +20,35 @@ export interface AnimalApi {
   deleteAnimal(id: string): Promise<void>;
   healthForAnimal(animalId: string): Promise<AnimalHealthRecord[]>;
   healthDueToday(): Promise<AnimalHealthRecord[]>;
+  /** A keeper files a check — today's date, the given outcome. */
+  addHealthRecord(
+    animalId: string,
+    status: HealthStatus,
+  ): Promise<AnimalHealthRecord>;
 }
 
 const HEALTH: readonly AnimalHealthRecord[] = [
-  { id: 'h1', animalId: 'a1', checkedOn: '2026-08-10', status: 'healthy', dueToday: false },
-  { id: 'h2', animalId: 'a2', checkedOn: '2026-08-17', status: 'observation', dueToday: true },
-  { id: 'h3', animalId: 'a3', checkedOn: '2026-08-17', status: 'treatment', dueToday: true },
+  {
+    id: 'h1',
+    animalId: 'a1',
+    checkedOn: '2026-08-10',
+    status: 'healthy',
+    dueToday: false,
+  },
+  {
+    id: 'h2',
+    animalId: 'a2',
+    checkedOn: '2026-08-17',
+    status: 'observation',
+    dueToday: true,
+  },
+  {
+    id: 'h3',
+    animalId: 'a3',
+    checkedOn: '2026-08-17',
+    status: 'treatment',
+    dueToday: true,
+  },
 ];
 
 /** In-memory fake — the transport is irrelevant to the talk, the CRUD is not. */
@@ -30,12 +58,17 @@ class FakeAnimalApi implements AnimalApi {
     { id: 'a2', name: 'Otto', species: 'Otter', enclosureId: 'aquarium' },
     { id: 'a3', name: 'Pip', species: 'Macaw', enclosureId: 'aviary' },
   ];
+  private health: AnimalHealthRecord[] = [...HEALTH];
   private nextId = 4;
+  private nextHealthId = HEALTH.length + 1;
 
   async listAnimals(query: string): Promise<AnimalPage> {
     const q = query.trim().toLowerCase();
     const items = this.animals.filter(
-      (a) => !q || a.name.toLowerCase().includes(q) || a.species.toLowerCase().includes(q),
+      (a) =>
+        !q ||
+        a.name.toLowerCase().includes(q) ||
+        a.species.toLowerCase().includes(q),
     );
     // The fake is small enough to fit on one page.
     return { items, total: items.length, page: 1 };
@@ -51,7 +84,10 @@ class FakeAnimalApi implements AnimalApi {
     return created;
   }
 
-  async updateAnimal(id: string, patch: Partial<Omit<Animal, 'id'>>): Promise<Animal> {
+  async updateAnimal(
+    id: string,
+    patch: Partial<Omit<Animal, 'id'>>,
+  ): Promise<Animal> {
     const existing = this.animals.find((a) => a.id === id);
     if (!existing) throw new Error(`No animal ${id}`);
     const updated = { ...existing, ...patch };
@@ -64,11 +100,32 @@ class FakeAnimalApi implements AnimalApi {
   }
 
   async healthForAnimal(animalId: string): Promise<AnimalHealthRecord[]> {
-    return HEALTH.filter((r) => r.animalId === animalId);
+    return this.health.filter((r) => r.animalId === animalId);
   }
 
   async healthDueToday(): Promise<AnimalHealthRecord[]> {
-    return HEALTH.filter((r) => r.dueToday);
+    return this.health.filter((r) => r.dueToday);
+  }
+
+  async addHealthRecord(
+    animalId: string,
+    status: HealthStatus,
+  ): Promise<AnimalHealthRecord> {
+    const record: AnimalHealthRecord = {
+      id: `h${this.nextHealthId++}`,
+      animalId,
+      checkedOn: new Date().toISOString().slice(0, 10),
+      status,
+      // A fresh check settles today's due flag for this animal.
+      dueToday: false,
+    };
+    this.health = [
+      ...this.health.map((r) =>
+        r.animalId === animalId ? { ...r, dueToday: false } : r,
+      ),
+      record,
+    ];
+    return record;
   }
 }
 

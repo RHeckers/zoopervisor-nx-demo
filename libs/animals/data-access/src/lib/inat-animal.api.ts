@@ -39,6 +39,7 @@ export class InatAnimalApi implements AnimalApi {
 
   private readonly seen = new Map<string, Animal>();
   private created: Animal[] = [];
+  private healthAdded: AnimalHealthRecord[] = [];
   private readonly edits = new Map<string, Partial<Omit<Animal, 'id'>>>();
   private readonly deleted = new Set<string>();
   private nextId = 1;
@@ -108,8 +109,9 @@ export class InatAnimalApi implements AnimalApi {
   }
 
   async healthForAnimal(animalId: string): Promise<AnimalHealthRecord[]> {
+    const added = this.healthAdded.filter((r) => r.animalId === animalId);
     const animal = await this.getAnimal(animalId);
-    return animal ? [this.toHealthRecord(animal, 0)] : [];
+    return animal ? [this.toHealthRecord(animal, 0), ...added] : added;
   }
 
   async healthDueToday(): Promise<AnimalHealthRecord[]> {
@@ -117,6 +119,22 @@ export class InatAnimalApi implements AnimalApi {
     return [...this.seen.values()]
       .slice(0, 3)
       .map((a, i) => this.toHealthRecord(a, i));
+  }
+
+  async addHealthRecord(
+    animalId: string,
+    status: HealthStatus,
+  ): Promise<AnimalHealthRecord> {
+    // Writes are an in-memory overlay, like the animal CRUD above.
+    const record: AnimalHealthRecord = {
+      id: `health-added-${this.healthAdded.length + 1}`,
+      animalId,
+      checkedOn: new Date().toISOString().slice(0, 10),
+      status,
+      dueToday: false,
+    };
+    this.healthAdded = [...this.healthAdded, record];
+    return record;
   }
 
   private toAnimal(taxon: InatTaxon): Animal {

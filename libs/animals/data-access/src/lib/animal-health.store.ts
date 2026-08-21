@@ -6,18 +6,24 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { AnimalHealthRecord } from '@zoo/animals/types';
+import { AnimalHealthRecord, HealthStatus } from '@zoo/animals/types';
 import { normalizeError } from '@zoo/shared/data-access';
 import { ANIMAL_API } from './animal.api';
 
 export interface AnimalHealthState {
+  /** Records of the animal loaded via `loadForAnimal`. */
   records: AnimalHealthRecord[];
+  /** Today's due checks, loaded via `loadDueToday` — separate state on
+   *  purpose: two consumers on one page (a status block and a due checklist)
+   *  must not clobber each other's result. */
+  dueRecords: AnimalHealthRecord[];
   healthLoading: boolean;
   healthError: string | null;
 }
 
 const initialState: AnimalHealthState = {
   records: [],
+  dueRecords: [],
   healthLoading: false,
   healthError: null,
 };
@@ -34,11 +40,12 @@ export function animalHealthStoreFeature() {
       const api = inject(ANIMAL_API);
 
       async function run(
+        key: 'records' | 'dueRecords',
         load: () => Promise<AnimalHealthRecord[]>,
       ): Promise<void> {
         patchState(store, { healthLoading: true, healthError: null });
         try {
-          patchState(store, { records: await load(), healthLoading: false });
+          patchState(store, { [key]: await load(), healthLoading: false });
         } catch (error) {
           patchState(store, {
             healthLoading: false,
@@ -49,10 +56,29 @@ export function animalHealthStoreFeature() {
 
       return {
         loadForAnimal(animalId: string): Promise<void> {
-          return run(() => api.healthForAnimal(animalId));
+          return run('records', () => api.healthForAnimal(animalId));
         },
         loadDueToday(): Promise<void> {
-          return run(() => api.healthDueToday());
+          return run('dueRecords', () => api.healthDueToday());
+        },
+        /** The write path: file a check, append it, and settle the due list. */
+        async logCheck(animalId: string, status: HealthStatus): Promise<void> {
+          patchState(store, { healthLoading: true, healthError: null });
+          try {
+            const record = await api.addHealthRecord(animalId, status);
+            patchState(store, (state) => ({
+              records: [...state.records, record],
+              dueRecords: state.dueRecords.filter(
+                (r) => r.animalId !== animalId,
+              ),
+              healthLoading: false,
+            }));
+          } catch (error) {
+            patchState(store, {
+              healthLoading: false,
+              healthError: normalizeError(error),
+            });
+          }
         },
       };
     }),
