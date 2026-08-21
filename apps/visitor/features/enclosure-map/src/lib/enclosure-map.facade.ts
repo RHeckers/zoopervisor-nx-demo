@@ -1,6 +1,6 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { map, of, switchMap, timer } from 'rxjs';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { AnimalStore } from '@zoo/animals/data-access';
 import { EnclosureStore } from '@zoo/enclosures/data-access';
 import { VisitorUiStore } from '@zoo/visitor/data-access';
@@ -20,18 +20,21 @@ export class EnclosureMapFacade {
   private readonly expanded = signal<ReadonlySet<string>>(new Set());
 
   /*
-   * Same declarative debounce as animal-list: the search signal becomes a
-   * stream, the first value loads immediately, later keystrokes restart a
-   * 300ms timer, and the subscription dies with the facade.
+   * Same debounced-term signal as animal-list: keystrokes settle for 300ms,
+   * duplicates are dropped, and the initialValue makes the first load
+   * immediate.
    */
-  private readonly reloadOnSearch = toObservable(this.ui.searchTerm)
-    .pipe(
-      switchMap((term, index) =>
-        index === 0 ? of(term) : timer(300).pipe(map(() => term)),
-      ),
-      takeUntilDestroyed(),
-    )
-    .subscribe((term) => void this.animals.load(term));
+  private readonly debouncedTerm = toSignal(
+    toObservable(this.ui.searchTerm).pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+    ),
+    { initialValue: this.ui.searchTerm() },
+  );
+
+  constructor() {
+    effect(() => void this.animals.load(this.debouncedTerm()));
+  }
 
   readonly vm = computed(() => {
     const term = this.ui.searchTerm().trim().toLowerCase();

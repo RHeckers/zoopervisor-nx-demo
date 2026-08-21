@@ -1,6 +1,6 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { map, of, switchMap, timer } from 'rxjs';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { AnimalStore } from '@zoo/animals/data-access';
 import { EnclosureStore } from '@zoo/enclosures/data-access';
 import { titleCase } from '@zoo/shared/utils';
@@ -22,20 +22,23 @@ export class AnimalListFacade {
   private readonly enclosureFilter = signal<string | null>(null);
 
   /*
-   * The facade REACTS to the cross-feature search term: wherever it is set
-   * (top search slice, command bar), the list reloads. The signal is bridged
-   * to a stream so the debounce is declarative — the first value loads
-   * immediately, every later keystroke restarts a 300ms timer (switchMap
-   * cancels the pending one), and takeUntilDestroyed ends it with the facade.
+   * The cross-feature search term, debounced back into a signal: keystrokes
+   * settle for 300ms before it changes, duplicates are dropped, and the
+   * initialValue makes the very first load immediate.
    */
-  private readonly reloadOnSearch = toObservable(this.ui.searchTerm)
-    .pipe(
-      switchMap((term, index) =>
-        index === 0 ? of(term) : timer(300).pipe(map(() => term)),
-      ),
-      takeUntilDestroyed(),
-    )
-    .subscribe((term) => void this.animals.load(term));
+  private readonly debouncedTerm = toSignal(
+    toObservable(this.ui.searchTerm).pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+    ),
+    { initialValue: this.ui.searchTerm() },
+  );
+
+  constructor() {
+    // The one side effect the facade owns: whatever set the term (top search
+    // slice, command bar), the list reloads when the debounced signal settles.
+    effect(() => void this.animals.load(this.debouncedTerm()));
+  }
 
   readonly vm = computed(() => {
     const loaded = this.animals.animals();
