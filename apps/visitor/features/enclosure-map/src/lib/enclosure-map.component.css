@@ -31,6 +31,15 @@
   color: var(--color-accent);
   text-decoration: underline;
 }
+.enclosure-map__detail-link {
+  align-self: start;
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.enclosure-map__detail-link:hover {
+  text-decoration: underline;
+}
 .enclosure-map__meter {
   display: flex;
   flex-direction: column;

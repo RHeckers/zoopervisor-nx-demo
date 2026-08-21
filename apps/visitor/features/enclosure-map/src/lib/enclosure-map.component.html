@@ -61,6 +61,10 @@
             } @else {
               <zoo-empty-state message="No residents found" />
             }
+
+            <a class="enclosure-map__detail-link" [routerLink]="[e.id]">
+              View enclosure →
+            </a>
           </zoo-stack>
         </zoo-card>
       } @empty {
