@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  width: var(--zoo-skeleton-width, 100%);
+  height: var(--zoo-skeleton-height, 1rem);
+  border-radius: var(--zoo-skeleton-radius, var(--radius-base));
+  background: linear-gradient(
+    90deg,
+    var(--color-muted) 25%,
+    var(--color-paper) 50%,
+    var(--color-muted) 75%
+  );
+  background-size: 200% 100%;
+  animation: zoo-skeleton-shimmer 1.2s linear infinite;
+}
+:host([data-shape='circle']) {
+  width: var(--zoo-skeleton-width, 3rem);
+  height: var(--zoo-skeleton-height, 3rem);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+@keyframes zoo-skeleton-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+  }
+}

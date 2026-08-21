@@ -44,6 +44,10 @@ export class InatAnimalApi implements AnimalApi {
   private nextId = 1;
 
   async listAnimals(query: string, page = 1): Promise<AnimalPage> {
+    // Demo-only pacing: give the list's skeleton state a beat on screen
+    // instead of flickering away on fast connections.
+    await new Promise((resolve) => setTimeout(resolve, 600));
+
     const q = query.trim();
     // Without a query: most-observed animal species worldwide (taxon 1 = Animalia).
     const base = q

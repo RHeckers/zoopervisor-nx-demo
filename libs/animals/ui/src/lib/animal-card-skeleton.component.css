@@ -1,0 +1,29 @@
+/* Mirrors zoo-animal-card's media layout 1:1 (same padding hook, photo
+   ratio and text sizes) so the swap to real cards causes no layout shift. */
+:host {
+  display: block;
+  --zoo-card-padding: 0;
+}
+.zoo-animal-card-skeleton__photo {
+  aspect-ratio: var(--zoo-animal-card-photo-ratio, 4 / 3);
+  --zoo-skeleton-height: auto;
+  --zoo-skeleton-radius: var(--radius-base) var(--radius-base) 0 0;
+}
+.zoo-animal-card-skeleton__body {
+  display: flex;
+  align-items: center;
+  gap: var(--zoo-animal-card-gap, var(--spacer-base));
+  padding: var(--spacer-base);
+}
+.zoo-animal-card-skeleton__text {
+  display: grid;
+  gap: var(--spacer-xs);
+  flex: 1;
+}
+.zoo-animal-card-skeleton__name {
+  --zoo-skeleton-width: 60%;
+}
+.zoo-animal-card-skeleton__species {
+  --zoo-skeleton-width: 40%;
+  --zoo-skeleton-height: 0.75rem;
+}

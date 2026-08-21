@@ -33,7 +33,13 @@
   </zoo-stack>
 
   @if (facade.vm().loading && facade.vm().animals.length === 0) {
-    <zoo-spinner />
+    <!-- No results yet: skeleton cards hold the grid's shape instead of a
+         spinner, so the page doesn't jump when the animals arrive. -->
+    <div class="animal-list__grid" aria-hidden="true">
+      @for (i of skeletons; track i) {
+        <zoo-animal-card-skeleton />
+      }
+    </div>
   } @else {
     <div class="animal-list__grid">
       @for (a of facade.vm().animals; track a.id) {

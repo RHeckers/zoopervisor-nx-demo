@@ -6,6 +6,7 @@ export * from './lib/atoms/badge.component';
 export * from './lib/atoms/spinner.component';
 export * from './lib/atoms/stack.component';
 export * from './lib/atoms/field.component';
+export * from './lib/atoms/skeleton.component';
 // the photo-picker atom: contract + typed provider + DI placeholder
 // (implementations live in shared/ui/desktop and shared/ui/mobile)
 export * from './lib/atoms/photo-picker/contract';

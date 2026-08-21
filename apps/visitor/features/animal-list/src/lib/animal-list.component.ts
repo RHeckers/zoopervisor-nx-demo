@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import {
   AnimalCardComponent,
+  AnimalCardSkeletonComponent,
   IncidentReportFormComponent,
 } from '@zoo/animals/ui';
 import { EnclosureBadgeComponent } from '@zoo/enclosures/ui';
@@ -30,6 +31,7 @@ import { AnimalListFacade } from './animal-list.facade';
   providers: [AnimalListFacade],
   imports: [
     AnimalCardComponent,
+    AnimalCardSkeletonComponent,
     ButtonComponent,
     CardComponent,
     EmptyStateComponent,
@@ -45,6 +47,10 @@ import { AnimalListFacade } from './animal-list.facade';
 })
 export class AnimalListComponent implements OnInit {
   protected readonly facade = inject(AnimalListFacade);
+
+  /** One placeholder per expected result — the API pages 12 at a time, so the
+   *  skeleton grid and the loaded grid have the same layout. */
+  protected readonly skeletons = Array.from({ length: 12 }, (_, i) => i);
 
   ngOnInit(): void {
     this.facade.refresh();
