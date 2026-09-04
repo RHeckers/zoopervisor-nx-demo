@@ -1,10 +1,15 @@
 import {
   Tree,
   addProjectConfiguration,
+  generateFiles,
   offsetFromRoot,
   updateJson,
 } from '@nx/devkit';
+import { join } from 'node:path';
 import { ANGULAR_KINDS, LibKind, SELECTOR_PREFIX } from './kinds';
+
+/** Template sources live with the generators; `.template` suffixes are stripped. */
+const TEMPLATE_ROOT = join(__dirname, '..', 'generators', 'files');
 
 export interface CreateLibOptions {
   /** Nx project name, unique across the workspace (e.g. `animals-data-access`). */
@@ -38,7 +43,6 @@ export function createLib(tree: Tree, options: CreateLibOptions): void {
     root,
     projectType: 'library',
     sourceRoot: `${root}/src`,
-    prefix: SELECTOR_PREFIX,
     tags,
     targets: {
       test: {
@@ -50,166 +54,29 @@ export function createLib(tree: Tree, options: CreateLibOptions): void {
     },
   });
 
-  // --- tsconfig trio -------------------------------------------------------
-  tree.write(
-    `${root}/tsconfig.json`,
-    JSON.stringify(
-      {
-        extends: `${offset}tsconfig.base.json`,
-        compilerOptions: {
-          isolatedModules: true,
-          target: 'es2022',
-          strict: true,
-          noImplicitOverride: true,
-          noPropertyAccessFromIndexSignature: true,
-          noImplicitReturns: true,
-          noFallthroughCasesInSwitch: true,
-          emitDecoratorMetadata: false,
-          module: 'preserve',
-        },
-        angularCompilerOptions: {
-          enableI18nLegacyMessageIdFormat: false,
-          strictInjectionParameters: true,
-          strictInputAccessModifiers: true,
-          strictTemplates: true,
-        },
-        files: [],
-        include: [],
-        references: [
-          { path: './tsconfig.lib.json' },
-          { path: './tsconfig.spec.json' },
-        ],
-      },
-      null,
-      2,
-    ),
-  );
+  if (isAngular) {
+    // `prefix` is not part of the ProjectConfiguration type, but the
+    // @nx/angular component/directive generators read it from project.json to
+    // default their selectors — so it goes in after the typed write.
+    updateJson(tree, `${root}/project.json`, (json) => ({
+      ...json,
+      prefix: SELECTOR_PREFIX,
+    }));
+  }
 
-  tree.write(
-    `${root}/tsconfig.lib.json`,
-    JSON.stringify(
-      {
-        extends: './tsconfig.json',
-        compilerOptions: {
-          outDir: `${offset}dist/out-tsc`,
-          declaration: true,
-          declarationMap: true,
-          inlineSources: true,
-          types: [],
-        },
-        include: ['src/**/*.ts'],
-        exclude: [
-          'src/**/*.spec.ts',
-          'src/**/*.test.ts',
-          'vite.config.mts',
-          'src/test-setup.ts',
-        ],
-      },
-      null,
-      2,
-    ),
-  );
-
-  tree.write(
-    `${root}/tsconfig.spec.json`,
-    JSON.stringify(
-      {
-        extends: './tsconfig.json',
-        compilerOptions: {
-          outDir: `${offset}dist/out-tsc`,
-          types: [
-            'vitest/globals',
-            'vitest/importMeta',
-            'vite/client',
-            'node',
-            'vitest',
-          ],
-        },
-        include: [
-          'vite.config.mts',
-          'src/**/*.test.ts',
-          'src/**/*.spec.ts',
-          'src/**/*.d.ts',
-        ],
-        files: ['src/test-setup.ts'],
-      },
-      null,
-      2,
-    ),
-  );
-
-  // --- vitest --------------------------------------------------------------
-  tree.write(
-    `${root}/vite.config.mts`,
-    `/// <reference types='vitest' />
-import { defineConfig } from 'vite';
-import angular from '@analogjs/vite-plugin-angular';
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
-
-export default defineConfig(() => ({
-  root: __dirname,
-  cacheDir: '${offset}node_modules/.vite/${root}',
-  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
-  test: {
-    name: '${projectName}',
-    watch: false,
-    globals: true,
-    environment: 'jsdom',
-    include: ['{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    setupFiles: ['src/test-setup.ts'],
-    reporters: ['default'],
-    coverage: {
-      reportsDirectory: '${offset}coverage/${root}',
-      provider: 'v8' as const,
-    },
-  },
-}));
-`,
-  );
-
-  tree.write(
-    `${root}/src/test-setup.ts`,
-    `// Zoneless workspace — no zone.js. Angular TestBed auto-initialises via
-// @analogjs/vite-plugin-angular; add setup here if a spec needs it.
-export {};
-`,
-  );
+  // --- boilerplate: tsconfig trio, vitest config, test setup ---------------
+  generateFiles(tree, join(TEMPLATE_ROOT, 'lib'), root, {
+    offset,
+    root,
+    projectName,
+  });
 
   // --- eslint (per project, extends the computed root config) --------------
-  tree.write(
-    `${root}/eslint.config.mjs`,
-    isAngular
-      ? `import nx from '@nx/eslint-plugin';
-import baseConfig from '${offset}eslint.config.mjs';
-
-export default [
-  ...nx.configs['flat/angular'],
-  ...nx.configs['flat/angular-template'],
-  ...baseConfig,
-  {
-    files: ['**/*.ts'],
-    rules: {
-      '@angular-eslint/directive-selector': [
-        'error',
-        { type: 'attribute', prefix: '${SELECTOR_PREFIX}', style: 'camelCase' },
-      ],
-      '@angular-eslint/component-selector': [
-        'error',
-        { type: 'element', prefix: '${SELECTOR_PREFIX}', style: 'kebab-case' },
-      ],
-    },
-  },
-  {
-    files: ['**/*.html'],
-    rules: {},
-  },
-];
-`
-      : `import baseConfig from '${offset}eslint.config.mjs';
-
-export default [...baseConfig];
-`,
+  generateFiles(
+    tree,
+    join(TEMPLATE_ROOT, isAngular ? 'eslint-angular' : 'eslint-plain'),
+    root,
+    { offset, prefix: SELECTOR_PREFIX },
   );
 
   // --- public surface ------------------------------------------------------
@@ -229,15 +96,7 @@ export default [...baseConfig];
     /\.spec\.ts$/.test(f),
   );
   if (!hasSpec) {
-    tree.write(
-      `${root}/src/lib/${projectName}.smoke.spec.ts`,
-      `describe('${projectName}', () => {
-  it('is wired up', () => {
-    expect(true).toBe(true);
-  });
-});
-`,
-    );
+    generateFiles(tree, join(TEMPLATE_ROOT, 'smoke'), root, { projectName });
   }
 
   // --- register the @zoo/* path -------------------------------------------
