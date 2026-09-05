@@ -1,21 +1,26 @@
 {
   "$schema": "https://json-schema.org/schema",
   "$id": "DomainLib",
-  "title": "Add a library to an existing domain",
+  "title": "Add a library to a domain (created on first use)",
   "type": "object",
   "properties": {
     "domain": {
       "type": "string",
-      "description": "The existing domain to add the library to (e.g. animals).",
+      "description": "The domain to add the library to (e.g. animals). Created if it does not exist yet.",
       "$default": { "$source": "argv", "index": 0 },
       "x-prompt": "Which domain?"
     },
     "kind": {
       "type": "string",
       "description": "Which layer the library represents.",
-      "enum": ["data-access", "ui", "util", "types", "slice"],
+      "enum": ["data-access", "ui", "util", "types", "slice", "feature"],
       "$default": { "$source": "argv", "index": 1 },
       "x-prompt": "Which kind of library?"
+    },
+    "name": {
+      "type": "string",
+      "description": "Lib name — required for feature, optional otherwise to add a second lib of the same kind (e.g. a 2nd data-access).",
+      "$default": { "$source": "argv", "index": 2 }
     }
   },
   "required": ["domain", "kind"]

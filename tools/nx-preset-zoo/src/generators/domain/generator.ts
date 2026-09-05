@@ -1,6 +1,5 @@
 import { Tree, formatFiles, names } from '@nx/devkit';
-import { addDomainLib } from '../../lib/add-domain-lib';
-import { LibKind } from '../../lib/kinds';
+import { DomainLibKind, addDomainLib } from '../../lib/add-domain-lib';
 import { existingDomains } from '../../lib/workspace';
 import { DomainGeneratorSchema } from './schema';
 
@@ -15,10 +14,12 @@ export async function domainGenerator(
   const domain = names(options.name).fileName;
 
   if (existingDomains(tree).has(domain)) {
-    throw new Error(`Domain "${domain}" already exists.`);
+    throw new Error(
+      `Domain "${domain}" already exists. Add to it with: nx g @zoo/nx-preset-zoo:domain-lib ${domain} <kind>`,
+    );
   }
 
-  const kinds: LibKind[] = ['data-access', 'ui', 'util', 'types'];
+  const kinds: DomainLibKind[] = ['data-access', 'ui', 'util', 'types'];
   if (options.slices) kinds.push('slice');
 
   for (const kind of kinds) {

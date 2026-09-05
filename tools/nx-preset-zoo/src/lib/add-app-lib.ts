@@ -10,9 +10,12 @@ export type AppLibKind = Extract<
 
 /**
  * Add one library inside an app. Features are named and live under
- * `features/<name>`; slice/data-access/ui are singletons per app. Everything is
- * tagged `app:<app>` + `type:<kind>` — the allow-list boundary rule then lets
- * the app reach it, and refuses any project the app doesn't own.
+ * `features/<name>`. An unnamed slice/data-access/ui is the app's default of
+ * that kind (`apps/<app>/<seg>`); a `name` adds a second lib of the same kind
+ * next to it (`apps/<app>/<name>-<seg>`) with its own project name so the
+ * graph shows them apart. Everything is tagged `app:<app>` + `type:<kind>` —
+ * the allow-list boundary rule then lets the app reach it, and refuses any
+ * project the app doesn't own.
  */
 export function addAppLib(
   tree: Tree,
@@ -33,6 +36,13 @@ export function addAppLib(
     root = `apps/${app}/features/${fname}`;
     importPath = `@zoo/${app}/features/${fname}`;
     projectName = `${app}-${fname}`;
+    semanticName = fname;
+  } else if (name) {
+    const fname = names(name).fileName;
+    const seg = segment(kind);
+    root = `apps/${app}/${fname}-${seg}`;
+    importPath = `@zoo/${app}/${fname}-${seg}`;
+    projectName = `${app}-${fname}-${seg}`;
     semanticName = fname;
   } else {
     const seg = segment(kind);

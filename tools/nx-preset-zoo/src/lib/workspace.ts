@@ -23,18 +23,6 @@ export function existingApps(tree: Tree): Set<string> {
   return tagValues(tree, 'app:');
 }
 
-/** Fail loudly when a generator targets a domain that was never created. */
-export function assertDomainExists(tree: Tree, domain: string): void {
-  const domains = existingDomains(tree);
-  if (!domains.has(domain)) {
-    throw new Error(
-      `Domain "${domain}" does not exist. Known domains: ${
-        [...domains].sort().join(', ') || '(none)'
-      }. Create it first with: nx g @zoo/nx-preset-zoo:domain ${domain}`,
-    );
-  }
-}
-
 /** Fail loudly when a generator targets an app that was never created. */
 export function assertAppExists(tree: Tree, app: string): void {
   const apps = existingApps(tree);

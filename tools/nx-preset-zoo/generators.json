@@ -11,7 +11,7 @@
     "domain-lib": {
       "factory": "./src/generators/domain-lib/generator",
       "schema": "./src/generators/domain-lib/schema.json",
-      "description": "Add one library to an existing domain."
+      "description": "Add one library to a domain (creates the domain folder on first use)."
     },
     "shared-lib": {
       "factory": "./src/generators/shared-lib/generator",

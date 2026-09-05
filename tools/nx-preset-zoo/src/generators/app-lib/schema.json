@@ -19,7 +19,7 @@
     },
     "name": {
       "type": "string",
-      "description": "Feature name (required when kind is feature).",
+      "description": "Lib name — required for feature, optional otherwise to add a second lib of the same kind (e.g. a 2nd data-access).",
       "$default": { "$source": "argv", "index": 2 }
     }
   },
